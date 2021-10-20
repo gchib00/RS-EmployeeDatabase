@@ -1,0 +1,72 @@
+[
+  {
+    "id": "aaaa1111",
+    "name": "Ethan",
+    "department": "operations",
+    "subDepartment": "technical",
+    "phone": "555111333",
+    "status": "active",
+    "shift": {
+      "start": "10:00",
+      "end": "18:00"
+    }
+  },
+  {
+    "id": "aaaa1112",
+    "name": "Patrick",
+    "department": "operations",
+    "subDepartment": "technical",
+    "phone": "444111222",
+    "status": "active",
+    "shift": {
+      "start": "10:00",
+      "end": "18:00"
+    }
+  },
+  {
+    "id": "aaaa1113",
+    "name": "Emily",
+    "department": "cs",
+    "phone": "999222333",
+    "status": "active",
+    "shift": {
+      "start": "17:00",
+      "end": "01:00"
+    }
+  },
+  {
+    "id": "aaaa1114",
+    "name": "Swen",
+    "department": "operations",
+    "phone": "777222333",
+    "status": "active",
+    "shift": {
+      "start": "17:00",
+      "end": "01:00"
+    }
+  },
+  {
+    "id": "aaaa1115",
+    "name": "Gus",
+    "department": "editing",
+    "team": "Gus",
+    "phone": "444777222",
+    "status": "active",
+    "shift": {
+      "start": "10:00",
+      "end": "18:00"
+    }
+  },
+  {
+    "id": "aaaa1116",
+    "name": "Bob",
+    "department": "editing",
+    "team": "Gus",
+    "phone": "222777222",
+    "status": "active",
+    "shift": {
+      "start": "10:00",
+      "end": "18:00"
+    }
+  }
+]
