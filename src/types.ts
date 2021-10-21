@@ -4,6 +4,7 @@ export interface EmployeeBase {
   department: string;
   subDepartment?: string;
   team?: string;
+  email: string;
   phone: string | number;
   status: string;
   shift?: {

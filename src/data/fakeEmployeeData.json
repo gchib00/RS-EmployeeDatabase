@@ -4,6 +4,7 @@
     "name": "Ethan",
     "department": "operations",
     "subDepartment": "technical",
+    "email": "ethan@paintyourlife.com",
     "phone": "555111333",
     "status": "active",
     "shift": {
@@ -16,6 +17,7 @@
     "name": "Patrick",
     "department": "operations",
     "subDepartment": "technical",
+    "email": "patrick@paintyourlife.com",
     "phone": "444111222",
     "status": "active",
     "shift": {
@@ -27,6 +29,7 @@
     "id": "aaaa1113",
     "name": "Emily",
     "department": "cs",
+    "email": "emily@paintyourlife.com",
     "phone": "999222333",
     "status": "active",
     "shift": {
@@ -38,8 +41,9 @@
     "id": "aaaa1114",
     "name": "Swen",
     "department": "operations",
+    "email": "swen@paintyourlife.com",
     "phone": "777222333",
-    "status": "active",
+    "status": "onVacation",
     "shift": {
       "start": "17:00",
       "end": "01:00"
@@ -50,6 +54,7 @@
     "name": "Gus",
     "department": "editing",
     "team": "Gus",
+    "email": "gus@paintyourlife.com",
     "phone": "444777222",
     "status": "active",
     "shift": {
@@ -62,6 +67,7 @@
     "name": "Bob",
     "department": "editing",
     "team": "Gus",
+    "email": "fakeEmail123@mail.com",
     "phone": "222777222",
     "status": "active",
     "shift": {
