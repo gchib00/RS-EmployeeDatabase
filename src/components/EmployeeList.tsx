@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { EmployeeBase } from '../types'
 import EmployeeCard from './EmployeeCard'
 import UpperDash from './UpperDash'
+import { EmployeesContext } from '../context/EmployeesContext'
+
 
 //Styling:
 const MainContainer = styled.div`
@@ -14,13 +16,14 @@ const MainContainer = styled.div`
 `
 ///////
 
-interface Props {
+interface EmployeesContext {
   employeesData: EmployeeBase[];
-  // setEmployeesData: (value: EmployeeBase) => void
+  setEmployeesData: () => void;
 }
 
-const EmployeeList = ({employeesData}: Props) => {
-  // if (!employeesData){return <h1>Loading...</h1>}
+const EmployeeList = () => {
+  const {employeesData, setEmployeesData} = useContext(EmployeesContext)
+  if (!employeesData){return <h1>Loading...</h1>}
   return(
     <MainContainer>
       <UpperDash />

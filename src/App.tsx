@@ -5,7 +5,6 @@ import employeeList from './data/fakeEmployeeData.json'
 import { EmployeeBase } from './types'
 import { EmployeesContext } from './context/EmployeesContext'
 
-
 const employeeData: EmployeeBase[] = employeeList
 
 const App = () => {
@@ -15,10 +14,16 @@ const App = () => {
       setEmployeesData(employeeData)
     }
   },[])
+
+  interface EmployeesContext {
+    employeesData: EmployeeBase[];
+    setEmployeesData: () => void;
+  }
+  
   return(
-    <EmployeesContext.Provider value='Hello from provider :)'>
+    <EmployeesContext.Provider value={{employeesData, setEmployeesData}}>
       <Navbar />
-      <EmployeeList employeesData={employeesData} />
+      <EmployeeList />
     </EmployeesContext.Provider>
   );
 }
