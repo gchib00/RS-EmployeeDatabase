@@ -27,7 +27,7 @@ const EmployeeList = () => {
   if (!employeesData){return <h1>Loading...</h1>}
   return(
     <MainContainer>
-      <UpperDash setFilteredList={setFilteredList} />
+      <UpperDash filteredList={filteredList} setFilteredList={setFilteredList} />
       <section>
         {filteredList.map(employee => <EmployeeCard employee={employee} key={employee.id} />)}
       </section>
