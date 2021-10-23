@@ -10,7 +10,7 @@ const employeeData: EmployeeBase[] = employeeList
 const App = () => {
   const [employeesData, setEmployeesData] = useState<EmployeeBase[]>([])
   useEffect(() => {
-    if(employeesData.length === 0) {
+    if(employeesData.length == 0 || (!employeesData)) {
       setEmployeesData(employeeData)
     }
   },[])

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { EmployeeBase } from '../types'
 import EmployeeCard from './EmployeeCard'
@@ -16,19 +16,20 @@ const MainContainer = styled.div`
 `
 ///////
 
-interface EmployeesContext {
-  employeesData: EmployeeBase[];
-  setEmployeesData: () => void;
-}
-
 const EmployeeList = () => {
-  const {employeesData, setEmployeesData} = useContext(EmployeesContext)
+  const {employeesData} = useContext(EmployeesContext)
+  const [filteredList, setFilteredList] = useState<EmployeeBase[]>([])
+  
+  useEffect(() => {
+    setFilteredList(employeesData)
+  }, [employeesData])
+  
   if (!employeesData){return <h1>Loading...</h1>}
   return(
     <MainContainer>
-      <UpperDash />
+      <UpperDash setFilteredList={setFilteredList} />
       <section>
-        {employeesData.map(employee => <EmployeeCard employee={employee} key={employee.id} />)}
+        {filteredList.map(employee => <EmployeeCard employee={employee} key={employee.id} />)}
       </section>
     </MainContainer>
   )
