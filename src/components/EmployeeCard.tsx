@@ -1,10 +1,10 @@
 import React from 'react'
 import { Divider, Icon, SemanticICONS } from 'semantic-ui-react'
 import styled from 'styled-components'
-import { EmployeeBase } from '../types'
+import { StandardEmployeeType } from '../types'
 
 interface Props {
-  employee: EmployeeBase;
+  employee: StandardEmployeeType;
   key: string;
 }
 
@@ -70,7 +70,14 @@ const EmployeeCard = ({employee}: Props) => {
   }
   const workingHours = () => {
     if (employee.shift) {
-      return <p><Icon name='wait' size='small'/> {employee.shift.start} - {employee.shift.end}</p> 
+      const shiftStart = employee.shift.start
+      const calculateEndShift = (length: number): string => {
+        const start = Number(shiftStart.substring(0,2))
+        const end = (start>=16) ? (length-(24-start)) : (start+length)
+        return end<10? `0${end}:00` : `${end}:00`
+      }
+      const shiftEnd = calculateEndShift(employee.shift.length)
+      return <p><Icon name='wait' size='small'/> {shiftStart} - {shiftEnd}</p> 
     }
   }
 
