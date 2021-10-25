@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { StandardEmployeeType } from '../types'
+import { EmployeesContext } from '../context/EmployeesContext'
 
-const fakeOptions = [
+const departmentOptions = [
   {
     key: 'Any',
     text: 'Any',
@@ -11,7 +13,7 @@ const fakeOptions = [
   {
     key: 'Editors',
     text: 'Editors',
-    value: 'editors'
+    value: 'editing'
   },
   {
     key: 'CS',
@@ -37,16 +39,22 @@ const MainContainer = styled.div`
 `
 /////
 
+interface Props {
+  filteredList: StandardEmployeeType[]
+  setFilteredList: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>
+}
 
-const FilterPanel = () => {
+const FilterPanel = ({filteredList, setFilteredList}: Props) => {
+  const {employeesData} = useContext(EmployeesContext)
   const [department, setDepartment] = useState('')
-  console.log(department)
+
+
   return(
     <MainContainer>
       <Dropdown
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onChange={(e, {value}: any) => setDepartment(value)}
-        options={fakeOptions}
+        options={departmentOptions}
         placeholder='Select Department'
         selection
         value={department}

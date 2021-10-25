@@ -32,6 +32,10 @@ const EmployeeList = () => {
   useEffect(() => {
     setFilteredList(employeesData)
   }, [employeesData])
+
+  // if(filteredList.length === 0) {
+  //   return null
+  // }
   
   if (!employeesData){return <h1>Loading...</h1>}
   return(
@@ -43,7 +47,7 @@ const EmployeeList = () => {
         </section>
       </FirstDiv>
       <SecondDiv>
-        <FilterPanel />
+        <FilterPanel filteredList={filteredList} setFilteredList={setFilteredList} />
       </SecondDiv>
     </MainContainer>
   )

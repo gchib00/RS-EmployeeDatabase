@@ -22,14 +22,22 @@ interface Props {
 }
 
 const UpperDash = ({filteredList, setFilteredList}: Props) => {
+  const [filteredBySearch, setFilteredBySearch] = useState<StandardEmployeeType[]>([])
+  const [filteredBySwitch, setFilteredBySwitch] = useState<StandardEmployeeType[]>([])
   const [searchValue, setSearchValue] = useState('')
-  const [filterByShift, setFilterByShift] = useState(true)
   const {employeesData} = useContext(EmployeesContext)
 
   const filterList = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
   }
-  
+
+
+  ////CONSOLELOGS:
+    console.log('values filtered inside filteredBySearch:', filteredBySearch)
+    console.log('values filtered inside filteredBySwitch:', filteredBySwitch)
+    console.log('filteredList:', filteredList)
+  ////
+
   useEffect(() => {
     const filteredArr: StandardEmployeeType[] = employeesData.filter(employee => {
       const name = employee.name.toLocaleLowerCase()
@@ -37,17 +45,38 @@ const UpperDash = ({filteredList, setFilteredList}: Props) => {
         return employee
       }
     }) as StandardEmployeeType[];
-    setFilteredList(filteredArr as StandardEmployeeType[])
+    setFilteredBySearch(filteredArr as StandardEmployeeType[])
   }, [searchValue])
+
+  const superFilter = () => {
+    let arr = employeesData
+    if (filteredBySearch.length > 0) {
+      arr = arr.filter(employee => {
+        return filteredBySearch.includes(employee)
+      })
+    }
+    if (filteredBySwitch.length > 0) {
+      arr = arr.filter(employee => {
+        return filteredBySwitch.includes(employee)
+      })
+    }
+    // if (arr.length === 0) {
+    //   arr = employeesData
+    // }
+    setFilteredList(arr)
+  }
+
+  useEffect(() => {
+    superFilter()
+  }, [filteredBySearch, filteredBySwitch])
 
   return(
     <MainContainer>
       <Input icon='search' placeholder='Search...' value={searchValue} onChange={(e) => filterList(e)} />
       <OnlineOnlySwitch 
-        filterByShift={filterByShift}
-        setFilterByShift={setFilterByShift}
         filteredList={filteredList}
-        setFilteredList={setFilteredList}
+        filteredBySwitch={filteredBySwitch}
+        setFilteredBySwitch={setFilteredBySwitch}
       />
     </MainContainer>
   )

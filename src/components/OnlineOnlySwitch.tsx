@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react'
-import { Radio } from 'semantic-ui-react'
+import React, { useContext, useEffect, useState } from 'react'
+import { Checkbox } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { EmployeesContext } from '../context/EmployeesContext'
 import { StandardEmployeeType } from '../types'
@@ -14,17 +14,17 @@ const OnlineEmployees = styled.div`
 ////
 
 interface Props {
-  filterByShift: boolean;
-  setFilterByShift: React.Dispatch<React.SetStateAction<boolean>>;
   filteredList: StandardEmployeeType[];
-  setFilteredList: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>
+  filteredBySwitch: StandardEmployeeType[];
+  setFilteredBySwitch: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>;
 }
 
-const localTimeGE = new Date().getHours()+2 //app follows CET time, need to add +2 to adjust for GE time. needs to be changed to +3 after Oct. due to daylight savings time
+//app follows CET time (localhost - Italy), need to add +2 to adjust for GE time. needs to be changed to +3 after Oct. due to daylight savings time
+const localTimeGE = new Date().getHours()+2 
 
-const OnlineOnlySwitch = ({filterByShift, setFilterByShift, filteredList, setFilteredList}: Props) => {
+const OnlineOnlySwitch = ({filteredList, filteredBySwitch, setFilteredBySwitch}: Props) => {
+  const [filterByShift, setFilterByShift] = useState(true)
   const {employeesData} = useContext(EmployeesContext)
-
 
   useEffect(() => {
     if (filterByShift) {
@@ -34,13 +34,14 @@ const OnlineOnlySwitch = ({filterByShift, setFilterByShift, filteredList, setFil
     }
   }, [filterByShift])
 
+
   const showAllEmployees = () => {
-    setFilteredList(employeesData)
+    setFilteredBySwitch(employeesData)
   }
 
-  const showOnlineEmployeesOnly = () =>{
+  const showOnlineEmployeesOnly = async () =>{
     const filteredArr: StandardEmployeeType[] = filteredList.filter(employee => {
-      if(employee.shift && localTimeGE<12) {
+      if(employee.shift && localTimeGE<12) { //formula that calculates if employee is supposed to be online (shift start + shift length)
         const start = Number(employee.shift.start.substring(0, 2));
         if(start<12){
           const shiftLength = 8
@@ -55,7 +56,7 @@ const OnlineOnlySwitch = ({filterByShift, setFilterByShift, filteredList, setFil
           return employee
         }
       }
-      if(employee.shift && localTimeGE>=12) {
+      if(employee.shift && localTimeGE>=12) { //formula that calculates if employee is supposed to be online (shift hours + shift length)
         const start = Number(employee.shift.start.substring(0, 2));
         const shiftLength = 8
         const end = start+shiftLength
@@ -64,18 +65,23 @@ const OnlineOnlySwitch = ({filterByShift, setFilterByShift, filteredList, setFil
         }
       }         
     }) 
-    setFilteredList(filteredArr)
-    console.log('arr after filtering = ', filteredArr)
+    setFilteredBySwitch(filteredArr)
   }
 
+  // if (filteredBySwitch.length === 0 && filterByShift){
+  //   return <p>Nobody is online at the moment</p>
+  // }
+
   return(
+    <>
     <OnlineEmployees>
         Currently Online 
-        <Radio slider 
+        <Checkbox slider 
           style={{marginTop:2}} 
           checked={filterByShift} 
           onChange={() => setFilterByShift(!filterByShift)}/>
     </OnlineEmployees>
+    </>
   )
 }
 
