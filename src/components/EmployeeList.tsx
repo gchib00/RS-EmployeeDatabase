@@ -33,8 +33,9 @@ const EmployeeList = () => {
     setFilteredList(employeesData)
   }, [employeesData])
 
-  // if(filteredList.length === 0) {
-  //   return null
+  // const listItems = () => {
+  //   if(filteredList.length === 0) {return null}
+  //   return filteredList.map(employee => <EmployeeCard employee={employee} key={employee.id} />)
   // }
   
   if (!employeesData){return <h1>Loading...</h1>}

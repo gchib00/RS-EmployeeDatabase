@@ -50,7 +50,7 @@ const UpperDash = ({filteredList, setFilteredList}: Props) => {
 
   const superFilter = () => {
     let arr = employeesData
-    if (filteredBySearch.length > 0) {
+    if (filteredBySearch.length >= 0 && searchValue.length>0) {
       arr = arr.filter(employee => {
         return filteredBySearch.includes(employee)
       })
@@ -60,9 +60,6 @@ const UpperDash = ({filteredList, setFilteredList}: Props) => {
         return filteredBySwitch.includes(employee)
       })
     }
-    // if (arr.length === 0) {
-    //   arr = employeesData
-    // }
     setFilteredList(arr)
   }
 
