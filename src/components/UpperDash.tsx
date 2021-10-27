@@ -33,9 +33,9 @@ const UpperDash = ({filteredList, setFilteredList}: Props) => {
 
 
   ////CONSOLELOGS:
-    console.log('values filtered inside filteredBySearch:', filteredBySearch)
-    console.log('values filtered inside filteredBySwitch:', filteredBySwitch)
-    console.log('filteredList:', filteredList)
+    // console.log('values filtered inside filteredBySearch:', filteredBySearch)
+    // console.log('values filtered inside filteredBySwitch:', filteredBySwitch)
+    // console.log('filteredList:', filteredList)
   ////
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import EmployeeCard from './EmployeeCard'
 import UpperDash from './UpperDash'
 import FilterPanel from './FilterPanel'
 import { EmployeesContext } from '../context/EmployeesContext'
+import PaginationTab from './PaginationTab'
 
 
 //Styling:
@@ -28,7 +29,9 @@ const SecondDiv = styled.div`
 const EmployeeList = () => {
   const {employeesData} = useContext(EmployeesContext)
   const [filteredList, setFilteredList] = useState<StandardEmployeeType[]>([])
-  
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [cardsPerPage, setCardsPerPage] = useState<number>(2)
+
   useEffect(() => {
     setFilteredList(employeesData)
   }, [employeesData])
@@ -38,14 +41,26 @@ const EmployeeList = () => {
   //   return filteredList.map(employee => <EmployeeCard employee={employee} key={employee.id} />)
   // }
   
+
+  //Pagination:
+  const listSize = filteredList.length
+  const indexOfLastItem = currentPage * cardsPerPage
+  const indexOfFirstItem = indexOfLastItem - cardsPerPage
+  const paginatedItems = filteredList.slice(indexOfFirstItem, indexOfLastItem)
+  console.log('paginatedItems=', paginatedItems)
+  ////////////
+
+  const paginate = (pageNum: number) => {setCurrentPage(pageNum)}
+
   if (!employeesData){return <h1>Loading...</h1>}
   return(
     <MainContainer>
       <FirstDiv>
         <UpperDash filteredList={filteredList} setFilteredList={setFilteredList} />
         <section>
-          {filteredList.map(employee => <EmployeeCard employee={employee} key={employee.id} />)}
+          {paginatedItems.map(employee => <EmployeeCard employee={employee} key={employee.id} />)}
         </section>
+        <PaginationTab cardsPerPage={cardsPerPage} listSize={listSize} paginate={paginate}/>
       </FirstDiv>
       <SecondDiv>
         <FilterPanel filteredList={filteredList} setFilteredList={setFilteredList} />
