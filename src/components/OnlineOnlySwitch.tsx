@@ -15,16 +15,16 @@ const OnlineEmployees = styled.div`
 
 interface Props {
   filteredList: StandardEmployeeType[];
-  filteredBySwitch: StandardEmployeeType[];
   setFilteredBySwitch: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 //app follows CET time (localhost - Italy), need to add +2 to adjust for GE time. needs to be changed to +3 after Oct. due to daylight savings time
 const localTimeGE = 0
 // new Date().getHours()+2 
 
-const OnlineOnlySwitch = ({filteredList, filteredBySwitch, setFilteredBySwitch}: Props) => {
-  const [filterByShift, setFilterByShift] = useState(true)
+const OnlineOnlySwitch = ({filteredList, setFilteredBySwitch, setCurrentPage}: Props) => {
+  const [filterByShift, setFilterByShift] = useState(false)
   const {employeesData} = useContext(EmployeesContext)
 
   useEffect(() => {
@@ -33,6 +33,7 @@ const OnlineOnlySwitch = ({filteredList, filteredBySwitch, setFilteredBySwitch}:
     } else {
       showAllEmployees()
     }
+    setCurrentPage(1)
   }, [filterByShift])
 
 
@@ -68,10 +69,6 @@ const OnlineOnlySwitch = ({filteredList, filteredBySwitch, setFilteredBySwitch}:
     }) 
     setFilteredBySwitch(filteredArr)
   }
-
-  // if (filteredBySwitch.length === 0 && filterByShift){
-  //   return <p>Nobody is online at the moment</p>
-  // }
 
   return(
     <>

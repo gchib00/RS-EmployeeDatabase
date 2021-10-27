@@ -30,24 +30,18 @@ const EmployeeList = () => {
   const {employeesData} = useContext(EmployeesContext)
   const [filteredList, setFilteredList] = useState<StandardEmployeeType[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [cardsPerPage, setCardsPerPage] = useState<number>(2)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [cardsPerPage, setCardsPerPage] = useState<number>(5)
 
   useEffect(() => {
     setFilteredList(employeesData)
   }, [employeesData])
-
-  // const listItems = () => {
-  //   if(filteredList.length === 0) {return null}
-  //   return filteredList.map(employee => <EmployeeCard employee={employee} key={employee.id} />)
-  // }
-  
 
   //Pagination:
   const listSize = filteredList.length
   const indexOfLastItem = currentPage * cardsPerPage
   const indexOfFirstItem = indexOfLastItem - cardsPerPage
   const paginatedItems = filteredList.slice(indexOfFirstItem, indexOfLastItem)
-  console.log('paginatedItems=', paginatedItems)
   ////////////
 
   const paginate = (pageNum: number) => {setCurrentPage(pageNum)}
@@ -56,7 +50,7 @@ const EmployeeList = () => {
   return(
     <MainContainer>
       <FirstDiv>
-        <UpperDash filteredList={filteredList} setFilteredList={setFilteredList} />
+        <UpperDash filteredList={filteredList} setFilteredList={setFilteredList} setCurrentPage={setCurrentPage}/>
         <section>
           {paginatedItems.map(employee => <EmployeeCard employee={employee} key={employee.id} />)}
         </section>

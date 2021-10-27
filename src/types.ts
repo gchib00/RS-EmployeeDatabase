@@ -12,7 +12,7 @@ export interface EmployeeBase {
 }
 
 export interface EmployeeEditor extends EmployeeBase {
-  department: 'editors';
+  department: 'editing';
   team?: string;
   type: 'Editor' | 'QC' | 'Painting Editor';
 }

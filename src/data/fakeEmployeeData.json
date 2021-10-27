@@ -1,6 +1,6 @@
 [
   {
-    "id": "aaaa1111",
+    "id": "a1aaa561111",
     "name": "Ethan",
     "department": "operations",
     "subDepartment": "Technical Department",
@@ -13,7 +13,7 @@
     }
   },
   {
-    "id": "aaaa1112",
+    "id": "aa12aa1112",
     "name": "Patrick",
     "department": "operations",
     "subDepartment": "Technical Department",
@@ -26,7 +26,7 @@
     }
   },
   {
-    "id": "aaaa1113",
+    "id": "aaa773a1113",
     "name": "Emily",
     "department": "cs",
     "type": "Other",
@@ -39,7 +39,7 @@
     }
   },
   {
-    "id": "aaaa1114",
+    "id": "aa41aa1114",
     "name": "Swen",
     "department": "operations",
     "subDepartment": "Other",
@@ -52,7 +52,7 @@
     }
   },
   {
-    "id": "aaaa1115",
+    "id": "aaaa171115",
     "name": "Gus",
     "department": "editing",
     "type": "QC",
@@ -66,7 +66,7 @@
     }
   },
   {
-    "id": "aaaa1116",
+    "id": "a1aaa1116",
     "name": "Bob",
     "department": "editing",
     "type": "Editor",
@@ -76,6 +76,71 @@
     "status": "active",
     "shift": {
       "start": "10:00",
+      "length": 8
+    }
+  },
+  {
+    "id": "aaaa11114",
+    "name": "Sebastian",
+    "department": "cs",
+    "type": "Agent",
+    "email": "sebastian@paintyourlife.com",
+    "phone": "1114422333",
+    "status": "active",
+    "shift": {
+      "start": "12:00",
+      "length": 8
+    }
+  },
+  {
+    "id": "aaaa17115",
+    "name": "Meko",
+    "department": "cs",
+    "type": "Agent",
+    "email": "meko@paintyourlife.com",
+    "phone": "999224433",
+    "status": "active",
+    "shift": {
+      "start": "12:00",
+      "length": 8
+    }
+  },
+  {
+    "id": "a6aaa1116",
+    "name": "Gordon",
+    "department": "editing",
+    "type": "Editor",
+    "email": "gordon@paintyourlife.com",
+    "phone": "953222333",
+    "status": "active",
+    "shift": {
+      "start": "10:00",
+      "length": 8
+    }
+  },
+  {
+    "id": "a1aaa1117",
+    "name": "Anthony",
+    "department": "cs",
+    "type": "Team Leader",
+    "email": "anthony@paintyourlife.com",
+    "phone": "77643222333",
+    "status": "active",
+    "shift": {
+      "start": "17:00",
+      "length": 8
+    }
+  },
+  {
+    "id": "aaa5a1118",
+    "name": "Francesca",
+    "department": "cs",
+    "type": "Foreign Language Agent",
+    "email": "francesca@paintyourlife.com",
+    "phone": "673216432",
+    "status": "active",
+    "shift": {
+      "start": "14:00",
       "length": 8
     }
   }
