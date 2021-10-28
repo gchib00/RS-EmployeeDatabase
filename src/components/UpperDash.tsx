@@ -17,12 +17,12 @@ const MainContainer = styled.div`
 ////////
 
 interface Props {
-  filteredList: StandardEmployeeType[];
-  setFilteredList: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>;
+  upperDashList: StandardEmployeeType[];
+  setUpperDashList: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const UpperDash = ({filteredList, setFilteredList, setCurrentPage}: Props) => {
+const UpperDash = ({upperDashList, setUpperDashList, setCurrentPage}: Props) => {
   const [filteredBySearch, setFilteredBySearch] = useState<StandardEmployeeType[]>([])
   const [filteredBySwitch, setFilteredBySwitch] = useState<StandardEmployeeType[]>([])
   const [searchValue, setSearchValue] = useState('')
@@ -43,7 +43,7 @@ const UpperDash = ({filteredList, setFilteredList, setCurrentPage}: Props) => {
     setFilteredBySearch(filteredArr as StandardEmployeeType[])
   }, [searchValue])
 
-  const superFilter = () => {
+  const mainFilter = () => { //funnels all the filters into one array
     let arr = employeesData
     if (filteredBySearch.length >= 0 && searchValue.length>0) {
       arr = arr.filter(employee => {
@@ -55,18 +55,18 @@ const UpperDash = ({filteredList, setFilteredList, setCurrentPage}: Props) => {
         return filteredBySwitch.includes(employee)
       })
     }
-    setFilteredList(arr)
+    setUpperDashList(arr)
   }
 
   useEffect(() => {
-    superFilter()
+    mainFilter()
   }, [filteredBySearch, filteredBySwitch])
 
   return(
     <MainContainer>
       <Input icon='search' placeholder='Search...' value={searchValue} onChange={(e) => filterList(e)} />
       <OnlineOnlySwitch 
-        filteredList={filteredList}
+        upperDashList={upperDashList}
         setFilteredBySwitch={setFilteredBySwitch}
         setCurrentPage={setCurrentPage}
       />

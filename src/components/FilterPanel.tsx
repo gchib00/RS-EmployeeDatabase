@@ -1,31 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { Dropdown } from 'semantic-ui-react'
+import React, { useContext, useEffect, useState } from 'react'
+// import { Dropdown } from 'semantic-ui-react'
 import styled from 'styled-components'
-import { StandardEmployeeType } from '../types'
 import { EmployeesContext } from '../context/EmployeesContext'
+import { StandardEmployeeType } from '../types'
+import DepartmentDropdown from './dropdowns/DepartmentDropdown'
 
-const departmentOptions = [
-  {
-    key: 'Any',
-    text: 'Any',
-    value: 'any'
-  },
-  {
-    key: 'Editors',
-    text: 'Editors',
-    value: 'editing'
-  },
-  {
-    key: 'CS',
-    text: 'CS',
-    value: 'cs'
-  },
-  {
-    key: 'Operations',
-    text: 'Operations',
-    value: 'operations'
-  }
-]
 
 //Styling:
 const MainContainer = styled.div`
@@ -40,25 +19,40 @@ const MainContainer = styled.div`
 /////
 
 interface Props {
-  filteredList: StandardEmployeeType[]
-  setFilteredList: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>
+  setPanelList: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>
 }
 
-const FilterPanel = ({filteredList, setFilteredList}: Props) => {
+const FilterPanel = ({setPanelList}: Props) => {
+  const [filteredByDep, setFilteredByDep] = useState<StandardEmployeeType[]>([])
   const {employeesData} = useContext(EmployeesContext)
-  const [department, setDepartment] = useState('')
 
+  const mainFilter = () => { //funnels all the filters into one array
+    let arr = employeesData
+    if (filteredByDep.length > 0) {
+      arr = arr.filter(employee => {
+        return filteredByDep.includes(employee)
+      })
+    }
+    setPanelList(arr)
+  }
+
+  useEffect(() => {
+    mainFilter()
+  }, [filteredByDep])
 
   return(
     <MainContainer>
-      <Dropdown
+      <DepartmentDropdown 
+        setFilteredByDep={setFilteredByDep}
+      />
+      {/* <Dropdown
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onChange={(e, {value}: any) => setDepartment(value)}
         options={departmentOptions}
         placeholder='Select Department'
         selection
         value={department}
-      />
+      /> */}
     </MainContainer>
   )
 }

@@ -28,20 +28,41 @@ const SecondDiv = styled.div`
 
 const EmployeeList = () => {
   const {employeesData} = useContext(EmployeesContext)
-  const [filteredList, setFilteredList] = useState<StandardEmployeeType[]>([])
+  const [upperDashList, setUpperDashList] = useState<StandardEmployeeType[]>([]) //filtered list from UpperDash
+  const [panelList, setPanelList] = useState<StandardEmployeeType[]>([]) //filtered list from FilterPanel
+  const [filteredArray, setFilteredArray] = useState<StandardEmployeeType[]>([]) //main array to funnel filtered arrays into
   const [currentPage, setCurrentPage] = useState<number>(1)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cardsPerPage, setCardsPerPage] = useState<number>(5)
 
+  const funnelArrays = () => {
+    let arr = employeesData
+    if (upperDashList.length > 0) {
+      arr = arr.filter(employee => {
+        return upperDashList.includes(employee)
+      })
+    }
+    if (panelList.length > 0) {
+      arr = arr.filter(employee => {
+        return panelList.includes(employee)
+      })
+    }
+    setFilteredArray(arr)
+  }
+
   useEffect(() => {
-    setFilteredList(employeesData)
+    funnelArrays()
+  }, [upperDashList ,panelList])
+
+  useEffect(() => {
+    setUpperDashList(employeesData)
   }, [employeesData])
 
   //Pagination:
-  const listSize = filteredList.length
+  const listSize = filteredArray.length
   const indexOfLastItem = currentPage * cardsPerPage
   const indexOfFirstItem = indexOfLastItem - cardsPerPage
-  const paginatedItems = filteredList.slice(indexOfFirstItem, indexOfLastItem)
+  const paginatedItems = filteredArray.slice(indexOfFirstItem, indexOfLastItem)
   ////////////
 
   const paginate = (pageNum: number) => {setCurrentPage(pageNum)}
@@ -50,14 +71,14 @@ const EmployeeList = () => {
   return(
     <MainContainer>
       <FirstDiv>
-        <UpperDash filteredList={filteredList} setFilteredList={setFilteredList} setCurrentPage={setCurrentPage}/>
+        <UpperDash upperDashList={upperDashList} setUpperDashList={setUpperDashList} setCurrentPage={setCurrentPage}/>
         <section>
           {paginatedItems.map(employee => <EmployeeCard employee={employee} key={employee.id} />)}
         </section>
         <PaginationTab cardsPerPage={cardsPerPage} listSize={listSize} paginate={paginate}/>
       </FirstDiv>
       <SecondDiv>
-        <FilterPanel filteredList={filteredList} setFilteredList={setFilteredList} />
+        <FilterPanel setPanelList={setPanelList} />
       </SecondDiv>
     </MainContainer>
   )

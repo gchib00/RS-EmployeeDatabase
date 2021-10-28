@@ -14,7 +14,7 @@ const OnlineEmployees = styled.div`
 ////
 
 interface Props {
-  filteredList: StandardEmployeeType[];
+  upperDashList: StandardEmployeeType[];
   setFilteredBySwitch: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -23,7 +23,7 @@ interface Props {
 const localTimeGE = 0
 // new Date().getHours()+2 
 
-const OnlineOnlySwitch = ({filteredList, setFilteredBySwitch, setCurrentPage}: Props) => {
+const OnlineOnlySwitch = ({upperDashList, setFilteredBySwitch, setCurrentPage}: Props) => {
   const [filterByShift, setFilterByShift] = useState(false)
   const {employeesData} = useContext(EmployeesContext)
 
@@ -42,7 +42,7 @@ const OnlineOnlySwitch = ({filteredList, setFilteredBySwitch, setCurrentPage}: P
   }
 
   const showOnlineEmployeesOnly = async () =>{
-    const filteredArr: StandardEmployeeType[] = filteredList.filter(employee => {
+    const filteredArr: StandardEmployeeType[] = upperDashList.filter(employee => {
       if(employee.shift && localTimeGE<12) { //formula that calculates if employee is supposed to be online (shift start + shift length)
         const start = Number(employee.shift.start.substring(0, 2));
         if(start<12){
