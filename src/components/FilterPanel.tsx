@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { Divider } from 'semantic-ui-react'
 // import { Dropdown } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { EmployeesContext } from '../context/EmployeesContext'
@@ -16,6 +17,11 @@ const MainContainer = styled.div`
   padding: 14px;
   width: 100%;
   height: 300px;
+`
+const DeptDropdownStyle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 /////
 
@@ -43,10 +49,16 @@ const FilterPanel = ({setPanelList}: Props) => {
 
   return(
     <MainContainer>
-      <DepartmentDropdown 
-        setFilteredByDep={setFilteredByDep}
-      />
-      <TeamsDropdown />
+      <DeptDropdownStyle>
+        Department:
+        <DepartmentDropdown 
+          setFilteredByDep={setFilteredByDep}
+        />
+      </DeptDropdownStyle>
+      <Divider />
+      <TeamsDropdown dept='editing'/>
+      <TeamsDropdown dept='cs'/>
+      <TeamsDropdown dept='operations'/>
     </MainContainer>
   )
 }

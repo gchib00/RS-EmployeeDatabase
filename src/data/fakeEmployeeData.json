@@ -26,32 +26,6 @@
     }
   },
   {
-    "id": "aaa773a1113",
-    "name": "Emily",
-    "department": "cs",
-    "type": "Other",
-    "email": "emily@paintyourlife.com",
-    "phone": "999222333",
-    "status": "active",
-    "shift": {
-      "start": "17:00",
-      "length": 8
-    }
-  },
-  {
-    "id": "aa41aa1114",
-    "name": "Swen",
-    "department": "operations",
-    "subDepartment": "Other",
-    "email": "swen@paintyourlife.com",
-    "phone": "777222333",
-    "status": "onVacation",
-    "shift": {
-      "start": "17:00",
-      "length": 8
-    }
-  },
-  {
     "id": "aaaa171115",
     "name": "Gus",
     "department": "editing",
@@ -83,6 +57,7 @@
     "id": "aaaa11114",
     "name": "Sebastian",
     "department": "cs",
+    "team": "Remi's team",
     "type": "Agent",
     "email": "sebastian@paintyourlife.com",
     "phone": "1114422333",
@@ -96,6 +71,7 @@
     "id": "aaaa17115",
     "name": "Meko",
     "department": "cs",
+    "team": "Meko's team",
     "type": "Agent",
     "email": "meko@paintyourlife.com",
     "phone": "999224433",
@@ -141,6 +117,45 @@
     "status": "active",
     "shift": {
       "start": "14:00",
+      "length": 8
+    }
+  },
+  {
+    "id": "aaa5a1119",
+    "name": "Tata",
+    "department": "operations",
+    "subDepartment": "Billing Department",
+    "email": "tata@paintyourlife.com",
+    "phone": "42215345342",
+    "status": "active",
+    "shift": {
+      "start": "12:00",
+      "length": 8
+    }
+  },
+  {
+    "id": "aaa773a1113",
+    "name": "Emily",
+    "department": "cs",
+    "type": "Other",
+    "email": "emily@paintyourlife.com",
+    "phone": "999222333",
+    "status": "active",
+    "shift": {
+      "start": "17:00",
+      "length": 8
+    }
+  },
+  {
+    "id": "aa41aa1114",
+    "name": "Swen",
+    "department": "operations",
+    "subDepartment": "Other",
+    "email": "swen@paintyourlife.com",
+    "phone": "777222333",
+    "status": "onVacation",
+    "shift": {
+      "start": "17:00",
       "length": 8
     }
   }

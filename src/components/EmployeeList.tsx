@@ -35,20 +35,6 @@ const EmployeeList = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cardsPerPage, setCardsPerPage] = useState<number>(5)
 
-  // const funnelArrays = () => {
-  //   let arr = employeesData
-  //   if (upperDashList.length > 0) {
-  //     arr = arr.filter(employee => {
-  //       return upperDashList.includes(employee)
-  //     })
-  //   }
-  //   if (panelList.length > 0) {
-  //     arr = arr.filter(employee => {
-  //       return panelList.includes(employee)
-  //     })
-  //   }
-  //   setFilteredArray(arr)
-  // }
   const funnelArrays = () => {
     let arr = employeesData
     arr = arr.filter(employee => {
