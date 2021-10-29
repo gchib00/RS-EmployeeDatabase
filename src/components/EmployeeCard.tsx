@@ -43,7 +43,7 @@ const DeptName = styled.p`
   font-size: 0.9rem;
   margin-left: 3px;
 `
-const Status = styled.p`
+const Status = styled.div`
   display: flex;
   justify-content: flex-end;
   font-weight: bold;
@@ -77,7 +77,7 @@ const EmployeeCard = ({employee}: Props) => {
         return end<10? `0${end}:00` : `${end}:00`
       }
       const shiftEnd = calculateEndShift(employee.shift.length)
-      return <p><Icon name='wait' size='small'/> {shiftStart} - {shiftEnd}</p> 
+      return <div><Icon name='wait' size='small'/> {shiftStart} - {shiftEnd}</div> 
     }
   }
 
@@ -94,7 +94,7 @@ const EmployeeCard = ({employee}: Props) => {
       <Divider style={{marginTop: 5}} />
       <CardDiv>
         <div>
-          <p><Icon name='mail' size='small'/> {employee.email}</p>
+          <div style={{marginBottom: 10}}><Icon name='mail' size='small'/> {employee.email}</div>
           <div>{workingHours()}</div>
         </div>
         <Status>{currentStatus(employee.status)}</Status>

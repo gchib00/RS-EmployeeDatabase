@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { EmployeesContext } from '../context/EmployeesContext'
 import { StandardEmployeeType } from '../types'
 import DepartmentDropdown from './dropdowns/DepartmentDropdown'
+import TeamsDropdown from './dropdowns/TeamsDropdown'
 
 
 //Styling:
@@ -45,14 +46,7 @@ const FilterPanel = ({setPanelList}: Props) => {
       <DepartmentDropdown 
         setFilteredByDep={setFilteredByDep}
       />
-      {/* <Dropdown
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange={(e, {value}: any) => setDepartment(value)}
-        options={departmentOptions}
-        placeholder='Select Department'
-        selection
-        value={department}
-      /> */}
+      <TeamsDropdown />
     </MainContainer>
   )
 }

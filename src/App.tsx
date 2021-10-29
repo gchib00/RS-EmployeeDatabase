@@ -14,11 +14,6 @@ const App = () => {
       setEmployeesData(employeeData)
     }
   },[])
-
-  // interface EmployeesContext {
-  //   employeesData: StandardEmployeeType[];
-  //   setEmployeesData: () => void;
-  // }
   
   return(
     <EmployeesContext.Provider value={{employeesData, setEmployeesData}}>
