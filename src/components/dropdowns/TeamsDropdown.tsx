@@ -1,13 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { EmployeesContext } from '../../context/EmployeesContext'
+import { StandardEmployeeType } from '../../types'
 
 //Styling:
 const DropdownContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 4px 0px 4px 0px;
 `
 /////////
 
@@ -18,14 +20,18 @@ interface Team {
 }
 
 interface Props {
-  dept: string
+  dept: string;
+  setFilteredArr: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>;
 }
 
-const TeamsDropdown = ({dept}: Props) => {
+const TeamsDropdown = ({dept, setFilteredArr}: Props) => {
+  const [selectedOption, setSelectedOption] = useState('')
   const {employeesData} = useContext(EmployeesContext)
 
   //populate editorTeams with team options
   const deptTeams: Team[] = []
+  deptTeams.push({key: 'Any', text: 'Any', value: 'any'}) //mandatory 'any' option to be included in all dropdowns
+
   employeesData.map(employee => {
     if (dept === 'cs' ||dept === 'editing'){
       if (employee.department === dept && employee.team) {
@@ -51,6 +57,29 @@ const TeamsDropdown = ({dept}: Props) => {
     }
   })
 
+  const filterArray = () => {
+    let arr: StandardEmployeeType[] = employeesData
+    if (dept === 'cs' || dept === 'editing') {
+      arr = arr.filter(employee => {
+        if (employee.department == dept) {
+          return employee.team === selectedOption
+        }
+      })
+    }
+    if (dept === 'operations') {
+      arr = arr.filter(employee => {
+        if (employee.department == 'operations') {
+          return employee.subDepartment === selectedOption
+        }
+      })
+    }
+    setFilteredArr(arr)
+  }
+  
+  useEffect(() => { 
+    filterArray()
+  }, [selectedOption])
+
   const getTitle = () => {
     switch(dept){
       case('editing'): {return 'Editor Teams: '}
@@ -58,15 +87,15 @@ const TeamsDropdown = ({dept}: Props) => {
       case('operations'): {return 'Sub-Department: '}
     }
   }
-  
+
   return (
     <DropdownContainer>
       {getTitle()}
       <Dropdown
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange={() => console.log('teams=', deptTeams)}
+        onChange={(e, {value}: any) => setSelectedOption(value)}
         options={deptTeams}
-        placeholder='Select Department'
+        placeholder='Select'
         selection
       />
     </DropdownContainer>    

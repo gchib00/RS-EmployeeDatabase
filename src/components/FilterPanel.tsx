@@ -15,7 +15,7 @@ const MainContainer = styled.div`
   background-color: #ffffff7a;
   margin: 10px 0px 10px 0px;
   padding: 14px;
-  width: 100%;
+  width: 360px;
   height: 300px;
 `
 const DeptDropdownStyle = styled.div`
@@ -31,6 +31,9 @@ interface Props {
 
 const FilterPanel = ({setPanelList}: Props) => {
   const [filteredByDep, setFilteredByDep] = useState<StandardEmployeeType[]>([])
+  const [filteredByEditingTeam, setFilteredByEditingTeam] = useState<StandardEmployeeType[]>([])
+  const [filteredByCSTeam, setFilteredByCSTeam] = useState<StandardEmployeeType[]>([])
+  const [filteredBySubDep, setFilteredBySubDep] = useState<StandardEmployeeType[]>([])
   const {employeesData} = useContext(EmployeesContext)
 
   const mainFilter = () => { //funnels all the filters into one array
@@ -40,12 +43,28 @@ const FilterPanel = ({setPanelList}: Props) => {
         return filteredByDep.includes(employee)
       })
     }
+    if (filteredByEditingTeam.length > 0) {
+      arr = arr.filter(employee => {
+        return filteredByEditingTeam.includes(employee)
+      })
+    }
+    if (filteredByCSTeam.length > 0) {
+      arr = arr.filter(employee => {
+        return filteredByCSTeam.includes(employee)
+      })
+    }
+    if (filteredBySubDep.length > 0) {
+      arr = arr.filter(employee => {
+        return filteredBySubDep.includes(employee)
+      })
+    }
     setPanelList(arr)
   }
 
   useEffect(() => {
     mainFilter()
-  }, [filteredByDep])
+  }, [filteredByDep, filteredByEditingTeam, filteredByCSTeam, filteredBySubDep])
+
 
   return(
     <MainContainer>
@@ -56,9 +75,9 @@ const FilterPanel = ({setPanelList}: Props) => {
         />
       </DeptDropdownStyle>
       <Divider />
-      <TeamsDropdown dept='editing'/>
-      <TeamsDropdown dept='cs'/>
-      <TeamsDropdown dept='operations'/>
+      <TeamsDropdown dept='editing' setFilteredArr={setFilteredByEditingTeam}/>
+      <TeamsDropdown dept='cs' setFilteredArr={setFilteredByCSTeam} />
+      <TeamsDropdown dept='operations' setFilteredArr={setFilteredBySubDep} />
     </MainContainer>
   )
 }
