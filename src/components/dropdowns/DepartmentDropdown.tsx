@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import { StandardEmployeeType } from '../../types'
 import { EmployeesContext } from '../../context/EmployeesContext'
@@ -27,18 +27,19 @@ const departmentOptions = [
 ]
 
 interface Props {
+  selectedDepartment: string;
+  setSelectedDepartment:React.Dispatch<React.SetStateAction<string>>;
   setFilteredByDep: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>;
 }
 
-const DepartmentDropdown = ({setFilteredByDep}: Props) => {
-  const [department, setDepartment] = useState('')
+const DepartmentDropdown = ({selectedDepartment, setSelectedDepartment, setFilteredByDep}: Props) => {
   const {employeesData} = useContext(EmployeesContext)
 
   const filterByDepartment = () => {
     let arr = employeesData
-    if (department && department !== 'any'){
+    if (selectedDepartment && selectedDepartment !== 'any'){
       arr = arr.filter(employee => {
-        return employee.department === department
+        return employee.department === selectedDepartment
       })
     }
     setFilteredByDep(arr)
@@ -46,16 +47,16 @@ const DepartmentDropdown = ({setFilteredByDep}: Props) => {
 
   useEffect(() => {
     filterByDepartment()
-  }, [department])
+  }, [selectedDepartment])
 
   return (
     <Dropdown
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onChange={(e, {value}: any) => setDepartment(value)}
+      onChange={(e, {value}: any) => setSelectedDepartment(value)}
       options={departmentOptions}
       placeholder='Select Department'
       selection
-      value={department}
+      value={selectedDepartment}
     />
   )
 }

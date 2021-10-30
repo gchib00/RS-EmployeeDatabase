@@ -21,11 +21,13 @@ interface Team {
 
 interface Props {
   dept: string;
+  selectedDepartment: string;
   setFilteredArr: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>;
 }
 
-const TeamsDropdown = ({dept, setFilteredArr}: Props) => {
+const TeamsDropdown = ({dept, selectedDepartment, setFilteredArr}: Props) => {
   const [selectedOption, setSelectedOption] = useState('')
+  const [dropdownDisabled, setDropdownDisabled] = useState(true)
   const {employeesData} = useContext(EmployeesContext)
 
   //populate editorTeams with team options
@@ -76,9 +78,18 @@ const TeamsDropdown = ({dept, setFilteredArr}: Props) => {
     setFilteredArr(arr)
   }
   
-  useEffect(() => { 
+  useEffect(() => {  
     filterArray()
   }, [selectedOption])
+
+  useEffect(() => {
+    if (selectedDepartment === dept) {
+      setDropdownDisabled(false)
+    } else {
+      setSelectedOption('')
+      setDropdownDisabled(true)
+    }
+  }, [selectedDepartment]) 
 
   const getTitle = () => {
     switch(dept){
@@ -88,14 +99,22 @@ const TeamsDropdown = ({dept, setFilteredArr}: Props) => {
     }
   }
 
+  const getSpaceholder = () => {
+    if(dropdownDisabled === false) {
+      return 'Select'
+    } else {return ''}
+  }
+
   return (
     <DropdownContainer>
       {getTitle()}
       <Dropdown
+        disabled={dropdownDisabled}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onChange={(e, {value}: any) => setSelectedOption(value)}
+        value={selectedOption}
         options={deptTeams}
-        placeholder='Select'
+        placeholder={getSpaceholder()}
         selection
       />
     </DropdownContainer>    

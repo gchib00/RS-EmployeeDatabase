@@ -30,6 +30,7 @@ interface Props {
 }
 
 const FilterPanel = ({setPanelList}: Props) => {
+  const [selectedDepartment, setSelectedDepartment] = useState('')
   const [filteredByDep, setFilteredByDep] = useState<StandardEmployeeType[]>([])
   const [filteredByEditingTeam, setFilteredByEditingTeam] = useState<StandardEmployeeType[]>([])
   const [filteredByCSTeam, setFilteredByCSTeam] = useState<StandardEmployeeType[]>([])
@@ -65,19 +66,20 @@ const FilterPanel = ({setPanelList}: Props) => {
     mainFilter()
   }, [filteredByDep, filteredByEditingTeam, filteredByCSTeam, filteredBySubDep])
 
-
   return(
     <MainContainer>
       <DeptDropdownStyle>
         Department:
         <DepartmentDropdown 
+          selectedDepartment={selectedDepartment}
+          setSelectedDepartment={setSelectedDepartment}
           setFilteredByDep={setFilteredByDep}
         />
       </DeptDropdownStyle>
       <Divider />
-      <TeamsDropdown dept='editing' setFilteredArr={setFilteredByEditingTeam}/>
-      <TeamsDropdown dept='cs' setFilteredArr={setFilteredByCSTeam} />
-      <TeamsDropdown dept='operations' setFilteredArr={setFilteredBySubDep} />
+      <TeamsDropdown dept='editing' setFilteredArr={setFilteredByEditingTeam} selectedDepartment={selectedDepartment}/>
+      <TeamsDropdown dept='cs' setFilteredArr={setFilteredByCSTeam} selectedDepartment={selectedDepartment}/>
+      <TeamsDropdown dept='operations' setFilteredArr={setFilteredBySubDep} selectedDepartment={selectedDepartment}/>
     </MainContainer>
   )
 }
