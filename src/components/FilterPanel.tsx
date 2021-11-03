@@ -4,6 +4,7 @@ import { Divider } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { EmployeesContext } from '../context/EmployeesContext'
 import { StandardEmployeeType } from '../types'
+import StandardButton from './buttons/StandardButton'
 import DepartmentDropdown from './dropdowns/DepartmentDropdown'
 import TeamsDropdown from './dropdowns/TeamsDropdown'
 
@@ -17,6 +18,13 @@ const MainContainer = styled.div`
   padding: 14px;
   width: 360px;
   height: 300px;
+`
+const BtnContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 88px;
+  width: 360px;
 `
 const DeptDropdownStyle = styled.div`
   display: flex;
@@ -67,6 +75,7 @@ const FilterPanel = ({setPanelList}: Props) => {
   }, [filteredByDep, filteredByEditingTeam, filteredByCSTeam, filteredBySubDep])
 
   return(
+    <>
     <MainContainer>
       <DeptDropdownStyle>
         Department:
@@ -81,6 +90,11 @@ const FilterPanel = ({setPanelList}: Props) => {
       <TeamsDropdown dept='cs' setFilteredArr={setFilteredByCSTeam} selectedDepartment={selectedDepartment}/>
       <TeamsDropdown dept='operations' setFilteredArr={setFilteredBySubDep} selectedDepartment={selectedDepartment}/>
     </MainContainer>
+    <BtnContainer>
+      <StandardButton color='green' width='100%' height='40px' textColor='white' text='Add a New Member' />
+      <StandardButton color='red' width='100%' height='40px' textColor='white' text='Delete Member' />
+    </BtnContainer>
+    </>
   )
 }
 
