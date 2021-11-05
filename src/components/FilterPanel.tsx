@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Divider } from 'semantic-ui-react'
-// import { Dropdown } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { EmployeesContext } from '../context/EmployeesContext'
 import { StandardEmployeeType } from '../types'
 import StandardButton from './buttons/StandardButton'
 import DepartmentDropdown from './dropdowns/DepartmentDropdown'
 import TeamsDropdown from './dropdowns/TeamsDropdown'
-
+import AddEmployeeForm from './AddEmployeeForm'
 
 //Styling:
 const MainContainer = styled.div`
@@ -43,6 +42,7 @@ const FilterPanel = ({setPanelList}: Props) => {
   const [filteredByEditingTeam, setFilteredByEditingTeam] = useState<StandardEmployeeType[]>([])
   const [filteredByCSTeam, setFilteredByCSTeam] = useState<StandardEmployeeType[]>([])
   const [filteredBySubDep, setFilteredBySubDep] = useState<StandardEmployeeType[]>([])
+  const [formModalStatus, setFormModalStatus] = useState<boolean>(false)
   const {employeesData} = useContext(EmployeesContext)
 
   const mainFilter = () => { //funnels all the filters into one array
@@ -73,7 +73,7 @@ const FilterPanel = ({setPanelList}: Props) => {
   useEffect(() => {
     mainFilter()
   }, [filteredByDep, filteredByEditingTeam, filteredByCSTeam, filteredBySubDep])
-
+  
   return(
     <>
     <MainContainer>
@@ -86,13 +86,27 @@ const FilterPanel = ({setPanelList}: Props) => {
         />
       </DeptDropdownStyle>
       <Divider />
-      <TeamsDropdown dept='editing' setFilteredArr={setFilteredByEditingTeam} selectedDepartment={selectedDepartment}/>
+      <TeamsDropdown dept='editing' setFilteredArr={setFilteredByEditingTeam} selectedDepartment={selectedDepartment}/> 
       <TeamsDropdown dept='cs' setFilteredArr={setFilteredByCSTeam} selectedDepartment={selectedDepartment}/>
       <TeamsDropdown dept='operations' setFilteredArr={setFilteredBySubDep} selectedDepartment={selectedDepartment}/>
     </MainContainer>
     <BtnContainer>
-      <StandardButton color='green' width='100%' height='40px' textColor='white' text='Add a New Member' />
-      <StandardButton color='red' width='100%' height='40px' textColor='white' text='Delete Member' />
+      <StandardButton 
+        color='rgb(23, 158, 18)' 
+        hoverColor='rgba(0, 0, 0, 0)'
+        width='100%' 
+        height='40px' 
+        textColor='white' 
+        text='Add a New Member' 
+        clickEvent={() => setFormModalStatus(true)} />
+      <StandardButton 
+        color='rgba(202, 47, 47, 0.7)'
+        hoverColor='rgba(0, 0, 0, 0)' 
+        width='100%' 
+        height='40px' 
+        textColor='white' 
+        text='Delete Member' />
+        <AddEmployeeForm formModalStatus={formModalStatus} setFormModalStatus={setFormModalStatus} />
     </BtnContainer>
     </>
   )
