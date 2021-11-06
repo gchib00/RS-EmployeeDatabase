@@ -8,7 +8,7 @@ const DropdownContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  margin: 4px 0px 4px 0px;
+  margin: 14px 0px 4px 0px;
 `
 /////////
 
@@ -74,12 +74,7 @@ const TeamsDropdownForForm = ({selectedDepartment}: Props) => {
     }
   }
 
-  const getSpaceholder = () => {
-    if(dropdownDisabled === false) {
-      return 'Select'
-    } else {return ''}
-  }
-
+  if(dropdownDisabled === true) {return null}
   return (
     <DropdownContainer>
       <strong style={{marginBottom: 5}}>
@@ -91,7 +86,7 @@ const TeamsDropdownForForm = ({selectedDepartment}: Props) => {
         onChange={(e, {value}: any) => setSelectedOption(value)}
         value={selectedOption}
         options={deptTeams}
-        placeholder={getSpaceholder()}
+        placeholder='Select'
         selection
       />
     </DropdownContainer>    

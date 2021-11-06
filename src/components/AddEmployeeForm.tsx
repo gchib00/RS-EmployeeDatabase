@@ -6,21 +6,29 @@ import TypesDropdownForForm from './dropdowns/TypesDropdownForForm'
 
 //styling:
 const MainContainer = styled.div`
-  width: 440px;
-  height: 360px;
+  width: 400px;
+  height: 380px;
   margin: auto;
+  margin-top: 10%;
 `
 const FirstDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: -10px;
 `
 const SecondDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 `
 const ThirdDiv = styled.div`
   display: flex;
   justify-content: space-between;
+`
+const BtnDiv = styled.div`
+  display: flex;
+  width: 146px;
+  justify-content: space-between;
+  margin: 16px auto auto auto;
 `
 const ContactInfo = styled.div`
   width: 240px;
@@ -63,11 +71,11 @@ const CancelBtn = styled.button`
     transition: 650ms;
     background-color: rgba(0, 0, 0, 0);
     color: grey;
-    border-radius: 8px;
+    border-radius: 6px;
   }
   &:active {
     opacity: 0.25;
-    border-radius: 8px;
+    border-radius: 6px;
   }
 `
 /////////
@@ -87,7 +95,7 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
   
   return (
     <Modal
-    style={{height: 400, width: 540}}
+    style={{height: 470, width: 510}}
       onClose={() => setFormModalStatus(false)}
       onOpen={() => setFormModalStatus(true)}
       open={formModalStatus}
@@ -133,7 +141,7 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
           <ShiftInfo>
             <Form.Field>
               <label>Shift start:</label>
-              <input type='time' defaultValue='10:00' />
+              <input type='time' defaultValue='10:00' style={{height: 37}} />
             </Form.Field>
             <Form.Field>
               <label>Shift duration (in hours):</label>
@@ -141,8 +149,10 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
             </Form.Field>
           </ShiftInfo>
         </ThirdDiv>
-        <CancelBtn>Cancel</CancelBtn>
-        <SubmitBtn type='submit'>Submit</SubmitBtn> 
+        <BtnDiv>
+          <CancelBtn>Cancel</CancelBtn>
+          <SubmitBtn type='submit'>Submit</SubmitBtn> 
+        </BtnDiv>
       </Form>
     </MainContainer>
     </Modal>

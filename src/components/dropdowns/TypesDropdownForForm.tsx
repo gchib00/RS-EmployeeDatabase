@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import styled from 'styled-components'
-import { CSEmployeeType } from '../../types'
+import { CSEmployeeType, EditorEmployeeType } from '../../types'
 
 //Styling:
 const DropdownContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  margin: 4px 0px 4px 0px;
+  margin: 4px 0px 18px 0px;
 `
 /////////
-
 interface Type {
   key: string;
   text: string;
   value: string;
 }
-
 interface Props {
   selectedDepartment: string;
 }
@@ -27,19 +25,33 @@ const TypesDropdownForForm = ({selectedDepartment}: Props) => {
   const [dropdownDisabled, setDropdownDisabled] = useState(true)
 
   const typeOptions: Type[] = []
-
-  if(selectedDepartment === 'operations') {return null}
-  if(selectedDepartment === 'cs') {
-    Object.values(CSEmployeeType).map(value => {
+  //populate typeOptions according to the selected department
+  switch(selectedDepartment){
+    case('operations'): {
+      null
+      break
+    }
+    case('cs'): {
+      Object.values(CSEmployeeType).map(value => {
         return typeOptions.push({
           key: value,
           text: value,
           value: value
         })
-      }
-    )
+      })
+      break
+    }
+    case('editing'): {
+      Object.values(EditorEmployeeType).map(value => {
+        return typeOptions.push({
+          key: value,
+          text: value,
+          value: value
+        })
+      })
+      break
+    }
   }
-
 
   useEffect(() => {
     if (selectedDepartment !== '') {
@@ -50,24 +62,11 @@ const TypesDropdownForForm = ({selectedDepartment}: Props) => {
     }
   }, [selectedDepartment]) 
 
-  const getTitle = () => {
-    switch(selectedDepartment){
-      case('editing'): {return 'Editor Teams: '}
-      case('cs'): {return 'CS Teams: '}
-      case('operations'): {return 'Sub-Department: '}
-    }
-  }
-
-  const getSpaceholder = () => {
-    if(dropdownDisabled === false) {
-      return 'Select'
-    } else {return ''}
-  }
-
+  if(dropdownDisabled === true || selectedDepartment === 'operations') {return null}
   return (
     <DropdownContainer>
       <strong style={{marginBottom: 5}}>
-        {getTitle()}
+        Type:
       </strong>
       <Dropdown
         disabled={dropdownDisabled}
@@ -75,7 +74,7 @@ const TypesDropdownForForm = ({selectedDepartment}: Props) => {
         onChange={(e, {value}: any) => setSelectedOption(value)}
         value={selectedOption}
         options={typeOptions}
-        placeholder={getSpaceholder()}
+        placeholder='Select'
         selection
       />
     </DropdownContainer>
