@@ -6,8 +6,8 @@ import { EmployeesContext } from '../../context/EmployeesContext'
 //Styling:
 const DropdownContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
   margin: 4px 0px 4px 0px;
 `
 /////////
@@ -82,7 +82,9 @@ const TeamsDropdownForForm = ({selectedDepartment}: Props) => {
 
   return (
     <DropdownContainer>
-      {getTitle()}
+      <strong style={{marginBottom: 5}}>
+        {getTitle()}
+      </strong>
       <Dropdown
         disabled={dropdownDisabled}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

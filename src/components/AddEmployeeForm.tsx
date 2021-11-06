@@ -1,24 +1,80 @@
 import React, { useState } from 'react'
 import { Dropdown, Form, Modal } from 'semantic-ui-react'
-import StandardButton from './buttons/StandardButton'
+import styled from 'styled-components'
 import TeamsDropdownForForm from './dropdowns/TeamsDropdownForForm'
+import TypesDropdownForForm from './dropdowns/TypesDropdownForForm'
 
-const departmentOptions = [
-  {
-    key: 'Editors',
-    text: 'Editors',
-    value: 'editing'
-  },
-  {
-    key: 'CS',
-    text: 'CS',
-    value: 'cs'
-  },
-  {
-    key: 'Operations',
-    text: 'Operations',
-    value: 'operations'
+//styling:
+const MainContainer = styled.div`
+  width: 440px;
+  height: 360px;
+  margin: auto;
+`
+const FirstDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+const SecondDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+const ThirdDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+const ContactInfo = styled.div`
+  width: 240px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+`
+const ShiftInfo = styled.div`
+`
+const SubmitBtn = styled.button`
+  transition: 650ms;
+  width: 70px;
+  height: 30px;
+  background-color: rgb(23, 158, 18);
+  color: white;
+  border-radius: 2px;
+  border: 1px solid rgb(23, 158, 18);
+  font-family: 'Montserrat', sans-serif;
+  &:hover {
+    transition: 650ms;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(23, 158, 18);
+    border-radius: 8px;
   }
+  &:active {
+    opacity: 0.25;
+    border-radius: 8px;
+  }
+`
+const CancelBtn = styled.button`
+  transition: 650ms;
+  width: 70px;
+  height: 30px;
+  background-color: grey;
+  color: white;
+  border-radius: 2px;
+  border: 1px solid grey;
+  font-family: 'Montserrat', sans-serif;
+  &:hover {
+    transition: 650ms;
+    background-color: rgba(0, 0, 0, 0);
+    color: grey;
+    border-radius: 8px;
+  }
+  &:active {
+    opacity: 0.25;
+    border-radius: 8px;
+  }
+`
+/////////
+const departmentOptions = [
+  {key: 'Editors', text: 'Editors', value: 'editing'},
+  {key: 'CS', text: 'CS', value: 'cs'},
+  {key: 'Operations', text: 'Operations', value: 'operations'}
 ]
 
 interface Props {
@@ -30,50 +86,66 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
   const [selectedDepartment, setSelectedDepartment] = useState('')
   
   return (
-    <div>
     <Modal
-    style={{height: 500}}
+    style={{height: 400, width: 540}}
       onClose={() => setFormModalStatus(false)}
       onOpen={() => setFormModalStatus(true)}
       open={formModalStatus}
     > 
-    <Form style={{height: 500}}>
-      <Form.Field>
-        <label>Alias Name:</label>
-        <input placeholder='Alias Name...' />
-      </Form.Field>
-      <Form.Field>
-        <label>Department:</label>
-        <Dropdown
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(e, {value}: any) => setSelectedDepartment(value)}
-          options={departmentOptions}
-          placeholder='Select Department'
-          selection
-          value={selectedDepartment}
-        />
-      </Form.Field>
-      <Form.Field style={{height: 300}}>
-        <label>Team / Sub-Department:</label>
-        <TeamsDropdownForForm selectedDepartment={selectedDepartment} />
-      </Form.Field>
-      <StandardButton 
-        type='button'
-        color='grey'
-        width='70px'
-        height='30px'
-        text='Cancel'
-      />
-      <StandardButton 
-        type='submit'
-        color='rgb(23, 158, 18)'
-        width='70px'
-        height='30px'
-        text='Submit'
-      />
-    </Form>
+    <MainContainer>
+      <Form>
+        <FirstDiv>
+          <Form.Field>
+            <label>Alias Name:</label>
+            <input placeholder='Alias Name...' />
+          </Form.Field>
+          <Form.Field>
+            <label>Department:</label>
+            <Dropdown
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onChange={(e, {value}: any) => setSelectedDepartment(value)}
+              options={departmentOptions}
+              placeholder='Select Department'
+              selection
+              value={selectedDepartment}
+            />
+          </Form.Field>
+        </FirstDiv>
+        <SecondDiv>
+          <Form.Field>
+            <TeamsDropdownForForm selectedDepartment={selectedDepartment} />
+          </Form.Field>
+          <Form.Field>
+            <TypesDropdownForForm selectedDepartment={selectedDepartment} />
+          </Form.Field>
+        </SecondDiv>
+        <ThirdDiv>
+          <ContactInfo>
+            <Form.Field>
+              <label>Email:</label>
+              <input placeholder='Email...' />
+            </Form.Field>
+            <Form.Field>
+              <label>Phone:</label>
+              <input placeholder='Phone...' />
+            </Form.Field>
+          </ContactInfo>
+          <ShiftInfo>
+            <Form.Field>
+              <label>Shift start:</label>
+              <input type='time' defaultValue='10:00' />
+            </Form.Field>
+            <Form.Field>
+              <label>Shift duration (in hours):</label>
+              <input type='number' min='0' max='24' defaultValue='8' />
+            </Form.Field>
+          </ShiftInfo>
+        </ThirdDiv>
+        <CancelBtn>Cancel</CancelBtn>
+        <SubmitBtn type='submit'>Submit</SubmitBtn> 
+      </Form>
+    </MainContainer>
     </Modal>
-    </div>
   )
 }
 

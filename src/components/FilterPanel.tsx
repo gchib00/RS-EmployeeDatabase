@@ -3,7 +3,6 @@ import { Divider } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { EmployeesContext } from '../context/EmployeesContext'
 import { StandardEmployeeType } from '../types'
-import StandardButton from './buttons/StandardButton'
 import DepartmentDropdown from './dropdowns/DepartmentDropdown'
 import TeamsDropdown from './dropdowns/TeamsDropdown'
 import AddEmployeeForm from './AddEmployeeForm'
@@ -29,6 +28,46 @@ const DeptDropdownStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`
+const AddMemberBtn = styled.button`
+    transition: 650ms;
+    width: 100%;
+    height: 40px;
+    background-color: rgb(23, 158, 18);
+    color: white;
+    border-radius: 2px;
+    border: 1px solid rgb(23, 158, 18);
+    font-family: 'Montserrat', sans-serif;
+    &:hover {
+      transition: 650ms;
+      background-color: rgba(0, 0, 0, 0);
+      color: rgb(23, 158, 18);
+      border-radius: 8px;
+    }
+    &:active {
+      opacity: 0.25;
+      border-radius: 8px;
+    }
+`
+const DeleteMemberBtn = styled.button`
+    transition: 650ms;
+    width: 100%;
+    height: 40px;
+    background-color: rgba(202, 47, 47, 0.7);
+    color: white;
+    border-radius: 2px;
+    border: 1px solid rgba(202, 47, 47, 0.7);
+    font-family: 'Montserrat', sans-serif;
+    &:hover {
+      transition: 650ms;
+      background-color: rgba(0, 0, 0, 0);
+      color: rgba(202, 47, 47, 0.7);
+      border-radius: 8px;
+    }
+    &:active {
+      opacity: 0.25;
+      border-radius: 8px;
+    }
 `
 /////
 
@@ -73,7 +112,7 @@ const FilterPanel = ({setPanelList}: Props) => {
   useEffect(() => {
     mainFilter()
   }, [filteredByDep, filteredByEditingTeam, filteredByCSTeam, filteredBySubDep])
-  
+
   return(
     <>
     <MainContainer>
@@ -91,22 +130,9 @@ const FilterPanel = ({setPanelList}: Props) => {
       <TeamsDropdown dept='operations' setFilteredArr={setFilteredBySubDep} selectedDepartment={selectedDepartment}/>
     </MainContainer>
     <BtnContainer>
-      <StandardButton 
-        color='rgb(23, 158, 18)' 
-        hoverColor='rgba(0, 0, 0, 0)'
-        width='100%' 
-        height='40px' 
-        textColor='white' 
-        text='Add a New Member' 
-        clickEvent={() => setFormModalStatus(true)} />
-      <StandardButton 
-        color='rgba(202, 47, 47, 0.7)'
-        hoverColor='rgba(0, 0, 0, 0)' 
-        width='100%' 
-        height='40px' 
-        textColor='white' 
-        text='Delete Member' />
-        <AddEmployeeForm formModalStatus={formModalStatus} setFormModalStatus={setFormModalStatus} />
+      <AddMemberBtn onClick={() => setFormModalStatus(true)}>Add a New Member</AddMemberBtn>
+      <DeleteMemberBtn onClick={() => alert('delete btn clicked')}>Delete Member</DeleteMemberBtn>
+      <AddEmployeeForm formModalStatus={formModalStatus} setFormModalStatus={setFormModalStatus} />
     </BtnContainer>
     </>
   )

@@ -28,24 +28,24 @@ export interface EmployeeOperation extends EmployeeBase {
   subDepartment: AcceptableSubDepartment;
 }
 
-enum CSEmployeeType {
+export enum CSEmployeeType {
   agent = 'Agent', 
   foreignLanguageAgent = 'Foreign Language Agent',
   teamLeader = 'Team Leader', 
   other = 'Other'
 }
-enum EditorEmployeeType {
+export enum EditorEmployeeType {
   editor = 'Editor', 
   qc = 'QC',
   paintingEditor = 'Painting Editor' 
 }
-enum AcceptableSubDepartment {
+export enum AcceptableSubDepartment {
   technicalDepartment = 'Technical Department',
   logistics = 'Logistics',
   billingDepartment = 'Billing Department',
   other = 'Other'
 }
-enum AcceptableDepartment {
+export enum AcceptableDepartment {
   operations = 'operations',
   cs = 'cs',
   editing = 'editing'
