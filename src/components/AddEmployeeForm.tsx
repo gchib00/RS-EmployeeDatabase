@@ -3,13 +3,13 @@ import { Dropdown, Form, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
 import TeamsDropdownForForm from './dropdowns/TeamsDropdownForForm'
 import TypesDropdownForForm from './dropdowns/TypesDropdownForForm'
+import { useForm } from "react-hook-form";
 
 //styling:
 const MainContainer = styled.div`
-  width: 400px;
-  height: 380px;
-  margin: auto;
-  margin-top: 10%;
+  width: 390px;
+  max-height: 400px;
+  margin: 40px auto 40px auto;
 `
 const FirstDiv = styled.div`
   display: flex;
@@ -28,7 +28,7 @@ const BtnDiv = styled.div`
   display: flex;
   width: 146px;
   justify-content: space-between;
-  margin: 16px auto auto auto;
+  margin: 30px auto auto auto;
 `
 const ContactInfo = styled.div`
   width: 240px;
@@ -51,11 +51,9 @@ const SubmitBtn = styled.button`
     transition: 650ms;
     background-color: rgba(0, 0, 0, 0);
     color: rgb(23, 158, 18);
-    border-radius: 8px;
   }
   &:active {
     opacity: 0.25;
-    border-radius: 8px;
   }
 `
 const CancelBtn = styled.button`
@@ -71,11 +69,9 @@ const CancelBtn = styled.button`
     transition: 650ms;
     background-color: rgba(0, 0, 0, 0);
     color: grey;
-    border-radius: 6px;
   }
   &:active {
     opacity: 0.25;
-    border-radius: 6px;
   }
 `
 /////////
@@ -92,20 +88,34 @@ interface Props {
 
 const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
   const [selectedDepartment, setSelectedDepartment] = useState('')
+  const [selectedTeam, setSelectedTeam] = useState<string | undefined>(undefined)
+  const [selectedType, setSelectedType] = useState<string | undefined>(undefined)
+  const {register, handleSubmit} = useForm()
   
+  const processFormData = (data: Record<string, unknown>) => {
+    const fullData = {...data, team: selectedTeam, type: selectedType}
+    console.log(fullData)
+  }
+
+  // console.log('selected team rn = ', selectedTeam)
+
   return (
     <Modal
-    style={{height: 470, width: 510}}
+    style={{maxHeight: 470, width: 510}}
       onClose={() => setFormModalStatus(false)}
       onOpen={() => setFormModalStatus(true)}
       open={formModalStatus}
     > 
+    {/* <form onSubmit={handleSubmit(processFormData)}>
+      <input {...register('test')} />
+      <button type='submit'>submit</button>
+    </form> */}
     <MainContainer>
-      <Form>
+      <Form onSubmit={handleSubmit(processFormData)}>
         <FirstDiv>
           <Form.Field>
             <label>Alias Name:</label>
-            <input placeholder='Alias Name...' />
+            <input placeholder='Alias Name...' {...register('name')} />
           </Form.Field>
           <Form.Field>
             <label>Department:</label>
@@ -121,31 +131,31 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
         </FirstDiv>
         <SecondDiv>
           <Form.Field>
-            <TeamsDropdownForForm selectedDepartment={selectedDepartment} />
+            <TeamsDropdownForForm selectedDepartment={selectedDepartment} setSelectedTeam={setSelectedTeam} />
           </Form.Field>
           <Form.Field>
-            <TypesDropdownForForm selectedDepartment={selectedDepartment} />
+            <TypesDropdownForForm selectedDepartment={selectedDepartment} setSelectedType={setSelectedType} />
           </Form.Field>
         </SecondDiv>
         <ThirdDiv>
           <ContactInfo>
             <Form.Field>
               <label>Email:</label>
-              <input placeholder='Email...' />
+              <input placeholder='Email...' {...register('email')} />
             </Form.Field>
             <Form.Field>
               <label>Phone:</label>
-              <input placeholder='Phone...' />
+              <input placeholder='Phone...' {...register('phone')} />
             </Form.Field>
           </ContactInfo>
           <ShiftInfo>
             <Form.Field>
               <label>Shift start:</label>
-              <input type='time' defaultValue='10:00' style={{height: 37}} />
+              <input type='time' defaultValue='10:00' style={{height: 37}} {...register('shiftStart')} />
             </Form.Field>
             <Form.Field>
               <label>Shift duration (in hours):</label>
-              <input type='number' min='0' max='24' defaultValue='8' />
+              <input type='number' min='0' max='24' defaultValue='8' {...register('shiftDuration')} />
             </Form.Field>
           </ShiftInfo>
         </ThirdDiv>

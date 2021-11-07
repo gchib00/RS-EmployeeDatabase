@@ -18,9 +18,10 @@ interface Type {
 }
 interface Props {
   selectedDepartment: string;
+  setSelectedType: React.Dispatch<React.SetStateAction<string|undefined>>;
 }
 
-const TypesDropdownForForm = ({selectedDepartment}: Props) => {
+const TypesDropdownForForm = ({selectedDepartment, setSelectedType}: Props) => {
   const [selectedOption, setSelectedOption] = useState('')
   const [dropdownDisabled, setDropdownDisabled] = useState(true)
 
@@ -52,8 +53,12 @@ const TypesDropdownForForm = ({selectedDepartment}: Props) => {
       break
     }
   }
-
   useEffect(() => {
+    setSelectedType(selectedOption)
+  }, [selectedOption])
+  
+  useEffect(() => {
+    setSelectedType(undefined)
     if (selectedDepartment !== '') {
       setDropdownDisabled(false)
     } else {

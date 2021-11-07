@@ -19,10 +19,11 @@ interface Team {
 }
 
 interface Props {
-  selectedDepartment: string;
+  selectedDepartment: string | undefined;
+  setSelectedTeam: React.Dispatch<React.SetStateAction<string|undefined>>;
 }
 
-const TeamsDropdownForForm = ({selectedDepartment}: Props) => {
+const TeamsDropdownForForm = ({selectedDepartment, setSelectedTeam}: Props) => {
   const [selectedOption, setSelectedOption] = useState('')
   const [dropdownDisabled, setDropdownDisabled] = useState(true)
   const {employeesData} = useContext(EmployeesContext)
@@ -58,6 +59,11 @@ const TeamsDropdownForForm = ({selectedDepartment}: Props) => {
   })
 
   useEffect(() => {
+    setSelectedTeam(selectedOption)
+  }, [selectedOption])
+
+  useEffect(() => {
+    setSelectedTeam(undefined)
     if (selectedDepartment !== '') {
       setDropdownDisabled(false)
     } else {
