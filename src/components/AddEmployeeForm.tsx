@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import TeamsDropdownForForm from './dropdowns/TeamsDropdownForForm'
 import TypesDropdownForForm from './dropdowns/TypesDropdownForForm'
 import { useForm } from "react-hook-form";
+import axios from 'axios'
 
 //styling:
 const MainContainer = styled.div`
@@ -24,7 +25,7 @@ const ThirdDiv = styled.div`
   display: flex;
   justify-content: space-between;
 `
-const BtnDiv = styled.div`
+const BtnContainer = styled.div`
   display: flex;
   width: 146px;
   justify-content: space-between;
@@ -36,8 +37,7 @@ const ContactInfo = styled.div`
   justify-content: space-between;
   flex-direction: column;
 `
-const ShiftInfo = styled.div`
-`
+const ShiftInfo = styled.div``
 const SubmitBtn = styled.button`
   transition: 650ms;
   width: 70px;
@@ -92,12 +92,27 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
   const [selectedType, setSelectedType] = useState<string | undefined>(undefined)
   const {register, handleSubmit} = useForm()
   
-  const processFormData = (data: Record<string, unknown>) => {
-    const fullData = {...data, team: selectedTeam, type: selectedType}
-    console.log(fullData)
+  const processFormData = async (data: Record<string, unknown>) => {
+    //adding team & type separately from form hooks because it's not compatable with semantic ui:
+    const requestObj = {
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      department: selectedDepartment,
+      subDepartment: selectedTeam,
+      team: selectedTeam,
+      type: selectedType,
+      status: 'active',
+      shift: {
+        start: data.shiftStart,
+        length: data.shiftDuration
+      }
+    }
+    // const fullData = {...data, team: selectedTeam, type: selectedType, department: selectedDepartment}
+    console.log('data about to be sent as POST=', requestObj)
+    const request = await axios.post('http://localhost:3005/employees/add', requestObj)
+    console.log('response received from axios after making POST request:', request)
   }
-
-  // console.log('selected team rn = ', selectedTeam)
 
   return (
     <Modal
@@ -159,10 +174,10 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
             </Form.Field>
           </ShiftInfo>
         </ThirdDiv>
-        <BtnDiv>
-          <CancelBtn>Cancel</CancelBtn>
+        <BtnContainer>
+          <CancelBtn type='button'>Cancel</CancelBtn>
           <SubmitBtn type='submit'>Submit</SubmitBtn> 
-        </BtnDiv>
+        </BtnContainer>
       </Form>
     </MainContainer>
     </Modal>

@@ -6,6 +6,7 @@ import { StandardEmployeeType } from '../types'
 import DepartmentDropdown from './dropdowns/DepartmentDropdown'
 import TeamsDropdown from './dropdowns/TeamsDropdown'
 import AddEmployeeForm from './AddEmployeeForm'
+import DeleteEmployeeForm from './DeleteEmployeeForm'
 
 //Styling:
 const MainContainer = styled.div`
@@ -82,6 +83,7 @@ const FilterPanel = ({setPanelList}: Props) => {
   const [filteredByCSTeam, setFilteredByCSTeam] = useState<StandardEmployeeType[]>([])
   const [filteredBySubDep, setFilteredBySubDep] = useState<StandardEmployeeType[]>([])
   const [formModalStatus, setFormModalStatus] = useState<boolean>(false)
+  const [deleteModalStatus, setDeleteModalStatus] = useState<boolean>(false)
   const {employeesData} = useContext(EmployeesContext)
 
   const mainFilter = () => { //funnels all the filters into one array
@@ -131,11 +133,12 @@ const FilterPanel = ({setPanelList}: Props) => {
     </MainContainer>
     <BtnContainer>
       <AddMemberBtn onClick={() => setFormModalStatus(true)}>Add a New Member</AddMemberBtn>
-      <DeleteMemberBtn onClick={() => alert('delete btn clicked')}>Delete Member</DeleteMemberBtn>
+      <DeleteMemberBtn onClick={() => setDeleteModalStatus(true)}>Delete Member</DeleteMemberBtn>
       <AddEmployeeForm formModalStatus={formModalStatus} setFormModalStatus={setFormModalStatus} />
+      <DeleteEmployeeForm deleteModalStatus={deleteModalStatus} setDeleteModalStatus={setDeleteModalStatus}  />
     </BtnContainer>
     </>
   )
-}
+}  
 
 export default FilterPanel
