@@ -1,10 +1,12 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { EmployeesContext } from '../context/EmployeesContext'
 
 //stlying:
-const MainContainer = styled.form`
+const MainContainer = styled.div`
   width: 390px;
   max-height: 400px;
   margin: 40px auto 40px auto;
@@ -60,9 +62,20 @@ interface Props {
 
 const DeleteEmployeeForm = ({deleteModalStatus, setDeleteModalStatus}: Props) => {
   const {register, handleSubmit} = useForm()
+  const {employeesData, setEmployeesData} = useContext(EmployeesContext)
 
-  const processForm = (data: unknown) => {
-    console.log(data)
+  const processForm = async (data: any) => {
+    console.log(data.name)
+    const employeeToDelete= employeesData.find(employee => {
+      return employee.name === data.name
+    })
+    if(employeeToDelete === undefined){
+      alert('Employee was not found!')
+    } else {
+      const response = await axios.delete(`http://localhost:3005/employees/delete/${employeeToDelete.id}`)
+      setEmployeesData(response.data)
+      setDeleteModalStatus(false)
+    }
   }
 
   return (
@@ -79,7 +92,7 @@ const DeleteEmployeeForm = ({deleteModalStatus, setDeleteModalStatus}: Props) =>
           <input {...register('name')} />
         </Form.Field>
         <BtnContainer>
-          <CancelBtn type='button'>Cancel</CancelBtn>
+          <CancelBtn type='button' onClick={() => setDeleteModalStatus(false)}>Cancel</CancelBtn>
           <DeleteBtn type='submit'>Delete</DeleteBtn>
         </BtnContainer>
       </Form>

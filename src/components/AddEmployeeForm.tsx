@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Dropdown, Form, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
 import TeamsDropdownForForm from './dropdowns/TeamsDropdownForForm'
 import TypesDropdownForForm from './dropdowns/TypesDropdownForForm'
 import { useForm } from "react-hook-form";
 import axios from 'axios'
+import { EmployeesContext } from '../context/EmployeesContext'
 
 //styling:
 const MainContainer = styled.div`
@@ -88,8 +89,9 @@ interface Props {
 
 const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
   const [selectedDepartment, setSelectedDepartment] = useState('')
-  const [selectedTeam, setSelectedTeam] = useState<string | undefined>(undefined)
-  const [selectedType, setSelectedType] = useState<string | undefined>(undefined)
+  const [selectedTeam, setSelectedTeam] = useState<string|undefined>(undefined)
+  const [selectedType, setSelectedType] = useState<string|undefined>(undefined)
+  const {setEmployeesData} = useContext(EmployeesContext)
   const {register, handleSubmit} = useForm()
   
   const processFormData = async (data: Record<string, unknown>) => {
@@ -108,10 +110,9 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
         length: data.shiftDuration
       }
     }
-    // const fullData = {...data, team: selectedTeam, type: selectedType, department: selectedDepartment}
-    console.log('data about to be sent as POST=', requestObj)
-    const request = await axios.post('http://localhost:3005/employees/add', requestObj)
-    console.log('response received from axios after making POST request:', request)
+    const response = await axios.post('http://localhost:3005/employees/add', requestObj)
+    setEmployeesData(response.data)
+    setFormModalStatus(false)
   }
 
   return (
@@ -121,10 +122,6 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
       onOpen={() => setFormModalStatus(true)}
       open={formModalStatus}
     > 
-    {/* <form onSubmit={handleSubmit(processFormData)}>
-      <input {...register('test')} />
-      <button type='submit'>submit</button>
-    </form> */}
     <MainContainer>
       <Form onSubmit={handleSubmit(processFormData)}>
         <FirstDiv>
@@ -175,7 +172,7 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
           </ShiftInfo>
         </ThirdDiv>
         <BtnContainer>
-          <CancelBtn type='button'>Cancel</CancelBtn>
+          <CancelBtn type='button' onClick={() => setFormModalStatus(false)}>Cancel</CancelBtn>
           <SubmitBtn type='submit'>Submit</SubmitBtn> 
         </BtnContainer>
       </Form>

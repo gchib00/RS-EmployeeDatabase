@@ -8,6 +8,7 @@ import { Loader } from 'semantic-ui-react'
 
 const App = () => {
   const [employeesData, setEmployeesData] = useState<StandardEmployeeType[]>([])
+  console.log('emoloyeesData = ', employeesData)
 
   const fetchEmployees = async () => {
     try{

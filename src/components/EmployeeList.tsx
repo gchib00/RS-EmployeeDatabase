@@ -52,6 +52,7 @@ const EmployeeList = () => {
 
   useEffect(() => {
     setUpperDashList(employeesData)
+    setPanelList(employeesData)
   }, [employeesData])
 
   //Pagination:
