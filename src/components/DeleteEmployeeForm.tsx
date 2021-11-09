@@ -1,9 +1,10 @@
 import axios from 'axios'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { EmployeesContext } from '../context/EmployeesContext'
+import BasicErrorMessage from './misc/BasicErrorMessage'
 
 //stlying:
 const MainContainer = styled.div`
@@ -61,38 +62,50 @@ interface Props {
 }
 
 const DeleteEmployeeForm = ({deleteModalStatus, setDeleteModalStatus}: Props) => {
-  const {register, handleSubmit} = useForm()
+  const {register, handleSubmit, reset} = useForm()
   const {employeesData, setEmployeesData} = useContext(EmployeesContext)
-
+  const [showSearchError, setShowSearchError] = useState(false)
+  
   const processForm = async (data: any) => {
     console.log(data.name)
     const employeeToDelete= employeesData.find(employee => {
       return employee.name === data.name
     })
     if(employeeToDelete === undefined){
-      alert('Employee was not found!')
+      setShowSearchError(true)
     } else {
       const response = await axios.delete(`http://localhost:3005/employees/delete/${employeeToDelete.id}`)
       setEmployeesData(response.data)
       setDeleteModalStatus(false)
+      setShowSearchError(false)
+      reset()
     }
   }
 
   return (
     <Modal
       style={{maxHeight: 470, width: 510}}
-      onClose={() => setDeleteModalStatus(false)}
+      onClose={() => {
+        setDeleteModalStatus(false) 
+        setShowSearchError(false)
+        reset()
+      }}
       onOpen={() => setDeleteModalStatus(true)}
       open={deleteModalStatus}
     >
     <MainContainer>
-      <Form onSubmit={handleSubmit(processForm)}>
+      <Form autoComplete="off" onSubmit={handleSubmit(processForm)}>
         <Form.Field>
           <label>Alias of the member that should be deleted:</label>
-          <input {...register('name')} />
+          <input {...register('name',{ required: true })} />
+          <BasicErrorMessage text={'Employee was not found'} visibility={showSearchError} />
         </Form.Field>
         <BtnContainer>
-          <CancelBtn type='button' onClick={() => setDeleteModalStatus(false)}>Cancel</CancelBtn>
+          <CancelBtn type='button' onClick={() => {
+            setDeleteModalStatus(false) 
+            setShowSearchError(false) 
+            reset()}}
+          >Cancel</CancelBtn>
           <DeleteBtn type='submit'>Delete</DeleteBtn>
         </BtnContainer>
       </Form>
