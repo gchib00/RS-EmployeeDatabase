@@ -6,11 +6,12 @@ import TypesDropdownForForm from './dropdowns/TypesDropdownForForm'
 import { useForm } from "react-hook-form";
 import axios from 'axios'
 import { EmployeesContext } from '../context/EmployeesContext'
+import BasicErrorMessage from './misc/BasicErrorMessage'
 
 //styling:
 const MainContainer = styled.div`
   width: 390px;
-  max-height: 400px;
+  max-height: 420px;
   margin: 40px auto 40px auto;
 `
 const FirstDiv = styled.div`
@@ -91,8 +92,9 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
   const [selectedDepartment, setSelectedDepartment] = useState('')
   const [selectedTeam, setSelectedTeam] = useState<string|undefined>(undefined)
   const [selectedType, setSelectedType] = useState<string|undefined>(undefined)
+  const [showReqError, setShowReqError] = useState(false)
   const {setEmployeesData} = useContext(EmployeesContext)
-  const {register, handleSubmit} = useForm()
+  const {register, handleSubmit, reset} = useForm()
   
   const processFormData = async (data: Record<string, unknown>) => {
     //adding team & type separately from form hooks because it's not compatable with semantic ui:
@@ -110,26 +112,33 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
         length: data.shiftDuration
       }
     }
-    const response = await axios.post('http://localhost:3005/employees/add', requestObj)
-    setEmployeesData(response.data)
-    setFormModalStatus(false)
+    try {
+      const response = await axios.post('http://localhost:3005/employees/add', requestObj)
+      console.log('response from server = ', response)
+      setEmployeesData(response.data)
+      setFormModalStatus(false)
+      setShowReqError(false)
+      reset()
+    } catch {
+      setShowReqError(true)
+    }
   }
 
   return (
     <Modal
-    style={{maxHeight: 470, width: 510}}
-      onClose={() => setFormModalStatus(false)}
+    style={{maxHeight: 540, width: 510}}
+      onClose={() => {setFormModalStatus(false); reset()}}
       onOpen={() => setFormModalStatus(true)}
       open={formModalStatus}
     > 
     <MainContainer>
       <Form onSubmit={handleSubmit(processFormData)}>
         <FirstDiv>
-          <Form.Field>
+          <Form.Field required>
             <label>Alias Name:</label>
-            <input placeholder='Alias Name...' {...register('name')} />
+            <input placeholder='Alias Name...' {...register('name',{required: true})} />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Department:</label>
             <Dropdown
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -151,9 +160,9 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
         </SecondDiv>
         <ThirdDiv>
           <ContactInfo>
-            <Form.Field>
+            <Form.Field required>
               <label>Email:</label>
-              <input placeholder='Email...' {...register('email')} />
+              <input placeholder='Email...' {...register('email',{required: true})} />
             </Form.Field>
             <Form.Field>
               <label>Phone:</label>
@@ -161,18 +170,19 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
             </Form.Field>
           </ContactInfo>
           <ShiftInfo>
-            <Form.Field>
+            <Form.Field required>
               <label>Shift start:</label>
-              <input type='time' defaultValue='10:00' style={{height: 37}} {...register('shiftStart')} />
+              <input type='time' defaultValue='10:00' style={{height: 37}} {...register('shiftStart',{required: true})} />
             </Form.Field>
-            <Form.Field>
+            <Form.Field required>
               <label>Shift duration (in hours):</label>
-              <input type='number' min='0' max='24' defaultValue='8' {...register('shiftDuration')} />
+              <input type='number' min='0' max='24' defaultValue='8' {...register('shiftDuration',{required: true})} />
             </Form.Field>
           </ShiftInfo>
         </ThirdDiv>
+        <BasicErrorMessage text='All the required(*) fields must be filled' visibility={showReqError} />
         <BtnContainer>
-          <CancelBtn type='button' onClick={() => setFormModalStatus(false)}>Cancel</CancelBtn>
+          <CancelBtn type='button' onClick={() => {setFormModalStatus(false); reset()}}>Cancel</CancelBtn>
           <SubmitBtn type='submit'>Submit</SubmitBtn> 
         </BtnContainer>
       </Form>

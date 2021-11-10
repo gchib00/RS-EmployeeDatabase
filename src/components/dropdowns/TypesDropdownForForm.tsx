@@ -71,7 +71,7 @@ const TypesDropdownForForm = ({selectedDepartment, setSelectedType}: Props) => {
   return (
     <DropdownContainer>
       <strong style={{marginBottom: 5}}>
-        Type:
+        Type:<span style={{color: 'red'}}>*</span>
       </strong>
       <Dropdown
         disabled={dropdownDisabled}

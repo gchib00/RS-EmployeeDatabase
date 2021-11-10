@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
@@ -60,14 +60,16 @@ interface Props {
   deleteModalStatus: boolean;
   setDeleteModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
+interface DataFromForm {
+  name: string;
+}
 
 const DeleteEmployeeForm = ({deleteModalStatus, setDeleteModalStatus}: Props) => {
   const {register, handleSubmit, reset} = useForm()
   const {employeesData, setEmployeesData} = useContext(EmployeesContext)
   const [showSearchError, setShowSearchError] = useState(false)
   
-  const processForm = async (data: any) => {
-    console.log(data.name)
+  const processForm = async (data: DataFromForm) => {
     const employeeToDelete= employeesData.find(employee => {
       return employee.name === data.name
     })

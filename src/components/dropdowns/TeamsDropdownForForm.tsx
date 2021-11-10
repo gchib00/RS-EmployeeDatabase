@@ -84,7 +84,7 @@ const TeamsDropdownForForm = ({selectedDepartment, setSelectedTeam}: Props) => {
   return (
     <DropdownContainer>
       <strong style={{marginBottom: 5}}>
-        {getTitle()}
+        {getTitle()}<span style={{color: 'red'}}>*</span>
       </strong>
       <Dropdown
         disabled={dropdownDisabled}
