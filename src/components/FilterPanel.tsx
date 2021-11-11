@@ -7,6 +7,7 @@ import DepartmentDropdown from './dropdowns/DepartmentDropdown'
 import TeamsDropdown from './dropdowns/TeamsDropdown'
 import AddEmployeeForm from './AddEmployeeForm'
 import DeleteEmployeeForm from './DeleteEmployeeForm'
+import CreateTeamsBtn from './CreateTeamsBtn'
 
 //Styling:
 const MainContainer = styled.div`
@@ -16,7 +17,7 @@ const MainContainer = styled.div`
   margin: 10px 0px 10px 0px;
   padding: 14px;
   width: 360px;
-  height: 300px;
+  height: 280px;
 `
 const BtnContainer = styled.div`
   display: flex;
@@ -130,6 +131,7 @@ const FilterPanel = ({setPanelList}: Props) => {
       <TeamsDropdown dept='editing' setFilteredArr={setFilteredByEditingTeam} selectedDepartment={selectedDepartment}/> 
       <TeamsDropdown dept='cs' setFilteredArr={setFilteredByCSTeam} selectedDepartment={selectedDepartment}/>
       <TeamsDropdown dept='operations' setFilteredArr={setFilteredBySubDep} selectedDepartment={selectedDepartment}/>
+      <CreateTeamsBtn />
     </MainContainer>
     <BtnContainer>
       <AddMemberBtn onClick={() => setFormModalStatus(true)}>Add a New Member</AddMemberBtn>

@@ -13,7 +13,7 @@ const MainContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 1000px;
-  margin: 40px;
+  margin: 40px auto 40px auto;
 `
 const FirstDiv = styled.div`
   display: flex;

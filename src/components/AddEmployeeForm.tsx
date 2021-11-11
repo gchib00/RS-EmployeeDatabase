@@ -132,7 +132,7 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
       open={formModalStatus}
     > 
     <MainContainer>
-      <Form onSubmit={handleSubmit(processFormData)}>
+      <Form autoComplete="off" onSubmit={handleSubmit(processFormData)}>
         <FirstDiv>
           <Form.Field required>
             <label>Alias Name:</label>
