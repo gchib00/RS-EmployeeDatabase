@@ -114,7 +114,6 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
     }
     try {
       const response = await axios.post('http://localhost:3005/employees/add', requestObj)
-      console.log('response from server = ', response)
       setEmployeesData(response.data)
       setFormModalStatus(false)
       setShowReqError(false)

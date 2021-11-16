@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import logo from '../static/images/logo.png'
+import { Link } from "react-router-dom";
 
 const Header = styled.header`
   background-color: white;
@@ -25,7 +26,7 @@ const Nav = styled.nav`
   justify-content: space-evenly;
   align-items: center;
 `
-const NavItem = styled.a`
+const NavItem = styled(Link)`
   color: #cc1b1b;
   border-bottom: 2px solid white;
   min-width: 80px;
@@ -44,9 +45,9 @@ const Navbar = () => {
     <Header>
       <Logo src={logo} />
       <Nav>
-        <NavItem href="#">Trainees</NavItem>
-        <NavItem href="#">Requests</NavItem>
-        <NavItem href="#">Login</NavItem>
+        <NavItem to="/">Trainees</NavItem>
+        <NavItem to="/">Voting</NavItem>
+        <NavItem to="/login">Login</NavItem>
       </Nav>
     </Header>
   )

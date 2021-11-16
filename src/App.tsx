@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import EmployeeList from './components/EmployeeList'
+import LoginPage from './components/LoginPage'
+import axios from 'axios'
 import { StandardEmployeeType } from './types'
 import { EmployeesContext } from './context/EmployeesContext'
-import axios from 'axios'
 import { Loader } from 'semantic-ui-react'
+import {Route, Routes} from "react-router-dom";
 
 const App = () => {
   const [employeesData, setEmployeesData] = useState<StandardEmployeeType[]>([])
-  console.log('emoloyeesData = ', employeesData)
 
   const fetchEmployees = async () => {
     try{
@@ -26,7 +27,10 @@ const App = () => {
   return(
     <EmployeesContext.Provider value={{employeesData, setEmployeesData}}>
       <Navbar />
-      {employeesData.length === 0 ? <Loader active /> :<EmployeeList />}
+      <Routes>
+        <Route path='/' element={employeesData.length === 0 ? <Loader active /> :<EmployeeList />} />
+        <Route path='/login' element={<LoginPage />} />
+      </Routes>
     </EmployeesContext.Provider>
   );
 }
