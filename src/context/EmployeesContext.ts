@@ -6,4 +6,4 @@ interface EmployeesListProp {
   setEmployeesData: React.Dispatch<React.SetStateAction<StandardEmployeeType[]>>
 }
 
-export const EmployeesContext = createContext<EmployeesListProp>({} as EmployeesListProp)
+export const EmployeesContext = createContext({} as EmployeesListProp)

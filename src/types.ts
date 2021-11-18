@@ -1,3 +1,4 @@
+//Employees:
 export interface EmployeeBase {
   id: string;
   name: string;
@@ -10,24 +11,20 @@ export interface EmployeeBase {
     length: number;
   }
 }
-
 export interface EmployeeEditor extends EmployeeBase {
   department: AcceptableDepartment.editing;
   team?: string;
   type: EditorEmployeeType;
 }
-
 export interface EmployeeCS extends EmployeeBase {
   department: AcceptableDepartment.cs;
   team?: string;
   type: CSEmployeeType;
 }
-
 export interface EmployeeOperation extends EmployeeBase {
   department: AcceptableDepartment.operations;
   subDepartment: AcceptableSubDepartment;
 }
-
 export enum CSEmployeeType {
   agent = 'Agent', 
   foreignLanguageAgent = 'Foreign Language Agent',
@@ -51,3 +48,12 @@ export enum AcceptableDepartment {
   editing = 'editing'
 }
 export type StandardEmployeeType = EmployeeOperation | EmployeeCS | EmployeeEditor;
+
+//Users:
+export interface LoggedUser {
+  _id: string,
+  username: string,
+  email: string,
+  password: string,
+  adminRights: boolean
+}

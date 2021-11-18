@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import logo from '../static/images/logo.png'
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
+//styling:
 const Header = styled.header`
   background-color: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -39,15 +40,18 @@ const NavItem = styled(Link)`
     border-bottom: 3px solid #cc1b1b;
   }
 `
+//////////
 
 const Navbar = () => { 
+  const loggedUser = localStorage.getItem('loggedUser')
+
   return(
     <Header>
       <Logo src={logo} />
       <Nav>
         <NavItem to="/">Trainees</NavItem>
-        <NavItem to="/">Voting</NavItem>
-        <NavItem to="/login">Login</NavItem>
+        <NavItem to="/votes">Voting</NavItem>
+        {!loggedUser ? <NavItem to="/login">Login</NavItem> : null}
       </Nav>
     </Header>
   )
