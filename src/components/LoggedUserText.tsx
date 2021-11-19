@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
+import { UserContext } from '../context/UserContext'
 import { LogoutModal } from './LogoutModal'
 
 //styles:
@@ -13,12 +14,12 @@ const MainContainer = styled.div`
 
 export const LoggedUserText = () => {
   const [logoutModalStatus, setLogoutModalStatus] = useState<boolean>(false)
-  const loggedUser = JSON.parse(localStorage.getItem('loggedUser') as string)
+  const {user} = useContext(UserContext)
 
-  if (!loggedUser) {return null}
+  if (!user) {return null}
   return (
     <MainContainer>
-      <p>Logged in as {loggedUser.username}.</p>
+      <p>Logged in as {user.username}.</p>
       <LogoutModal logoutModalStatus={logoutModalStatus} setLogoutModalStatus={setLogoutModalStatus} />
     </MainContainer>
   )

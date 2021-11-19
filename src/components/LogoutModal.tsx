@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { UserContext } from '../context/UserContext'
 
 //styling:
 const Logout = styled.p`
@@ -54,9 +55,10 @@ interface Props {
 }
 
 export const LogoutModal = ({logoutModalStatus, setLogoutModalStatus}: Props) => {
+  const {setUser} = useContext(UserContext)
 
   const handleLogout = () => {
-    localStorage.removeItem('loggedUser')
+    setUser(undefined)
     setLogoutModalStatus(false)
   }
 

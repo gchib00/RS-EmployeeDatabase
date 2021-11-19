@@ -8,17 +8,17 @@ import { EmployeesContext } from './context/EmployeesContext'
 import { Loader } from 'semantic-ui-react'
 import {Route, Routes} from "react-router-dom"
 import { LoggedUserText } from './components/LoggedUserText'
+import { UserContext } from './context/UserContext'
+
+const initializeUserData = () => {
+  const localData = localStorage.getItem('loggedUser') as string
+  if (localData === "undefined" || undefined){return undefined}
+  return localData ? JSON.parse(localData) : undefined
+}
 
 const App = () => {
   const [employeesData, setEmployeesData] = useState<StandardEmployeeType[]>([])
-  const loggedUser: LoggedUser|undefined = JSON.parse(localStorage.getItem('loggedUser') as string)
-
-  useEffect(() => {
-    console.log('from App:',loggedUser)
-  }, [loggedUser])
-
-  
-
+  const [user, setUser] = useState<LoggedUser|undefined>(initializeUserData())
 
   const fetchEmployees = async () => {
     try {
@@ -28,21 +28,30 @@ const App = () => {
       console.error(e)
     }
   }
-  useEffect(() => {
+  useEffect(() => { //fetch employee data on app start 
     if(employeesData.length == 0 || (!employeesData)) {
       fetchEmployees()
     }
   },[])
+
+  useEffect(() => {
+    // if(!user){localStorage.removeItem('loggedUser')}
+    localStorage.setItem('loggedUser', JSON.stringify(user))
+  }, [user])
+
+
   return(
+    <UserContext.Provider value={{user, setUser}}>
     <EmployeesContext.Provider value={{employeesData, setEmployeesData}}>
       <Navbar />
       <LoggedUserText />
       <Routes>
         <Route path='/' element={employeesData.length === 0 ? <Loader active /> :<EmployeeList />} />
-        <Route path='/login' element={loggedUser ? null : <AuthPage />} />
+        <Route path='/login' element={user ? null : <AuthPage />} />
         {/* <Route path='/votes' element={<Votes />} /> */}
       </Routes>
     </EmployeesContext.Provider>
+    </UserContext.Provider>
   );
 }
 

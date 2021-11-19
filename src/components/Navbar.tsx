@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import logo from '../static/images/logo.png'
 import { Link } from "react-router-dom"
+import { UserContext } from '../context/UserContext'
 
 //styling:
 const Header = styled.header`
@@ -43,7 +44,7 @@ const NavItem = styled(Link)`
 //////////
 
 const Navbar = () => { 
-  const loggedUser = localStorage.getItem('loggedUser')
+  const {user} = useContext(UserContext)
 
   return(
     <Header>
@@ -51,7 +52,7 @@ const Navbar = () => {
       <Nav>
         <NavItem to="/">Trainees</NavItem>
         <NavItem to="/votes">Voting</NavItem>
-        {!loggedUser ? <NavItem to="/login">Login</NavItem> : null}
+        {!user ? <NavItem to="/login">Login</NavItem> : null}
       </Nav>
     </Header>
   )
