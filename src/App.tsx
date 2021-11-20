@@ -12,8 +12,8 @@ import { UserContext } from './context/UserContext'
 
 const initializeUserData = () => {
   const localData = localStorage.getItem('loggedUser') as string
-  if (localData === "undefined" || undefined){return undefined}
-  return localData ? JSON.parse(localData) : undefined
+  if (localData !== 'undefined') {return JSON.parse(localData)}
+  return undefined
 }
 
 const App = () => {
