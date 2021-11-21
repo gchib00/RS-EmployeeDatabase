@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { Checkbox, Form } from 'semantic-ui-react'
 import styled from 'styled-components'
 import BasicErrorMessage from './misc/BasicErrorMessage'
+import { useNavigate } from 'react-router-dom'
 
 //styling:
 const RegisterBtn = styled.button`
@@ -36,6 +37,7 @@ export const RegistrationForm = () => {
   const [adminRights, setAdminRights] = useState<boolean>(false)
   const [errorMsg, setErrorMsg] = useState<string>('')
   const [errorVisibility, setErrorVisibility] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   const registrationFormSubmit = async (data: any) => {
     setErrorVisibility(false)
@@ -47,9 +49,17 @@ export const RegistrationForm = () => {
       password: data.password1,
       adminRights: adminRights
     }
-    // console.log('registration data:', processedData)
     try {
       await axios.post('http://localhost:3005/auth/register', processedData)
+      // try {
+      //   await axios.post('http://localhost:3005/auth/login', { //auto-login after registration
+      //     username: processedData.username,
+      //     password: processedData.password
+      //   })
+      //   navigate('/', {replace: true})
+      // } catch (err: any) {
+      //   console.error('couldnt auto-login:', err)
+      // }
     } catch (err: any) {
       setErrorMsg(err.response.data)
       setErrorVisibility(true)

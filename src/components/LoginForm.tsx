@@ -40,7 +40,6 @@ export const LoginForm = () => {
   const navigate = useNavigate()
 
   const lognFormSubmit = async (data: any) => {
-    // console.log('login data:', data)
     try {
       const response = await axios.post('http://localhost:3005/auth/login', data)
       localStorage.setItem('userToken', response.data.token)
