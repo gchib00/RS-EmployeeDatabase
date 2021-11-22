@@ -69,7 +69,7 @@ export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, departmen
   
   const processFormData = async (data: any) => {
     const teamLeader = employeesData.find(employee => employee.name === data.teamLeader)
-    if(!teamLeader){return setErrorMsg(`${teamLeader} was not found. Please use an existing alias.`)}
+    if(!teamLeader){return setErrorMsg(`Alias was not found. Please use an existing alias.`)}
     const newObj = {
       team: data.newTeamName,
       leader: data.teamLeader,
@@ -78,6 +78,8 @@ export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, departmen
     try {
       const response = await axios.patch(`http://localhost:3005/employees/createTeam/${teamLeader.id}`, newObj)
       setEmployeesData(response.data)
+      //reset form and close it:
+      reset(); setErrorMsg(''); setFormModalStatus(false)
     } catch (err: any) {
       setErrorMsg(err.response.data)
     }
@@ -86,7 +88,7 @@ export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, departmen
   return (
     <Modal
     style={{maxHeight: 400, width: 480}}
-      onClose={() => {setFormModalStatus(false); reset()}}
+      onClose={() => {setFormModalStatus(false); reset(); setErrorMsg('')}}
       onOpen={() => setFormModalStatus(true)}
       open={formModalStatus}
     > 
@@ -100,13 +102,17 @@ export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, departmen
           <label>Team Leader (must be an existing member):</label>
           <input {...register('teamLeader')} />
         </Form.Field>
+        <BasicErrorMessage text={errorMsg} visibility={true} />
         <BtnContainer>
-          <CancelBtn type='button' onClick={() => {setFormModalStatus(false); reset()}}>Cancel</CancelBtn>
+          <CancelBtn type='button' onClick={() => {
+            setFormModalStatus(false)
+            setErrorMsg('')
+            reset()}}>Cancel
+          </CancelBtn>
           <SubmitBtn type='submit'>Submit</SubmitBtn> 
         </BtnContainer>
       </Form>
     </MainContainer>
-    <BasicErrorMessage text={errorMsg} visibility={true} />
     </Modal>
   )
 }
