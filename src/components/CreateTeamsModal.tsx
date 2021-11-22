@@ -1,7 +1,10 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { EmployeesContext } from '../context/EmployeesContext'
+import BasicErrorMessage from './misc/BasicErrorMessage'
 
 //styling:
 const MainContainer = styled.div`
@@ -61,6 +64,25 @@ interface Props {
 
 export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, department}: Props) => {
   const {register, handleSubmit, reset} = useForm()
+  const {employeesData, setEmployeesData} = useContext(EmployeesContext)
+  const [errorMsg, setErrorMsg] = useState<string>('')
+  
+  const processFormData = async (data: any) => {
+    const teamLeader = employeesData.find(employee => employee.name === data.teamLeader)
+    if(!teamLeader){return setErrorMsg(`${teamLeader} was not found. Please use an existing alias.`)}
+    const newObj = {
+      team: data.newTeamName,
+      leader: data.teamLeader,
+      department: department
+    }
+    try {
+      const response = await axios.patch(`http://localhost:3005/employees/createTeam/${teamLeader.id}`, newObj)
+      setEmployeesData(response.data)
+    } catch (err: any) {
+      setErrorMsg(err.response.data)
+    }
+  }
+
   return (
     <Modal
     style={{maxHeight: 400, width: 480}}
@@ -69,14 +91,14 @@ export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, departmen
       open={formModalStatus}
     > 
     <MainContainer>
-      <Form autoComplete="off" onSubmit={handleSubmit(() => alert(`new team should be added in ${department}`))}>
+      <Form autoComplete="off" onSubmit={handleSubmit(processFormData)}>
         <Form.Field>
           <label style={{marginBottom: 5}}>Name of the new {department === 'cs' ? 'CS' : 'editor' } team:</label>
           <input {...register('newTeamName')} />
         </Form.Field>
         <Form.Field>
           <label>Team Leader (must be an existing member):</label>
-          <input {...register('newTeamName')} />
+          <input {...register('teamLeader')} />
         </Form.Field>
         <BtnContainer>
           <CancelBtn type='button' onClick={() => {setFormModalStatus(false); reset()}}>Cancel</CancelBtn>
@@ -84,6 +106,7 @@ export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, departmen
         </BtnContainer>
       </Form>
     </MainContainer>
+    <BasicErrorMessage text={errorMsg} visibility={true} />
     </Modal>
   )
 }
