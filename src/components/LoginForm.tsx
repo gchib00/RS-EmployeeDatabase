@@ -41,6 +41,7 @@ export const LoginForm = () => {
 
   const lognFormSubmit = async (data: any) => {
     try {
+      console.log('login data=', data)
       const response = await axios.post('http://localhost:3005/auth/login', data)
       localStorage.setItem('userToken', response.data.token)
       setUser(response.data.user)

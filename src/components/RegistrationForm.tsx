@@ -1,10 +1,11 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Checkbox, Form } from 'semantic-ui-react'
 import styled from 'styled-components'
 import BasicErrorMessage from './misc/BasicErrorMessage'
 import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
 
 //styling:
 const RegisterBtn = styled.button`
@@ -34,6 +35,7 @@ const ErrorContainer = styled.div`
 
 export const RegistrationForm = () => {
   const {register, handleSubmit} = useForm()
+  const {setUser} = useContext(UserContext)
   const [adminRights, setAdminRights] = useState<boolean>(false)
   const [errorMsg, setErrorMsg] = useState<string>('')
   const [errorVisibility, setErrorVisibility] = useState<boolean>(false)
@@ -51,15 +53,16 @@ export const RegistrationForm = () => {
     }
     try {
       await axios.post('http://localhost:3005/auth/register', processedData)
-      // try {
-      //   await axios.post('http://localhost:3005/auth/login', { //auto-login after registration
-      //     username: processedData.username,
-      //     password: processedData.password
-      //   })
-      //   navigate('/', {replace: true})
-      // } catch (err: any) {
-      //   console.error('couldnt auto-login:', err)
-      // }
+      try {
+        const response = await axios.post('http://localhost:3005/auth/login', { //auto-login after registration
+          username: processedData.username,
+          password: processedData.password
+        })
+        setUser(response.data.user)
+        navigate('/', {replace: true})
+      } catch (err: any) {
+        console.error('couldnt auto-login:', err)
+      }
     } catch (err: any) {
       setErrorMsg(err.response.data)
       setErrorVisibility(true)
