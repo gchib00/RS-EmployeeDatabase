@@ -80,6 +80,18 @@ const EmployeeCard = ({employee}: Props) => {
       return <div><Icon name='wait' size='small'/> {shiftStart} - {shiftEnd}</div> 
     }
   }
+  const employeeTeam = () => {
+    let team: string | undefined= ''
+    switch(employee.department) {
+      case('operations'): {team = employee.subDepartment; break}
+      case('cs'): {team = employee.team; break}
+      case('editing'): {team = employee.team; break}
+    }
+    if (!team || team === 'Other' || team === 'None') { 
+      return null
+    }
+    return <div style={{marginBottom: 10}}><Icon name='group' size='small' /> {team}</div>
+  }
 
 
   return(
@@ -94,6 +106,7 @@ const EmployeeCard = ({employee}: Props) => {
       <Divider style={{marginTop: 5}} />
       <CardDiv>
         <div>
+          <div>{employeeTeam()}</div>
           <div style={{marginBottom: 10}}><Icon name='mail' size='small'/> {employee.email}</div>
           <div>{workingHours()}</div>
         </div>

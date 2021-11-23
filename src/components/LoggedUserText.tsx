@@ -9,7 +9,7 @@ const MainContainer = styled.div`
   justify-content: flex-end;
   flex-direction: row;
   font-family: 'Montserrat', sans-serif;
-  margin: 8px;
+  margin: 8px 20px 8px 8px;
 `
 
 export const LoggedUserText = () => {

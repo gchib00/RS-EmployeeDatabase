@@ -50,8 +50,8 @@ const Navbar = () => {
     <Header>
       <Logo src={logo} />
       <Nav>
-        <NavItem to="/">Trainees</NavItem>
-        <NavItem to="/votes">Voting</NavItem>
+        <NavItem to="/">Main</NavItem>
+        <NavItem to="/trainees">Trainees</NavItem>
         {!user ? <NavItem to="/login">Login</NavItem> : null}
       </Nav>
     </Header>
