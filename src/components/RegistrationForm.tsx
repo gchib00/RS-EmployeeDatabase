@@ -70,19 +70,19 @@ export const RegistrationForm = () => {
   }
 
   return (
-    <Form onSubmit={handleSubmit(registrationFormSubmit)} style={{margin: 'auto'}} autoComplete="off">
+    <Form onSubmit={handleSubmit(registrationFormSubmit)} style={{margin: 'auto'}}>
       <h4 style={{textAlign: 'center'}}>Register a new user</h4>
       <Form.Field>
-        <input placeholder='Choose Username' {...register('username')} style={{width:240}} />
+        <input placeholder='Choose Username' {...register('username')} style={{width:240}} autoComplete="username"/>
       </Form.Field>
       <Form.Field>
-        <input type='email' placeholder='Email' {...register('email')} style={{width:240}} />
+        <input type='email' placeholder='Email' {...register('email')} style={{width:240}} autoComplete="email"/>
       </Form.Field>
       <Form.Field>
-        <input type='password' placeholder='Choose Password' {...register('password1')} style={{width:240}} />
+        <input type='password' placeholder='Choose Password' {...register('password1')} style={{width:240}} autoComplete="new-password"/>
       </Form.Field>
       <Form.Field>
-        <input type='password' placeholder='Repeat Password' {...register('password2')} style={{width:240}} />
+        <input type='password' placeholder='Repeat Password' {...register('password2')} style={{width:240}} autoComplete="new-password"/>
       </Form.Field>
       <Form.Field>
         <Checkbox 

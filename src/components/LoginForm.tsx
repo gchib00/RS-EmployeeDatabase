@@ -52,13 +52,13 @@ export const LoginForm = () => {
   }
   
   return (
-    <Form onSubmit={handleSubmit(lognFormSubmit)} style={{margin: 'auto'}} autoComplete="off"  onClick={() => setErrorVisibility(false)}>
+    <Form onSubmit={handleSubmit(lognFormSubmit)} style={{margin: 'auto'}} onClick={() => setErrorVisibility(false)}>
       <h4 style={{textAlign: 'center'}}>Login with an existing user</h4>
       <Form.Field>
-          <input placeholder='Username' {...register('username')} style={{width:240}}/>
+          <input placeholder='Username' {...register('username')} style={{width:240}} autoComplete="username"/>
         </Form.Field>
         <Form.Field>
-          <input type='password' placeholder='Password' {...register('password')} />
+          <input type='password' placeholder='Password' {...register('password')} autoComplete="password"/>
       </Form.Field>
       <LoginBtn type='submit'>Login</LoginBtn>
       <ErrorContainer>
