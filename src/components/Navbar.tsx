@@ -51,7 +51,7 @@ const Navbar = () => {
       <Logo src={logo} />
       <Nav>
         <NavItem to="/">Main</NavItem>
-        <NavItem to="/trainees">Trainees</NavItem>
+        <NavItem to="/faq">FAQ</NavItem>
         {!user ? <NavItem to="/login">Login</NavItem> : null}
       </Nav>
     </Header>

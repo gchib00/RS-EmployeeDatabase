@@ -9,7 +9,7 @@ import { Loader } from 'semantic-ui-react'
 import {Route, Routes} from "react-router-dom"
 import { LoggedUserText } from './components/LoggedUserText'
 import { UserContext } from './context/UserContext'
-import { TraineesPage } from './components/TraineesPage'
+import { FAQPage } from './components/FAQPage'
 
 const initializeUserData = () => {
   const localData = localStorage.getItem('loggedUser') as string
@@ -48,7 +48,7 @@ const App = () => {
       <LoggedUserText />
       <Routes>
         <Route path='/' element={employeesData.length === 0 ? <Loader active /> :<EmployeeList />} />
-        <Route path='/trainees' element={<TraineesPage />} />
+        <Route path='/faq' element={<FAQPage />} />
         <Route path='/login' element={user ? null : <AuthPage />} />
         {/* <Route path='/votes' element={<Votes />} /> */}
       </Routes>
