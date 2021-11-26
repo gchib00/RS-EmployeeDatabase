@@ -1,9 +1,7 @@
-import axios from 'axios'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
-import { EmployeesContext } from '../context/EmployeesContext'
 import BasicErrorMessage from './misc/BasicErrorMessage'
 
 //styling:
@@ -54,58 +52,46 @@ const CancelBtn = styled.button`
     opacity: 0.25;
   }
 `
-////////
+////////////
 
-interface Props {
-  formModalStatus: boolean;
-  setFormModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
-  department: string;
+interface Props { 
+  addFormModalStatus: boolean;
+  setAddFormModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, department}: Props) => {
-  const {register, handleSubmit, reset} = useForm()
-  const {employeesData, setEmployeesData} = useContext(EmployeesContext)
+export const AddFAQForm = ({addFormModalStatus, setAddFormModalStatus}: Props) => {
   const [errorMsg, setErrorMsg] = useState<string>('')
+  const {register, handleSubmit, reset} = useForm()
   
-  const processFormData = async (data: any) => {
-    const teamLeader = employeesData.find(employee => employee.name === data.teamLeader)
-    if(!teamLeader){return setErrorMsg(`Alias was not found. Please use an existing alias.`)}
-    const newObj = {
-      team: data.newTeamName,
-      leader: data.teamLeader,
-      department: department
+  const processFormData = (data: any) => {
+    const FAQ_Object = {
+      question: data.question,
+      answer: data.answer
     }
-    try {
-      const response = await axios.patch(`http://localhost:3005/employees/createTeam/${teamLeader.id}`, newObj)
-      setEmployeesData(response.data)
-      //reset form and close it:
-      reset(); setErrorMsg(''); setFormModalStatus(false)
-    } catch (err: any) {
-      setErrorMsg(err.response.data)
-    }
+    console.log(FAQ_Object)
   }
 
   return (
     <Modal
       style={{maxHeight: 400, width: 480}}
-      onClose={() => {setFormModalStatus(false); reset(); setErrorMsg('')}}
-      onOpen={() => setFormModalStatus(true)}
-      open={formModalStatus}
-    > 
+      onClose={() => {setAddFormModalStatus(false); reset(); setErrorMsg('')}}
+      onOpen={() => setAddFormModalStatus(true)}
+      open={addFormModalStatus}
+    >
     <MainContainer>
-      <Form autoComplete="off" onSubmit={handleSubmit(processFormData)}>
+      <Form onSubmit={handleSubmit(processFormData)}>
         <Form.Field>
-          <label style={{marginBottom: 5}}>Name of the new {department === 'cs' ? 'CS' : 'editor' } team:</label>
-          <input {...register('newTeamName')} />
+          <label>Question</label>
+          <input placeholder='Question for your new FAQ item' {...register('question')} />
         </Form.Field>
         <Form.Field>
-          <label>Team Leader (must be an existing member):</label>
-          <input {...register('teamLeader')} />
+          <label>Answer</label>
+          <input placeholder='Answer for your new FAQ item' {...register('answer')} />
         </Form.Field>
         <BasicErrorMessage text={errorMsg} visibility={true} />
         <BtnContainer>
           <CancelBtn type='button' onClick={() => {
-            setFormModalStatus(false)
+            setAddFormModalStatus(false)
             setErrorMsg('')
             reset()}}>Cancel
           </CancelBtn>
