@@ -57,3 +57,9 @@ export interface LoggedUser {
   password: string,
   adminRights: boolean
 }
+
+//FAQ:
+export interface FAQItemType {
+  question: string;
+  answer: string;
+}

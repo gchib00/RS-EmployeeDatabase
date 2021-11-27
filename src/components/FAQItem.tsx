@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { Icon } from 'semantic-ui-react'
+import { Divider, Icon } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { FAQItemType } from '../types'
+import { DeleteFAQModal } from './DeleteFAQModal'
 
 //styling:
 const FAQCard = styled.div`
@@ -31,25 +33,44 @@ const Question = styled.p`
 `
 const AnswerContainer = styled.div`
   margin-top: 10px;
+  margin: 20px 0px 5px 0px;
 `
 const Answer = styled.p`
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
+`
+const DeleteFAQBtn = styled.p`
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  position: relative;
+  left: 93%;
+  height: 0;
+  bottom: 12px;
+  cursor: pointer;
+  text-decoration: underline grey;
+  color: grey;
 `
 /////////
 
 interface Props {
   answer: string;
   question: string;
+  FAQItems: FAQItemType[];
 }
 
-export const FAQItem = ({answer, question}: Props) => {
+export const FAQItem = ({answer, question, FAQItems}: Props) => {
   const [visibility, setVisibility] = useState<'none'|'block'>('none')
   const [chevron, setChevron] = useState<'chevron down'|'chevron up'>('chevron down')
-  
+  const [deleteModalStatus, setDeleteModalStatus] = useState<boolean>(false)
+
   const handleCardClick = () => {
     setChevron(visibility === 'none' ? 'chevron up' : 'chevron down')
     setVisibility(visibility === 'none' ? 'block' : 'none')
+  }
+
+  const deleteItem = (e: any) => {
+    e.stopPropagation()
+    setDeleteModalStatus(true)
   }
 
   return (
@@ -60,7 +81,9 @@ export const FAQItem = ({answer, question}: Props) => {
       </QuestionContainer>
       <AnswerContainer style={{display: visibility}}>
         <Answer>{answer}</Answer>
+        <DeleteFAQBtn onClick={(e)=> deleteItem(e)}>Delete FAQ</DeleteFAQBtn>
       </AnswerContainer>
+      <DeleteFAQModal deleteModalStatus={deleteModalStatus} setDeleteModalStatus={setDeleteModalStatus} FAQItems={FAQItems} />
     </FAQCard>
   )
 }

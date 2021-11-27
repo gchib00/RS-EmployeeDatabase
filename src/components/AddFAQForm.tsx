@@ -1,7 +1,9 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { FAQItemType } from '../types'
 import BasicErrorMessage from './misc/BasicErrorMessage'
 
 //styling:
@@ -57,18 +59,25 @@ const CancelBtn = styled.button`
 interface Props { 
   addFormModalStatus: boolean;
   setAddFormModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  setFAQItems: React.Dispatch<React.SetStateAction<FAQItemType[] | undefined>>;
 }
 
-export const AddFAQForm = ({addFormModalStatus, setAddFormModalStatus}: Props) => {
+export const AddFAQForm = ({addFormModalStatus, setAddFormModalStatus, setFAQItems}: Props) => {
   const [errorMsg, setErrorMsg] = useState<string>('')
   const {register, handleSubmit, reset} = useForm()
   
-  const processFormData = (data: any) => {
+  const processFormData = async (data: any) => {
     const FAQ_Object = {
       question: data.question,
       answer: data.answer
     }
-    console.log(FAQ_Object)
+    try {
+      const resposne = await axios.post('http://localhost:3005/faq/add', FAQ_Object)
+      setFAQItems(resposne.data) //pass updated list to the state
+      setAddFormModalStatus(false); reset(); setErrorMsg('') //set form settings to default after submit
+    } catch (err: any) {
+      setErrorMsg(err.response.data)
+    }
   }
 
   return (

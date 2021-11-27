@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
-import { Button, Input } from 'semantic-ui-react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { Button, Input, Loader } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { FAQItemType } from '../types'
 import { AddFAQForm } from './AddFAQForm'
 import { FAQItem } from './FAQItem'
   
@@ -20,20 +22,27 @@ const ButtonStyling = {
   fontSize: '0.9rem',
   backgroundColor: '#ebebeb',
   border: '2px solid #5a5a5a28',
-  borderRadius: '4px',
+  borderRadius: '4px'
 }
 /////////
 
 export const FAQPage = () => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [addFormModalStatus, setAddFormModalStatus] = useState<boolean>(false)
+  const [FAQItems, setFAQItems] = useState<FAQItemType[]|undefined>([]) 
 
-  const array = [
-    {question: 'What are the paper-based mediums?', answer: 'Paper-based mediums are: pencil, charcoal, etc ... '},
-    {question: 'What\'s the email address of the technical department?', answer: 'tech.support@paintyourlife.com'},
-    {question: 'Which suppliers can offer video service?', answer: 'Currently only GE and UKR offer video service'}
-  ]
+  const fetchFAQData = async () => {
+    const fetchedData = await axios.get('http://localhost:3005/faq/')
+    setFAQItems(fetchedData.data)
+  }
 
+  useEffect(() => {
+    if(!FAQItems || FAQItems.length == 0) {
+      fetchFAQData()
+    }
+  }, [])
+
+  if(!FAQItems || FAQItems.length == 0){return <Loader active />}
   return (
     <MainContainer>
       <Dash>
@@ -44,13 +53,12 @@ export const FAQPage = () => {
           value={searchValue} onChange={(e) => console.log(e)} 
         />
         <Button style={ButtonStyling} onClick={()=>setAddFormModalStatus(true)}>Add Item</Button>
-        <Button style={ButtonStyling} onClick={()=>alert('Clicked REMOVE')}>Remove Item</Button>
+        {/* <Button style={ButtonStyling} onClick={()=>setDeleteFormModalStatus(true)}>Remove Item</Button> */}
       </Dash>
-      {/* <Divider /> */}
-      {array.map(item =>  {
-        return <FAQItem question={item.question} answer={item.answer} key={item.question} />
+      {FAQItems.map(item =>  {
+        return <FAQItem question={item.question} answer={item.answer} FAQItems={FAQItems} key={item.question} />
       })}
-      <AddFAQForm addFormModalStatus={addFormModalStatus} setAddFormModalStatus={setAddFormModalStatus} />
+      <AddFAQForm addFormModalStatus={addFormModalStatus} setAddFormModalStatus={setAddFormModalStatus} setFAQItems={setFAQItems} />
     </MainContainer>
   )
 }

@@ -36,7 +36,6 @@ const App = () => {
   },[])
 
   useEffect(() => {
-    // if(!user){localStorage.removeItem('loggedUser')}
     localStorage.setItem('loggedUser', JSON.stringify(user))
   }, [user])
 
