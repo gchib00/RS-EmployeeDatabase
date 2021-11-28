@@ -29,20 +29,37 @@ const ButtonStyling = {
 export const FAQPage = () => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [addFormModalStatus, setAddFormModalStatus] = useState<boolean>(false)
-  const [FAQItems, setFAQItems] = useState<FAQItemType[]|undefined>([]) 
+  const [FAQItems, setFAQItems] = useState<FAQItemType[]|undefined>() 
+  const [filteredFAQItems, setFilteredFAQItems] = useState<FAQItemType[]|undefined>([]) 
 
   const fetchFAQData = async () => {
     const fetchedData = await axios.get('http://localhost:3005/faq/')
     setFAQItems(fetchedData.data)
   }
 
-  useEffect(() => {
+  const utilizeSearchFilter = () => {
+    let arr = FAQItems
+    //check if user has written anything in search field. if not, show all faq items
+    if (searchValue.length>0 && arr){
+      arr = arr.filter(faq => {
+        const question = faq.question.toLocaleLowerCase()
+        if (question.includes(searchValue.toLocaleLowerCase())){return faq}
+      })
+    } 
+    setFilteredFAQItems(arr)
+  }
+
+  useEffect(() => { //use search filter fn when user types something
+    utilizeSearchFilter()
+  }, [FAQItems, searchValue])
+
+  useEffect(() => { 
     if(!FAQItems || FAQItems.length == 0) {
       fetchFAQData()
     }
   }, [])
 
-  if(!FAQItems || FAQItems.length == 0){return <Loader active />}
+  if(!FAQItems || FAQItems.length == 0){return <Loader active />} //show loader animation while data is loading
   return (
     <MainContainer>
       <Dash>
@@ -50,13 +67,13 @@ export const FAQPage = () => {
           style={{width: '100%', marginRight: 10}}
           icon='search' 
           placeholder='Search...' 
-          value={searchValue} onChange={(e) => console.log(e)} 
+          value={searchValue} onChange={(e, {value}) => setSearchValue(value)} 
         />
         <Button style={ButtonStyling} onClick={()=>setAddFormModalStatus(true)}>Add Item</Button>
       </Dash>
-      {FAQItems.map(item =>  {
+      {filteredFAQItems ? filteredFAQItems.map(item =>  {
         return <FAQItem question={item.question} answer={item.answer} setFAQItems={setFAQItems} key={item.question} />
-      })}
+      }) : null}
       <AddFAQForm addFormModalStatus={addFormModalStatus} setAddFormModalStatus={setAddFormModalStatus} setFAQItems={setFAQItems} />
     </MainContainer>
   )

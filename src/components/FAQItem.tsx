@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Divider, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { FAQItemType } from '../types'
 import { DeleteFAQModal } from './DeleteFAQModal'
@@ -25,6 +25,7 @@ const QuestionContainer = styled.div`
   display: flex;
   justify-content: space-between;
   height: 20px;
+  cursor: pointer;
 `
 const Question = styled.p`
   font-family: 'Montserrat', sans-serif;
@@ -68,6 +69,7 @@ export const FAQItem = ({answer, question, setFAQItems}: Props) => {
     setVisibility(visibility === 'none' ? 'block' : 'none')
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const deleteItem = (e: any) => {
     e.stopPropagation()
     setDeleteModalStatus(true)
