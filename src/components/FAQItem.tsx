@@ -55,10 +55,10 @@ const DeleteFAQBtn = styled.p`
 interface Props {
   answer: string;
   question: string;
-  FAQItems: FAQItemType[];
+  setFAQItems: React.Dispatch<React.SetStateAction<FAQItemType[] | undefined>>;
 }
 
-export const FAQItem = ({answer, question, FAQItems}: Props) => {
+export const FAQItem = ({answer, question, setFAQItems}: Props) => {
   const [visibility, setVisibility] = useState<'none'|'block'>('none')
   const [chevron, setChevron] = useState<'chevron down'|'chevron up'>('chevron down')
   const [deleteModalStatus, setDeleteModalStatus] = useState<boolean>(false)
@@ -83,7 +83,12 @@ export const FAQItem = ({answer, question, FAQItems}: Props) => {
         <Answer>{answer}</Answer>
         <DeleteFAQBtn onClick={(e)=> deleteItem(e)}>Delete FAQ</DeleteFAQBtn>
       </AnswerContainer>
-      <DeleteFAQModal deleteModalStatus={deleteModalStatus} setDeleteModalStatus={setDeleteModalStatus} FAQItems={FAQItems} />
+      <DeleteFAQModal 
+        deleteModalStatus={deleteModalStatus} 
+        setDeleteModalStatus={setDeleteModalStatus} 
+        setFAQItems={setFAQItems} 
+        question={question} 
+      />
     </FAQCard>
   )
 }

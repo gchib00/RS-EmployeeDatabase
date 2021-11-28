@@ -20,8 +20,8 @@ interface Props {
 }
 
 //app follows CET time (localhost - Italy), need to add +2 to adjust for GE time. needs to be changed to +3 after Oct. due to daylight savings time
-const localTimeGE = 0
-// new Date().getHours()+2 
+const date = new Date() //time based on server's current location
+const localTimeGE = date.getHours()+3
 
 const OnlineOnlySwitch = ({upperDashList, setFilteredBySwitch, setCurrentPage}: Props) => {
   const [filterByShift, setFilterByShift] = useState(false)

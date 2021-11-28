@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React from 'react'
 import {  Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { FAQItemType } from '../types'
@@ -47,21 +48,23 @@ const ConfirmBtn = styled.button`
 interface Props {
   deleteModalStatus: boolean;
   setDeleteModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
-  FAQItems: FAQItemType[];
+  setFAQItems: React.Dispatch<React.SetStateAction<FAQItemType[] | undefined>>;
+  question: string;
 }
 
-export const DeleteFAQModal = ({deleteModalStatus, setDeleteModalStatus, FAQItems}: Props) => {
-  const deleteFAQ = (data: any) => {
-    console.log('deleting this Q:', data)
+export const DeleteFAQModal = ({deleteModalStatus, setDeleteModalStatus, setFAQItems, question}: Props) => {
+  const deleteFAQ = async () => {
+    const response = await axios.delete(`http://localhost:3005/faq/delete/${encodeURIComponent(question)}`)
+    setFAQItems(response.data) //pass updated list back to the state
   }
 
   return (
     <Modal
       style={{maxHeight: 470, width: 420}}
-      onClose={() => {
-        setDeleteModalStatus(false) 
-      }}
+      onClose={() => {setDeleteModalStatus(false)}}
       onOpen={() => setDeleteModalStatus(true)}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onClick={(e: any) => e.stopPropagation()} //avoids auto-closing the faq item in the background when modal is clicked
       open={deleteModalStatus}
     >
       <h4 style={{textAlign: 'center', margin: 10}}>Are you sure you want to delete this FAQ item?</h4>

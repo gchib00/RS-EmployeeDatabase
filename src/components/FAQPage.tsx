@@ -53,10 +53,9 @@ export const FAQPage = () => {
           value={searchValue} onChange={(e) => console.log(e)} 
         />
         <Button style={ButtonStyling} onClick={()=>setAddFormModalStatus(true)}>Add Item</Button>
-        {/* <Button style={ButtonStyling} onClick={()=>setDeleteFormModalStatus(true)}>Remove Item</Button> */}
       </Dash>
       {FAQItems.map(item =>  {
-        return <FAQItem question={item.question} answer={item.answer} FAQItems={FAQItems} key={item.question} />
+        return <FAQItem question={item.question} answer={item.answer} setFAQItems={setFAQItems} key={item.question} />
       })}
       <AddFAQForm addFormModalStatus={addFormModalStatus} setAddFormModalStatus={setAddFormModalStatus} setFAQItems={setFAQItems} />
     </MainContainer>

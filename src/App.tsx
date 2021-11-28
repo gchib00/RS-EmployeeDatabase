@@ -49,7 +49,6 @@ const App = () => {
         <Route path='/' element={employeesData.length === 0 ? <Loader active /> :<EmployeeList />} />
         <Route path='/faq' element={<FAQPage />} />
         <Route path='/login' element={user ? null : <AuthPage />} />
-        {/* <Route path='/votes' element={<Votes />} /> */}
       </Routes>
     </EmployeesContext.Provider>
     </UserContext.Provider>
