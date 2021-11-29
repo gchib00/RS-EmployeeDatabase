@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Icon } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { UserContext } from '../context/UserContext'
 import { FAQItemType } from '../types'
 import { DeleteFAQModal } from './DeleteFAQModal'
+import { UnauthorizedUserWarning } from './misc/UnauthorizedUserWarning'
 
 //styling:
 const FAQCard = styled.div`
@@ -63,6 +65,8 @@ export const FAQItem = ({answer, question, setFAQItems}: Props) => {
   const [visibility, setVisibility] = useState<'none'|'block'>('none')
   const [chevron, setChevron] = useState<'chevron down'|'chevron up'>('chevron down')
   const [deleteModalStatus, setDeleteModalStatus] = useState<boolean>(false)
+  const [UUModalStatus, setUUModalStatus] = useState<boolean>(false)
+  const {user} = useContext(UserContext)
 
   const handleCardClick = () => {
     setChevron(visibility === 'none' ? 'chevron up' : 'chevron down')
@@ -70,9 +74,13 @@ export const FAQItem = ({answer, question, setFAQItems}: Props) => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const deleteItem = (e: any) => {
-    e.stopPropagation()
-    setDeleteModalStatus(true)
+  const deleteItem = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => {
+    e.stopPropagation() //disabled the onClick event of parent component
+    if (!user || user.adminRights === false){ 
+      setUUModalStatus(true) //shows UU modal if user is either not logged in or doesn't have admin rights
+    } else {
+      setDeleteModalStatus(true) //shows DeleteFAQModal, which asks user to confirm the action
+    }
   }
 
   return (
@@ -91,6 +99,7 @@ export const FAQItem = ({answer, question, setFAQItems}: Props) => {
         setFAQItems={setFAQItems} 
         question={question} 
       />
+      <UnauthorizedUserWarning UUModalStatus={UUModalStatus} setUUModalStatus={setUUModalStatus} />
     </FAQCard>
   )
 }
