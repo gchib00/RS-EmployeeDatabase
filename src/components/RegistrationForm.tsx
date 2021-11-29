@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Checkbox, Form } from 'semantic-ui-react'
+import { Checkbox, CheckboxProps, Form } from 'semantic-ui-react'
 import styled from 'styled-components'
 import BasicErrorMessage from './misc/BasicErrorMessage'
 import { useNavigate } from 'react-router-dom'
@@ -33,6 +33,13 @@ const ErrorContainer = styled.div`
 `
 /////////
 
+interface FormData {
+  username: string;
+  email: string;
+  password1: string;
+  password2: string;
+}
+
 export const RegistrationForm = () => {
   const {register, handleSubmit} = useForm()
   const {setUser} = useContext(UserContext)
@@ -41,7 +48,7 @@ export const RegistrationForm = () => {
   const [errorVisibility, setErrorVisibility] = useState<boolean>(false)
   const navigate = useNavigate()
 
-  const registrationFormSubmit = async (data: any) => {
+  const registrationFormSubmit = async (data: FormData) => {
     setErrorVisibility(false)
     if(data.password1 !== data.password2) {
       return alert(`Passwords don't match!`)
@@ -60,15 +67,18 @@ export const RegistrationForm = () => {
         })
         setUser(response.data.user)
         navigate('/', {replace: true})
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error('couldnt auto-login:', err)
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setErrorMsg(err.response.data)
       setErrorVisibility(true)
     }
   }
-  const changeAdminRights = (value: any) => {
+
+
+  const changeAdminRights = (value: CheckboxProps) => {
     if (value.checked !== undefined){setAdminRights(value.checked)}
   }
 

@@ -61,12 +61,16 @@ interface Props {
   setAddFormModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
   setFAQItems: React.Dispatch<React.SetStateAction<FAQItemType[] | undefined>>;
 }
+interface FormData {
+  question: string;
+  answer: string;
+}
 
 export const AddFAQForm = ({addFormModalStatus, setAddFormModalStatus, setFAQItems}: Props) => {
   const [errorMsg, setErrorMsg] = useState<string>('')
   const {register, handleSubmit, reset} = useForm()
   
-  const processFormData = async (data: any) => {
+  const processFormData = async (data: FormData) => {
     const FAQ_Object = {
       question: data.question,
       answer: data.answer
@@ -75,6 +79,7 @@ export const AddFAQForm = ({addFormModalStatus, setAddFormModalStatus, setFAQIte
       const resposne = await axios.post('http://localhost:3005/faq/add', FAQ_Object)
       setFAQItems(resposne.data) //pass updated list to the state
       setAddFormModalStatus(false); reset(); setErrorMsg('') //set form settings to default after submit
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setErrorMsg(err.response.data)
     }

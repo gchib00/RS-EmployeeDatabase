@@ -62,12 +62,17 @@ interface Props {
   department: string;
 }
 
+interface FormData {
+  newTeamName: string;
+  teamLeader: string;
+}
+
 export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, department}: Props) => {
   const {register, handleSubmit, reset} = useForm()
   const {employeesData, setEmployeesData} = useContext(EmployeesContext)
   const [errorMsg, setErrorMsg] = useState<string>('')
   
-  const processFormData = async (data: any) => {
+  const processFormData = async (data: FormData) => {
     const teamLeader = employeesData.find(employee => employee.name === data.teamLeader)
     if(!teamLeader){return setErrorMsg(`Alias was not found. Please use an existing alias.`)}
     const newObj = {
@@ -80,6 +85,7 @@ export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, departmen
       setEmployeesData(response.data)
       //reset form and close it:
       reset(); setErrorMsg(''); setFormModalStatus(false)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setErrorMsg(err.response.data)
     }

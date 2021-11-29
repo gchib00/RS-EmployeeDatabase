@@ -32,6 +32,11 @@ const ErrorContainer = styled.div`
 `
 /////////
 
+interface FormData {
+  username: string;
+  password: string;
+}
+
 export const LoginForm = () => {
   const {register, handleSubmit} = useForm()
   const {setUser} = useContext(UserContext)
@@ -39,13 +44,14 @@ export const LoginForm = () => {
   const [errorVisibility, setErrorVisibility] = useState<boolean>(false)
   const navigate = useNavigate()
 
-  const lognFormSubmit = async (data: any) => {
+  const lognFormSubmit = async (data: FormData) => {
     try {
       console.log('login data=', data)
       const response = await axios.post('http://localhost:3005/auth/login', data)
       localStorage.setItem('userToken', response.data.token)
       setUser(response.data.user)
       navigate('/', {replace: true})
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setErrorMsg(err.response.data)
       setErrorVisibility(true)
