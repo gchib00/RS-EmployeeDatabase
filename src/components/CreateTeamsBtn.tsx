@@ -62,4 +62,3 @@ const CreateTeamsBtn = () => {
 }
 
 export default CreateTeamsBtn
-

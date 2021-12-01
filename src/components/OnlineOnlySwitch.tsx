@@ -45,7 +45,7 @@ const OnlineOnlySwitch = ({upperDashList, setFilteredBySwitch, setCurrentPage}: 
     const filteredArr: StandardEmployeeType[] = upperDashList.filter(employee => {
       if(!employee.shift) {return null}
       const start = Number(employee.shift.start.substring(0, 2)) //convert 'hh:mm' format to hh num value
-      const shiftLength = 8
+      const shiftLength = employee.shift.length
       const end = start+shiftLength
       if(localTimeGE<12) { //formula that calculates if employee is supposed to be online (shift start + shift length)
         if(start<12){
