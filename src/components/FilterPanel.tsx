@@ -8,6 +8,8 @@ import TeamsDropdown from './dropdowns/TeamsDropdown'
 import AddEmployeeForm from './AddEmployeeForm'
 import DeleteEmployeeForm from './DeleteEmployeeForm'
 import CreateTeamsBtn from './CreateTeamsBtn'
+import { UserContext } from '../context/UserContext'
+import { UnauthorizedUserWarning } from './misc/UnauthorizedUserWarning'
 
 //Styling:
 const MainContainer = styled.div`
@@ -85,6 +87,8 @@ const FilterPanel = ({setPanelList}: Props) => {
   const [filteredBySubDep, setFilteredBySubDep] = useState<StandardEmployeeType[]>([])
   const [formModalStatus, setFormModalStatus] = useState<boolean>(false)
   const [deleteModalStatus, setDeleteModalStatus] = useState<boolean>(false)
+  const [UUModalStatus, setUUModalStatus] = useState<boolean>(false)
+  const {user} = useContext(UserContext)
   const {employeesData} = useContext(EmployeesContext)
 
   const mainFilter = () => { //funnels all the filters into one array
@@ -116,6 +120,19 @@ const FilterPanel = ({setPanelList}: Props) => {
     mainFilter()
   }, [filteredByDep, filteredByEditingTeam, filteredByCSTeam, filteredBySubDep])
 
+  const addMemberBtnClick = () => {
+    if (!user || user.adminRights === false){ 
+      return setUUModalStatus(true) //shows UU modal if user is either not logged in or doesn't have admin rights
+    }
+    setFormModalStatus(true) //shows modal for adding new members
+  }
+  const deleteMemberBtnClick = () => {
+    if (!user || user.adminRights === false){ 
+      return setUUModalStatus(true) //shows UU modal if user is either not logged in or doesn't have admin rights
+    }
+    setDeleteModalStatus(true) //shows modal for deleting members
+  }
+
   return(
     <>
     <MainContainer>
@@ -134,11 +151,12 @@ const FilterPanel = ({setPanelList}: Props) => {
       <CreateTeamsBtn />
     </MainContainer>
     <BtnContainer>
-      <AddMemberBtn onClick={() => setFormModalStatus(true)}>Add a New Member</AddMemberBtn>
-      <DeleteMemberBtn onClick={() => setDeleteModalStatus(true)}>Delete Member</DeleteMemberBtn>
+      <AddMemberBtn onClick={() => addMemberBtnClick()}>Add a New Member</AddMemberBtn>
+      <DeleteMemberBtn onClick={() => deleteMemberBtnClick()}>Delete Member</DeleteMemberBtn>
       <AddEmployeeForm formModalStatus={formModalStatus} setFormModalStatus={setFormModalStatus} />
       <DeleteEmployeeForm deleteModalStatus={deleteModalStatus} setDeleteModalStatus={setDeleteModalStatus}  />
     </BtnContainer>
+    <UnauthorizedUserWarning UUModalStatus={UUModalStatus} setUUModalStatus={setUUModalStatus} />
     </>
   )
 }  

@@ -84,6 +84,7 @@ export const FAQItem = ({answer, question, setFAQItems}: Props) => {
   }
 
   return (
+    <>
     <FAQCard onClick={handleCardClick}>
       <QuestionContainer>
         <Question>{question}</Question>
@@ -93,13 +94,14 @@ export const FAQItem = ({answer, question, setFAQItems}: Props) => {
         <Answer>{answer}</Answer>
         <DeleteFAQBtn onClick={(e)=> deleteItem(e)}>Delete FAQ</DeleteFAQBtn>
       </AnswerContainer>
-      <DeleteFAQModal 
-        deleteModalStatus={deleteModalStatus} 
-        setDeleteModalStatus={setDeleteModalStatus} 
-        setFAQItems={setFAQItems} 
-        question={question} 
-      />
-      <UnauthorizedUserWarning UUModalStatus={UUModalStatus} setUUModalStatus={setUUModalStatus} />
     </FAQCard>
+    <DeleteFAQModal 
+      deleteModalStatus={deleteModalStatus} 
+      setDeleteModalStatus={setDeleteModalStatus} 
+      setFAQItems={setFAQItems} 
+      question={question} 
+    />
+    <UnauthorizedUserWarning UUModalStatus={UUModalStatus} setUUModalStatus={setUUModalStatus} />
+    </>
   )
 }

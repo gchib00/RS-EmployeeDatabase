@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { UserContext } from '../context/UserContext'
 import { CreateTeamsModal } from './CreateTeamsModal'
+import { UnauthorizedUserWarning } from './misc/UnauthorizedUserWarning'
 
 //styling:
 const MainContainer = styled.div`
@@ -25,12 +27,20 @@ const ButtonStyling = {
 const CreateTeamsBtn = () => {
   const [formModalStatus, setFormModalStatus] = useState<boolean>(false)
   const [department, setDepartment] = useState<string>('')
+  const [UUModalStatus, setUUModalStatus] = useState<boolean>(false)
+  const {user} = useContext(UserContext)
 
   const handleEditorOption = () => {
+    if (!user || user.adminRights === false){ 
+      return setUUModalStatus(true) //shows UU modal if user is either not logged in or doesn't have admin rights
+    }
     setFormModalStatus(true)
     setDepartment('editing')
   }
   const handleCsOption = () => {
+    if (!user || user.adminRights === false){ 
+      return setUUModalStatus(true) //shows UU modal if user is either not logged in or doesn't have admin rights
+    }
     setFormModalStatus(true)
     setDepartment('cs')
   }
@@ -46,6 +56,7 @@ const CreateTeamsBtn = () => {
         New CS Team
       </Button>
       <CreateTeamsModal formModalStatus={formModalStatus} setFormModalStatus={setFormModalStatus} department={department}/>
+      <UnauthorizedUserWarning UUModalStatus={UUModalStatus} setUUModalStatus={setUUModalStatus} />
     </MainContainer>
   )
 }

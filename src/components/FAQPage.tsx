@@ -1,10 +1,12 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Input, Loader } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { UserContext } from '../context/UserContext'
 import { FAQItemType } from '../types'
 import { AddFAQForm } from './AddFAQForm'
 import { FAQItem } from './FAQItem'
+import { UnauthorizedUserWarning } from './misc/UnauthorizedUserWarning'
   
 //styling:
 const MainContainer = styled.main`
@@ -31,12 +33,13 @@ export const FAQPage = () => {
   const [addFormModalStatus, setAddFormModalStatus] = useState<boolean>(false)
   const [FAQItems, setFAQItems] = useState<FAQItemType[]|undefined>() 
   const [filteredFAQItems, setFilteredFAQItems] = useState<FAQItemType[]|undefined>([]) 
+  const [UUModalStatus, setUUModalStatus] = useState<boolean>(false)
+  const {user} = useContext(UserContext)
 
   const fetchFAQData = async () => {
     const fetchedData = await axios.get('http://localhost:3005/faq/')
     setFAQItems(fetchedData.data)
   }
-
   const utilizeSearchFilter = () => {
     let arr = FAQItems
     //check if user has written anything in search field. if not, show all faq items
@@ -48,11 +51,16 @@ export const FAQPage = () => {
     } 
     setFilteredFAQItems(arr)
   }
-
+  const addNewFAQ = () => {
+    if (!user || user.adminRights === false){ 
+      setUUModalStatus(true) //shows UU modal if user is either not logged in or doesn't have admin rights
+    } else {
+      setAddFormModalStatus(true) //shows AddFAQForm modal
+    }
+  }
   useEffect(() => { //use search filter fn when user types something
     utilizeSearchFilter()
   }, [FAQItems, searchValue])
-
   useEffect(() => { 
     if(!FAQItems || FAQItems.length == 0) {
       fetchFAQData()
@@ -69,12 +77,13 @@ export const FAQPage = () => {
           placeholder='Search...' 
           value={searchValue} onChange={(e, {value}) => setSearchValue(value)} 
         />
-        <Button style={ButtonStyling} onClick={()=>setAddFormModalStatus(true)}>Add Item</Button>
+        <Button style={ButtonStyling} onClick={() => addNewFAQ()}>Add Item</Button>
       </Dash>
       {filteredFAQItems ? filteredFAQItems.map(item =>  {
         return <FAQItem question={item.question} answer={item.answer} setFAQItems={setFAQItems} key={item.question} />
       }) : null}
       <AddFAQForm addFormModalStatus={addFormModalStatus} setAddFormModalStatus={setAddFormModalStatus} setFAQItems={setFAQItems} />
+      <UnauthorizedUserWarning UUModalStatus={UUModalStatus} setUUModalStatus={setUUModalStatus} />
     </MainContainer>
   )
 }
