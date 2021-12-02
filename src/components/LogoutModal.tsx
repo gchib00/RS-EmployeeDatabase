@@ -58,6 +58,7 @@ export const LogoutModal = ({logoutModalStatus, setLogoutModalStatus}: Props) =>
   const {setUser} = useContext(UserContext)
 
   const handleLogout = () => {
+    localStorage.removeItem('userToken')
     setUser(undefined)
     setLogoutModalStatus(false)
   }

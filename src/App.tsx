@@ -34,11 +34,20 @@ const App = () => {
       fetchEmployees()
     }
   },[])
-
+  const getLoggedUser = async (token: string) =>{ 
+    if (!token) {return null}
+    try {
+      const loggedUser = await axios.post('http://localhost:3005/auth/loggedUser', {token: token})
+      setUser(loggedUser.data[0])
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.error(err.response.data)
+    }
+  }
   useEffect(() => {
-    localStorage.setItem('loggedUser', JSON.stringify(user))
-  }, [user])
-
+    const token = localStorage.getItem('userToken')
+    if (token) {getLoggedUser(token)} //if token exists, find its user and set it to the state
+  }, [])
 
   return(
     <UserContext.Provider value={{user, setUser}}>
