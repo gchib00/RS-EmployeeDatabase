@@ -11,13 +11,11 @@ const DropdownContainer = styled.div`
   margin: 14px 0px 4px 0px;
 `
 /////////
-
 interface Team {
   key: string;
   text: string;
   value: string;
 }
-
 interface Props {
   selectedDepartment: string | undefined;
   setSelectedTeam: React.Dispatch<React.SetStateAction<string|undefined>>;
@@ -98,5 +96,4 @@ const TeamsDropdownForForm = ({selectedDepartment, setSelectedTeam}: Props) => {
     </DropdownContainer>    
   )
 }
-
 export default TeamsDropdownForForm

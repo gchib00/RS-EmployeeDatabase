@@ -93,7 +93,6 @@ const EmployeeCard = ({employee}: Props) => {
     return <div style={{marginBottom: 10}}><Icon name='group' size='small' /> {team}</div>
   }
 
-
   return(
     <Container key={employee.id}>
       <CardDiv>
@@ -115,5 +114,4 @@ const EmployeeCard = ({employee}: Props) => {
     </Container>
   )
 }
-
 export default EmployeeCard

@@ -29,5 +29,4 @@ const AuthPage = () => {
     </MainContainer>
   )
 }
-
 export default AuthPage

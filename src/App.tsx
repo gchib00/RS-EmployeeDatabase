@@ -11,19 +11,14 @@ import { LoggedUserText } from './components/LoggedUserText'
 import { UserContext } from './context/UserContext'
 import { FAQPage } from './components/FAQPage'
 
-const initializeUserData = () => {
-  const localData = localStorage.getItem('loggedUser') as string
-  if (localData !== 'undefined') {return JSON.parse(localData)}
-  return undefined
-}
-
 const App = () => {
   const [employeesData, setEmployeesData] = useState<StandardEmployeeType[]>([])
-  const [user, setUser] = useState<LoggedUser|undefined>(initializeUserData())
+  const [user, setUser] = useState<LoggedUser|undefined>()
 
+  const backendURL = process.env.REACT_APP_BACKEND_URL
   const fetchEmployees = async () => {
     try {
-      const apiResponse = await axios.get<StandardEmployeeType[]>('http://localhost:3005/employees')
+      const apiResponse = await axios.get<StandardEmployeeType[]>(backendURL+'/employees')
       setEmployeesData(apiResponse.data)
     } catch (e) {
       console.error(e)
@@ -37,7 +32,7 @@ const App = () => {
   const getLoggedUser = async (token: string) =>{ 
     if (!token) {return null}
     try {
-      const loggedUser = await axios.post('http://localhost:3005/auth/loggedUser', {token: token})
+      const loggedUser = await axios.post(backendURL+'/auth/loggedUser', {token: token})
       setUser(loggedUser.data[0])
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -63,5 +58,4 @@ const App = () => {
     </UserContext.Provider>
   );
 }
-
 export default App;

@@ -36,7 +36,6 @@ const OnlineOnlySwitch = ({upperDashList, setFilteredBySwitch, setCurrentPage}: 
     setCurrentPage(1)
   }, [filterByShift])
 
-
   const showAllEmployees = () => {
     setFilteredBySwitch(employeesData)
   }

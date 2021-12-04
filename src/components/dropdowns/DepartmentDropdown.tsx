@@ -44,7 +44,6 @@ const DepartmentDropdown = ({selectedDepartment, setSelectedDepartment, setFilte
     }
     setFilteredByDep(arr)
   }
-
   useEffect(() => {
     filterByDepartment()
   }, [selectedDepartment])
@@ -60,5 +59,4 @@ const DepartmentDropdown = ({selectedDepartment, setSelectedDepartment, setFilte
     />
   )
 }
-
 export default DepartmentDropdown

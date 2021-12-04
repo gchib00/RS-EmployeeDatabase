@@ -72,8 +72,6 @@ export const FAQItem = ({answer, question, setFAQItems}: Props) => {
     setChevron(visibility === 'none' ? 'chevron up' : 'chevron down')
     setVisibility(visibility === 'none' ? 'block' : 'none')
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const deleteItem = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => {
     e.stopPropagation() //disabled the onClick event of parent component
     if (!user || user.adminRights === false){ 

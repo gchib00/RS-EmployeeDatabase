@@ -60,5 +60,4 @@ const CreateTeamsBtn = () => {
     </MainContainer>
   )
 }
-
 export default CreateTeamsBtn

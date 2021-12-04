@@ -115,7 +115,6 @@ const FilterPanel = ({setPanelList}: Props) => {
     }
     setPanelList(arr)
   }
-
   useEffect(() => {
     mainFilter()
   }, [filteredByDep, filteredByEditingTeam, filteredByCSTeam, filteredBySubDep])
@@ -160,5 +159,4 @@ const FilterPanel = ({setPanelList}: Props) => {
     </>
   )
 }  
-
 export default FilterPanel

@@ -31,7 +31,6 @@ const CloseModalBtn = styled.button`
   }
 `
 /////////
-
 interface Props {
   UUModalStatus: boolean;
   setUUModalStatus: React.Dispatch<React.SetStateAction<boolean>>

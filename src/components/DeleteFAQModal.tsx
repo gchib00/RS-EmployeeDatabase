@@ -53,8 +53,9 @@ interface Props {
 }
 
 export const DeleteFAQModal = ({deleteModalStatus, setDeleteModalStatus, setFAQItems, question}: Props) => {
+  const backendURL = process.env.REACT_APP_BACKEND_URL
   const deleteFAQ = async () => {
-    const response = await axios.delete(`http://localhost:3005/faq/delete/${encodeURIComponent(question)}`)
+    const response = await axios.delete(backendURL+`/faq/delete/${encodeURIComponent(question)}`)
     setFAQItems(response.data) //pass updated list back to the state
   }
 

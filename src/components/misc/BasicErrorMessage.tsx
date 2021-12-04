@@ -11,7 +11,6 @@ const Error = styled.p`
   color: red;
 `
 /////////
-
 interface Props {
   text: string;
   visibility: boolean;
@@ -23,5 +22,4 @@ const BasicErrorMessage = ({text, visibility}: Props) => {
     <Error>{text}</Error>
   )
 }
-
 export default BasicErrorMessage

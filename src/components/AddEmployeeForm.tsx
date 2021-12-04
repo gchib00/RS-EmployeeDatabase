@@ -34,7 +34,7 @@ const BtnContainer = styled.div`
   margin: 30px auto auto auto;
 `
 const ContactInfo = styled.div`
-  width: 240px;
+  width: 232px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -96,6 +96,7 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
   const {setEmployeesData} = useContext(EmployeesContext)
   const {register, handleSubmit, reset} = useForm()
   
+  const backendURL = process.env.REACT_APP_BACKEND_URL
   const processFormData = async (data: Record<string, unknown>) => {
     //adding team & type separately from form hooks because it's not compatable with semantic ui:
     const requestObj = {
@@ -113,7 +114,7 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
       }
     }
     try {
-      const response = await axios.post('http://localhost:3005/employees/add', requestObj)
+      const response = await axios.post(backendURL+'/employees/add', requestObj)
       setEmployeesData(response.data)
       setFormModalStatus(false)
       setShowReqError(false)
@@ -189,5 +190,4 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
     </Modal>
   )
 }
-
 export default AddEmployeeForm

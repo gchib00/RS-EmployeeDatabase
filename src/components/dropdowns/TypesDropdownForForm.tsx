@@ -85,5 +85,4 @@ const TypesDropdownForForm = ({selectedDepartment, setSelectedType}: Props) => {
     </DropdownContainer>
   )
 }
-
 export default TypesDropdownForForm

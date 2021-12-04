@@ -45,7 +45,6 @@ const EmployeeList = () => {
     })
     setFilteredArray(arr)
   }
-
   useEffect(() => {
     funnelArrays()
   }, [upperDashList ,panelList])
@@ -80,5 +79,4 @@ const EmployeeList = () => {
     </MainContainer>
   )
 }
-
 export default EmployeeList

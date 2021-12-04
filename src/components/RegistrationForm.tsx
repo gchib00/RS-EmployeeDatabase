@@ -48,6 +48,7 @@ export const RegistrationForm = () => {
   const [errorVisibility, setErrorVisibility] = useState<boolean>(false)
   const navigate = useNavigate()
 
+  const backendURL = process.env.REACT_APP_BACKEND_URL
   const registrationFormSubmit = async (data: FormData) => {
     setErrorVisibility(false)
     if(data.password1 !== data.password2) {
@@ -59,9 +60,9 @@ export const RegistrationForm = () => {
       adminRights: adminRights
     }
     try {
-      await axios.post('http://localhost:3005/auth/register', processedData)
+      await axios.post(backendURL+'/auth/register', processedData)
       try {
-        const response = await axios.post('http://localhost:3005/auth/login', { //auto-login after registration
+        const response = await axios.post(backendURL+'/auth/login', { //auto-login after registration
           username: processedData.username,
           password: processedData.password
         })

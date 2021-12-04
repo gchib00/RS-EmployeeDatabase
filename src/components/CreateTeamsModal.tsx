@@ -55,13 +55,11 @@ const CancelBtn = styled.button`
   }
 `
 ////////
-
 interface Props {
   formModalStatus: boolean;
   setFormModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
   department: string;
 }
-
 interface FormData {
   newTeamName: string;
   teamLeader: string;
@@ -72,6 +70,7 @@ export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, departmen
   const {employeesData, setEmployeesData} = useContext(EmployeesContext)
   const [errorMsg, setErrorMsg] = useState<string>('')
   
+  const backendURL = process.env.REACT_APP_BACKEND_URL
   const processFormData = async (data: FormData) => {
     const teamLeader = employeesData.find(employee => employee.name === data.teamLeader)
     if(!teamLeader){return setErrorMsg(`Alias was not found. Please use an existing alias.`)}
@@ -81,7 +80,7 @@ export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, departmen
       department: department
     }
     try {
-      const response = await axios.patch(`http://localhost:3005/employees/createTeam/${teamLeader.id}`, newObj)
+      const response = await axios.patch(`${backendURL}/employees/createTeam/${teamLeader.id}`, newObj)
       setEmployeesData(response.data)
       //reset form and close it:
       reset(); setErrorMsg(''); setFormModalStatus(false)

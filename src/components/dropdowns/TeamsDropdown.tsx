@@ -120,5 +120,4 @@ const TeamsDropdown = ({dept, selectedDepartment, setFilteredArr}: Props) => {
     </DropdownContainer>    
   )
 }
-
 export default TeamsDropdown
