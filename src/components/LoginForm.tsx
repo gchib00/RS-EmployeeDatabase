@@ -44,10 +44,9 @@ export const LoginForm = () => {
   const [errorVisibility, setErrorVisibility] = useState<boolean>(false)
   const navigate = useNavigate()
 
-  const backendURL = process.env.REACT_APP_BACKEND_URL
   const lognFormSubmit = async (data: FormData) => {
     try {
-      const response = await axios.post(backendURL+'/auth/login', data)
+      const response = await axios.post('/auth/login', data)
       localStorage.setItem('userToken', response.data.token)
       setUser(response.data.user)
       navigate('/', {replace: true})

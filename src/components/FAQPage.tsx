@@ -36,9 +36,8 @@ export const FAQPage = () => {
   const [UUModalStatus, setUUModalStatus] = useState<boolean>(false)
   const {user} = useContext(UserContext)
 
-  const backendURL = process.env.REACT_APP_BACKEND_URL
   const fetchFAQData = async () => {
-    const fetchedData = await axios.get(backendURL+'/faq/')
+    const fetchedData = await axios.get('/faq/')
     setFAQItems(fetchedData.data)
   }
   const utilizeSearchFilter = () => {

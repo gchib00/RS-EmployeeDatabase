@@ -69,14 +69,13 @@ export const AddFAQForm = ({addFormModalStatus, setAddFormModalStatus, setFAQIte
   const [errorMsg, setErrorMsg] = useState<string>('')
   const {register, handleSubmit, reset} = useForm()
   
-  const backendURL = process.env.REACT_APP_BACKEND_URL
   const processFormData = async (data: FormData) => {
     const FAQ_Object = {
       question: data.question,
       answer: data.answer
     }
     try {
-      const resposne = await axios.post(backendURL+'/faq/add', FAQ_Object)
+      const resposne = await axios.post('/faq/add', FAQ_Object)
       setFAQItems(resposne.data) //pass updated list to the state
       setAddFormModalStatus(false); reset(); setErrorMsg('') //set form settings to default after submit
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

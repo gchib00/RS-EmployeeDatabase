@@ -96,7 +96,6 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
   const {setEmployeesData} = useContext(EmployeesContext)
   const {register, handleSubmit, reset} = useForm()
   
-  const backendURL = process.env.REACT_APP_BACKEND_URL
   const processFormData = async (data: Record<string, unknown>) => {
     //adding team & type separately from form hooks because it's not compatable with semantic ui:
     const requestObj = {
@@ -114,7 +113,7 @@ const AddEmployeeForm = ({formModalStatus, setFormModalStatus}: Props) => {
       }
     }
     try {
-      const response = await axios.post(backendURL+'/employees/add', requestObj)
+      const response = await axios.post('/employees/add', requestObj)
       setEmployeesData(response.data)
       setFormModalStatus(false)
       setShowReqError(false)

@@ -63,3 +63,6 @@ export interface FAQItemType {
   question: string;
   answer: string;
 }
+
+//ARTISTS PAGE:
+export type TableStatus = 'new' | 'rejected' | 'sleeping'

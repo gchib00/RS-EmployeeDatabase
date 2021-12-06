@@ -69,7 +69,6 @@ const DeleteEmployeeForm = ({deleteModalStatus, setDeleteModalStatus}: Props) =>
   const {employeesData, setEmployeesData} = useContext(EmployeesContext)
   const [showSearchError, setShowSearchError] = useState(false)
   
-  const backendURL = process.env.REACT_APP_BACKEND_URL
   const processForm = async (data: DataFromForm) => {
     const employeeToDelete= employeesData.find(employee => {
       return employee.name === data.name
@@ -77,7 +76,7 @@ const DeleteEmployeeForm = ({deleteModalStatus, setDeleteModalStatus}: Props) =>
     if(employeeToDelete === undefined){
       setShowSearchError(true)
     } else {
-      const response = await axios.delete(backendURL+`/employees/delete/${employeeToDelete.id}`)
+      const response = await axios.delete(`/employees/delete/${employeeToDelete.id}`)
       setEmployeesData(response.data)
       setDeleteModalStatus(false)
       setShowSearchError(false)

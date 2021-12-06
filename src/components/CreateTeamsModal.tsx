@@ -70,7 +70,6 @@ export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, departmen
   const {employeesData, setEmployeesData} = useContext(EmployeesContext)
   const [errorMsg, setErrorMsg] = useState<string>('')
   
-  const backendURL = process.env.REACT_APP_BACKEND_URL
   const processFormData = async (data: FormData) => {
     const teamLeader = employeesData.find(employee => employee.name === data.teamLeader)
     if(!teamLeader){return setErrorMsg(`Alias was not found. Please use an existing alias.`)}
@@ -80,7 +79,7 @@ export const CreateTeamsModal = ({formModalStatus, setFormModalStatus, departmen
       department: department
     }
     try {
-      const response = await axios.patch(`${backendURL}/employees/createTeam/${teamLeader.id}`, newObj)
+      const response = await axios.patch(`/employees/createTeam/${teamLeader.id}`, newObj)
       setEmployeesData(response.data)
       //reset form and close it:
       reset(); setErrorMsg(''); setFormModalStatus(false)

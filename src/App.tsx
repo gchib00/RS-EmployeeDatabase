@@ -10,15 +10,15 @@ import {Route, Routes} from "react-router-dom"
 import { LoggedUserText } from './components/LoggedUserText'
 import { UserContext } from './context/UserContext'
 import { FAQPage } from './components/FAQPage'
+import { ArtistsPage } from './components/ArtistsPage'
 
 const App = () => {
   const [employeesData, setEmployeesData] = useState<StandardEmployeeType[]>([])
   const [user, setUser] = useState<LoggedUser|undefined>()
 
-  const backendURL = process.env.REACT_APP_BACKEND_URL
   const fetchEmployees = async () => {
     try {
-      const apiResponse = await axios.get<StandardEmployeeType[]>(backendURL+'/employees')
+      const apiResponse = await axios.get<StandardEmployeeType[]>('/employees')
       setEmployeesData(apiResponse.data)
     } catch (e) {
       console.error(e)
@@ -32,7 +32,7 @@ const App = () => {
   const getLoggedUser = async (token: string) =>{ 
     if (!token) {return null}
     try {
-      const loggedUser = await axios.post(backendURL+'/auth/loggedUser', {token: token})
+      const loggedUser = await axios.post('/auth/loggedUser', {token: token})
       setUser(loggedUser.data[0])
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -53,6 +53,7 @@ const App = () => {
         <Route path='/' element={employeesData.length === 0 ? <Loader active /> :<EmployeeList />} />
         <Route path='/faq' element={<FAQPage />} />
         <Route path='/login' element={user ? null : <AuthPage />} />
+        <Route path='/artist' element={<ArtistsPage />} />
       </Routes>
     </EmployeesContext.Provider>
     </UserContext.Provider>
