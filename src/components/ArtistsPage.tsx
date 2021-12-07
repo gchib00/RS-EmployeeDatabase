@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { ArtistsOrderTable } from '../ArtistsOrderTable'
+import { ArtistsOrderTable } from './ArtistsOrderTable'
 import { TableStatus } from '../types'
 import { ArtistTableButtons } from './ArtistTableButtons'
 

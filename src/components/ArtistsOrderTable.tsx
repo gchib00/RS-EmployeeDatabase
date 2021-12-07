@@ -1,34 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { TableStatus } from './types'
-
-//styling:
-const MainTable = styled.table`
-  height: 96%;
-  width: 100%;
-  border-radius: 3px;
-  background-color: white;
-  padding: 14px;
-  border: 2px solid #5a5a5a6c;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.152);
-`
-const TableRow = styled.tr`
-  display: grid;
-  grid-template-columns: 5% 30% 15% 15% 35%;
-`
-const THCell = styled.th`
-  font-weight: bold;
-  color: green;
-  border: 1px solid black;
-`
-const LastTHCell = styled.th`
-  border: 1px solid grey;
-`
-const TDCell = styled.td`
-  border: 1px dotted grey;
-  text-align: center;
-`
-/////////
+import { TableStatus } from '../types'
+import { ActionsSlider } from './ActionsSlider'
 
 const fakeData = [
   {
@@ -93,6 +66,38 @@ const fakeData = [
   },
 ]
 
+//styling:
+const MainTable = styled.table`
+  height: 96%;
+  width: 100%;
+  border-radius: 3px;
+  background-color: white;
+  padding: 14px;
+  border: 2px solid #5a5a5a6c;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.152);
+`
+const TableRow = styled.tr`
+  display: grid;
+  grid-template-columns: 5% 30% 15% 15% 35%;
+  height: 50px;
+`
+const THCell = styled.th`
+  font-weight: bold;
+  color: green;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const TDCell = styled.td`
+  border: 1px dotted grey;
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+/////////
+
 interface Props {
   activeTable: TableStatus;
 }
@@ -123,7 +128,7 @@ export const ArtistsOrderTable = ({activeTable}: Props) => {
           <THCell>Order ID</THCell>
           <THCell>Medium</THCell>
           <THCell>Signature</THCell>
-          <LastTHCell />
+          <THCell />
         </TableRow>
       </thead>
       <tbody>
@@ -134,7 +139,7 @@ export const ArtistsOrderTable = ({activeTable}: Props) => {
               <TDCell>{order.orderID}</TDCell>
               <TDCell>{order.medium}</TDCell>
               <TDCell>{(order.signature) ? 'YES' : 'NO'}</TDCell>
-              <TDCell>ACTIONS!</TDCell>
+              <TDCell><ActionsSlider /></TDCell>
             </TableRow>)
         })}
       </tbody>
