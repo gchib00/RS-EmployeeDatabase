@@ -79,7 +79,7 @@ const MainTable = styled.table`
 const TableRow = styled.tr`
   display: grid;
   grid-template-columns: 5% 30% 15% 15% 35%;
-  height: 50px;
+  height: 60px;
 `
 const THCell = styled.th`
   font-weight: bold;
@@ -91,7 +91,6 @@ const THCell = styled.th`
 `
 const TDCell = styled.td`
   border: 1px dotted grey;
-  /* text-align: center; */
   display: flex;
   justify-content: center;
   align-items: center;

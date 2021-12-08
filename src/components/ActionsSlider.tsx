@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import styled from 'styled-components'
 
 //styling:
@@ -10,16 +10,37 @@ const ActionsContainer = styled.div`
   justify-content: flex-start;
 `
 const ActionsDiv = styled.div`
-  background: grey;
+  background: rgba(214, 214, 214, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   transition: '500ms';
 `
 const ActionsBtn = styled.button`
-  background-color: grey;
+  background-color: rgba(214, 214, 214, 0.6);
+  border-radius: 0px 10px 10px 0px;
+  box-shadow: -1px 0px 0px 0px;
+  border: 1px solid grey;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  transition: 500ms;
+  &:active {
+    box-shadow: 0px 0px 0px 0px;
+  }
+`
+const IconBtn = styled.a`
+  cursor: pointer;
+  margin: 0px 10px 0px 10px;
+  display: flex;
+  justify-content: center;
+  box-shadow: none;
+  outline: none;
+  &:hover{
+    filter: brightness(2.75);
+    transition: 100ms;
+  }
+
 `
 ////////
 
@@ -30,21 +51,21 @@ export const ActionsSlider = () => {
     <ActionsContainer>
       {sliderStatus ? 
         <ActionsDiv style={{width: 300, transition: '800ms'}}>
-          <Button circular icon style={{background: 'none', transition: '800ms'}}>
-            <Icon name='envelope' color='grey' size='big'/>
-          </Button>
-          <Button circular icon style={{background: 'none', transition: '800ms'}}>
-            <Icon name='photo' color='grey' size='big'/>  
-          </Button>
+          <IconBtn style={{transition: '800ms'}}>
+            <Icon circular name='envelope' color='black' size='large'/>
+          </IconBtn>
+          <IconBtn style={{transition: '800ms'}}>
+            <Icon circular name='photo' color='black' size='large'/>  
+          </IconBtn>
         </ActionsDiv>
       : //Other wise render 'off' version of ActionsDiv, so that transition properties can work conditionally
         <ActionsDiv style={{width: 0, transition: '800ms'}}>
-          <Button circular icon style={{opacity:0, transition:'300ms', visibility: 'hidden'}}>
-            <Icon name='envelope' color='grey' size='big'/>
-          </Button>
-          <Button circular icon style={{opacity:0, transition:'300ms', visibility: 'hidden'}}>
-            <Icon name='photo' color='grey' size='big'/>
-          </Button>
+          <IconBtn style={{opacity:0, transition:'300ms', visibility: 'hidden'}}>
+            <Icon circular name='envelope' color='black' size='large'/>
+          </IconBtn>
+          <IconBtn style={{opacity:0, transition:'300ms', visibility: 'hidden'}}>
+            <Icon circular name='photo' color='black' size='large'/>
+          </IconBtn>
         </ActionsDiv>
       }
       <ActionsBtn onClick={() => setSliderStatus(!sliderStatus)}><Icon name='chevron right' /></ActionsBtn>
