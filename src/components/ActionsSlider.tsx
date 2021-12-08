@@ -19,7 +19,7 @@ const ActionsDiv = styled.div`
 const ActionsBtn = styled.button`
   background-color: rgba(214, 214, 214, 0.6);
   border-radius: 0px 10px 10px 0px;
-  box-shadow: -1px 0px 0px 0px;
+  /* box-shadow: -0.02rem 0px 0px 0px; */
   border: 1px solid grey;
   display: flex;
   align-items: center;
@@ -47,6 +47,8 @@ const IconBtn = styled.a`
 export const ActionsSlider = () => {
   const [sliderStatus, setSliderStatus] = useState<boolean>(false)
 
+  const getChevron = sliderStatus ? 'close' : 'chevron right'
+
   return (
     <ActionsContainer>
       {sliderStatus ? 
@@ -68,7 +70,7 @@ export const ActionsSlider = () => {
           </IconBtn>
         </ActionsDiv>
       }
-      <ActionsBtn onClick={() => setSliderStatus(!sliderStatus)}><Icon name='chevron right' /></ActionsBtn>
+      <ActionsBtn onClick={() => setSliderStatus(!sliderStatus)}><Icon name={getChevron}/></ActionsBtn>
     </ActionsContainer>
   )
 }

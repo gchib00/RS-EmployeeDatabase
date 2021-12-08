@@ -7,7 +7,7 @@ import { ArtistTableButtons } from './ArtistTableButtons'
 //styling:
 const MainContainer = styled.main`
   background-color: grey;
-  width: 900px;
+  width: 800px;
   height: 600px;
   margin: 50px auto 50px auto;
 `

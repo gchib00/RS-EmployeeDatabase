@@ -72,9 +72,15 @@ const MainTable = styled.table`
   width: 100%;
   border-radius: 3px;
   background-color: white;
-  padding: 14px;
   border: 2px solid #5a5a5a6c;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.152);
+  padding: 14px;
+`
+const GreyDivider = styled.div`
+  width: 65%;
+  height: 10px;
+  background-color: rgba(214, 214, 214, 0.6);
+  margin: 0;
 `
 const TableRow = styled.tr`
   display: grid;
@@ -84,16 +90,18 @@ const TableRow = styled.tr`
 const THCell = styled.th`
   font-weight: bold;
   color: green;
-  border: 1px solid black;
+  border: 3px solid rgba(214, 214, 214, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 1px;
 `
 const TDCell = styled.td`
-  border: 1px dotted grey;
+  border: 1px solid rgba(214, 214, 214, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 1px;
 `
 /////////
 
@@ -127,8 +135,9 @@ export const ArtistsOrderTable = ({activeTable}: Props) => {
           <THCell>Order ID</THCell>
           <THCell>Medium</THCell>
           <THCell>Signature</THCell>
-          <THCell />
+          <THCell style={{display: 'none'}} />
         </TableRow>
+        <GreyDivider />
       </thead>
       <tbody>
         {filteredArr.map((order, index) => {
@@ -138,7 +147,7 @@ export const ArtistsOrderTable = ({activeTable}: Props) => {
               <TDCell>{order.orderID}</TDCell>
               <TDCell>{order.medium}</TDCell>
               <TDCell>{(order.signature) ? 'YES' : 'NO'}</TDCell>
-              <TDCell><ActionsSlider /></TDCell>
+              <TDCell style={{border: 'none'}}><ActionsSlider /></TDCell>
             </TableRow>)
         })}
       </tbody>
