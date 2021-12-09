@@ -6,9 +6,8 @@ import { ArtistTableButtons } from './ArtistTableButtons'
 
 //styling:
 const MainContainer = styled.main`
-  background-color: grey;
   width: 800px;
-  height: 600px;
+  min-height: 100px;
   margin: 50px auto 50px auto;
 `
 /////////
@@ -18,7 +17,7 @@ export const ArtistsPage = () => {
 
   return (
     <MainContainer>
-      <ArtistTableButtons setActiveTable={setActiveTable} />
+      <ArtistTableButtons activeTable={activeTable} setActiveTable={setActiveTable} />
       <ArtistsOrderTable activeTable={activeTable} />
     </MainContainer>
   )

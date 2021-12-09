@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { TableStatus } from '../types'
 import { ActionsSlider } from './ActionsSlider'
@@ -6,69 +7,79 @@ import { ActionsSlider } from './ActionsSlider'
 const fakeData = [
   {
     orderID: '82311123342334_434269',
-    medium: 'oil',
+    medium: 'Oil',
     signature: true,
+    size: '20x24',
     status: 'normal'
   },
   {
     orderID: '22311123342334_434261',
-    medium: 'oil',
+    medium: 'Oil',
     signature: true,
+    size: '20x30',
     status: 'normal'
   },
   {
     orderID: '499921834711366_994243',
-    medium: 'oil',
+    medium: 'Oil',
     signature: false,
+    size: '8x16',
     status: 'normal'
   },
   {
     orderID: '231412341234123_432111',
-    medium: 'oil',
+    medium: 'Oil',
     signature: true,
+    size: '32x48',
     status: 'normal'
   },
   {
     orderID: '6541123342334_423445',
-    medium: 'acrylic',
+    medium: 'Acrylic',
     signature: true,
-    status: 'normal'
+    size: '20x24',
+    status: 'rejected'
   },
   {
     orderID: '5342534211324_156621',
-    medium: 'oil',
+    medium: 'Oil',
     signature: false,
-    status: 'normal'
+    size: '30x48',
+    status: 'sleeping'
   },
   {
     orderID: '4123412342134_874723',
-    medium: 'oil',
+    medium: 'Oil',
     signature: true,
+    size: '12x16',
     status: 'rejected'
   },
   {
     orderID: '7655672341111_432477',
-    medium: 'acrylic',
+    medium: 'Acrylic',
     signature: true,
+    size: '8x10',
     status: 'sleeping'
   },
   {
     orderID: '223435581881_999414',
-    medium: 'oil',
+    medium: 'Oil',
     signature: false,
+    size: '8x10',
     status: 'sleeping'
   },
   {
     orderID: '166543412431234_943134',
-    medium: 'oil',
+    medium: 'Oil',
     signature: false,
-    status: 'normal'
+    size: '20x24',
+    status: 'sleeping'
   },
 ]
 
 //styling:
 const MainTable = styled.table`
-  height: 96%;
+  min-height: 96%;
   width: 100%;
   border-radius: 3px;
   background-color: white;
@@ -77,19 +88,18 @@ const MainTable = styled.table`
   padding: 14px;
 `
 const GreyDivider = styled.div`
-  width: 65%;
   height: 10px;
   background-color: rgba(214, 214, 214, 0.6);
-  margin: 0;
 `
 const TableRow = styled.tr`
   display: grid;
-  grid-template-columns: 5% 30% 15% 15% 35%;
+  grid-template-columns: 5% 35% 12% 12% 11% 25%;
   height: 60px;
 `
 const THCell = styled.th`
+  background-color: rgba(34,36,38,.1);
   font-weight: bold;
-  color: green;
+  color: black;
   border: 3px solid rgba(214, 214, 214, 0.6);
   display: flex;
   justify-content: center;
@@ -134,8 +144,9 @@ export const ArtistsOrderTable = ({activeTable}: Props) => {
           <THCell />
           <THCell>Order ID</THCell>
           <THCell>Medium</THCell>
+          <THCell>Size</THCell>
           <THCell>Signature</THCell>
-          <THCell style={{display: 'none'}} />
+          <THCell>Actions</THCell>
         </TableRow>
         <GreyDivider />
       </thead>
@@ -143,11 +154,12 @@ export const ArtistsOrderTable = ({activeTable}: Props) => {
         {filteredArr.map((order, index) => {
           return( 
             <TableRow key={order.orderID}>
-              <TDCell>{index+1}</TDCell>
+              <TDCell style={{backgroundColor: 'rgba(34,36,38,.1)'}}>{index+1}</TDCell>
               <TDCell>{order.orderID}</TDCell>
               <TDCell>{order.medium}</TDCell>
-              <TDCell>{(order.signature) ? 'YES' : 'NO'}</TDCell>
-              <TDCell style={{border: 'none'}}><ActionsSlider /></TDCell>
+              <TDCell>{order.size}</TDCell>
+              <TDCell>{(order.signature) ? <Icon name='checkmark'/> : null}</TDCell>
+              <TDCell><ActionsSlider /></TDCell>
             </TableRow>)
         })}
       </tbody>

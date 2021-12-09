@@ -30,7 +30,7 @@ const Nav = styled.nav`
 `
 const NavItem = styled(Link)`
   color: #cc1b1b;
-  border-bottom: 2px solid white;
+  border-bottom: 3px solid white;
   min-width: 80px;
   font-size: 1.2rem;
   padding: 22px 0px 22px 0px;

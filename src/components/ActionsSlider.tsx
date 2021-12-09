@@ -19,7 +19,6 @@ const ActionsDiv = styled.div`
 const ActionsBtn = styled.button`
   background-color: rgba(214, 214, 214, 0.6);
   border-radius: 0px 10px 10px 0px;
-  /* box-shadow: -0.02rem 0px 0px 0px; */
   border: 1px solid grey;
   display: flex;
   align-items: center;
