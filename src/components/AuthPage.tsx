@@ -21,7 +21,7 @@ const dividerStyle = {
 /////////
 
 const AuthPage = () => {
-  return (
+  return(
     <MainContainer>
       <LoginForm />
       <Divider vertical style={dividerStyle}>Or</Divider>

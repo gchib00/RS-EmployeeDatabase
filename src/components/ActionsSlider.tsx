@@ -43,7 +43,11 @@ const IconBtn = styled.a`
 `
 ////////
 
-export const ActionsSlider = () => {
+interface Props {
+  setEmailModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const ActionsSlider = ({setEmailModalStatus}: Props) => {
   const [sliderStatus, setSliderStatus] = useState<boolean>(false)
 
   const getChevron = sliderStatus ? 'close' : 'chevron right'
@@ -52,7 +56,7 @@ export const ActionsSlider = () => {
     <ActionsContainer>
       {sliderStatus ? 
         <ActionsDiv style={{width: 300, transition: '800ms'}}>
-          <IconBtn style={{transition: '800ms'}}>
+          <IconBtn style={{transition: '800ms'}} onClick={() => setEmailModalStatus(true)}>
             <Icon circular name='envelope' color='black' size='large'/>
           </IconBtn>
           <IconBtn style={{transition: '800ms'}}>
