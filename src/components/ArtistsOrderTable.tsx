@@ -87,7 +87,7 @@ const MainTable = styled.table`
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.152);
   padding: 14px;
 `
-const GreyDivider = styled.div`
+const GreyDivider = styled.td`
   height: 10px;
   background-color: rgba(214, 214, 214, 0.6);
 `
@@ -149,7 +149,9 @@ export const ArtistsOrderTable = ({activeTable, setEmailModalStatus}: Props) => 
           <THCell>Signature</THCell>
           <THCell>Actions</THCell>
         </TableRow>
-        <GreyDivider />
+        <tr>
+          <GreyDivider />
+        </tr>
       </thead>
       <tbody>
         {filteredArr.map((order, index) => {
