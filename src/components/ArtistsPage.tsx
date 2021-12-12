@@ -4,6 +4,7 @@ import { ArtistsOrderTable } from './ArtistsOrderTable'
 import { TableStatus } from '../types'
 import { ArtistTableButtons } from './ArtistTableButtons'
 import { EmailToSupplierModal } from './EmailToSupplierModal'
+import { UploadImageModal } from './UploadImageModal'
 
 //styling:
 const MainContainer = styled.main`
@@ -16,6 +17,7 @@ const MainContainer = styled.main`
 export const ArtistsPage = () => {
   const [activeTable, setActiveTable] = useState<TableStatus>('new')
   const [emailModalStatus, setEmailModalStatus] = useState<boolean>(false)
+  const [imageModalStatus, setImageModalStatus] = useState<boolean>(false)
 
   return (
     <MainContainer>
@@ -23,7 +25,9 @@ export const ArtistsPage = () => {
       <ArtistsOrderTable 
         activeTable={activeTable} 
         setEmailModalStatus={setEmailModalStatus}
+        setImageModalStatus={setImageModalStatus}
       />
+      <UploadImageModal imageModalStatus={imageModalStatus} setImageModalStatus={setImageModalStatus} />
       <EmailToSupplierModal emailModalStatus={emailModalStatus} setEmailModalStatus={setEmailModalStatus} />
     </MainContainer>
   )

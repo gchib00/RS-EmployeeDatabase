@@ -45,9 +45,10 @@ const IconBtn = styled.a`
 
 interface Props {
   setEmailModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  setImageModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ActionsSlider = ({setEmailModalStatus}: Props) => {
+export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus}: Props) => {
   const [sliderStatus, setSliderStatus] = useState<boolean>(false)
 
   const getChevron = sliderStatus ? 'close' : 'chevron right'
@@ -59,7 +60,7 @@ export const ActionsSlider = ({setEmailModalStatus}: Props) => {
           <IconBtn style={{transition: '800ms'}} onClick={() => setEmailModalStatus(true)}>
             <Icon circular name='envelope' color='black' size='large'/>
           </IconBtn>
-          <IconBtn style={{transition: '800ms'}}>
+          <IconBtn style={{transition: '800ms'}} onClick={() => setImageModalStatus(true)}>
             <Icon circular name='photo' color='black' size='large'/>  
           </IconBtn>
         </ActionsDiv>

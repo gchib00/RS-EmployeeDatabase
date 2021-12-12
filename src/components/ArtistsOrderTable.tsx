@@ -118,9 +118,10 @@ const TDCell = styled.td`
 interface Props {
   activeTable: TableStatus;
   setEmailModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  setImageModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ArtistsOrderTable = ({activeTable, setEmailModalStatus}: Props) => {  
+export const ArtistsOrderTable = ({activeTable, setEmailModalStatus, setImageModalStatus}: Props) => {  
   const filteredArr = fakeData.filter(item => {
     switch(activeTable){
       case('new'): {
@@ -163,7 +164,7 @@ export const ArtistsOrderTable = ({activeTable, setEmailModalStatus}: Props) => 
               <TDCell>{order.size}</TDCell>
               <TDCell>{(order.signature) ? <Icon name='checkmark'/> : null}</TDCell>
               <TDCell>
-                <ActionsSlider setEmailModalStatus={setEmailModalStatus} />
+                <ActionsSlider setEmailModalStatus={setEmailModalStatus} setImageModalStatus={setImageModalStatus} />
               </TDCell>
             </TableRow>)
         })}
