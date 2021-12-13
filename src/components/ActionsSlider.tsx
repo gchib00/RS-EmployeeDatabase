@@ -35,6 +35,7 @@ const IconBtn = styled.a`
   justify-content: center;
   box-shadow: none;
   outline: none;
+  cursor: pointer;
   &:hover{
     filter: brightness(2.75);
     transition: 100ms;

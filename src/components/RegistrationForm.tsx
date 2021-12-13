@@ -18,6 +18,7 @@ const RegisterBtn = styled.button`
   border-radius: 2px;
   border: 1px solid rgb(23, 158, 18);
   font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
   &:hover {
     transition: 650ms;
     background-color: rgba(0, 0, 0, 0);

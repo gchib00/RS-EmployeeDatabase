@@ -18,6 +18,7 @@ const TableBtn = styled.button`
   font-size: 1rem;
   font-weight: bold;
   padding: 5px;
+  cursor: pointer;
   &:hover {
     border-color: #5a5a5a6c;
     color: black;

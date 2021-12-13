@@ -7,9 +7,10 @@ const FormContainer = styled.form`
   width: 80%;
   height: 80%;
   border: 1px solid black;
-  margin: 60px auto 30px auto;
+  margin: 50px auto 30px auto;
   display: flex;
   justify-content: space-between;
+  background-color: rgba(34,36,38,.1);
 `
 const UploadBtn = styled.label`
   border: 1px solid grey;
@@ -17,6 +18,9 @@ const UploadBtn = styled.label`
   padding: 15px;
   font-size: 1.2rem;
   cursor: pointer;
+  &:hover {
+    filter: brightness(1.35);
+  }
 `
 const UploadedFile = styled.div`
   width: 60%;
@@ -41,6 +45,7 @@ const SubmitBtn = styled.button`
   border-radius: 2px;
   border: 1px solid rgb(23, 158, 18);
   font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
   &:hover {
     transition: 650ms;
     background-color: rgba(0, 0, 0, 0);
@@ -59,6 +64,7 @@ const CancelBtn = styled.button`
   border-radius: 2px;
   border: 1px solid grey;
   font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
   &:hover {
     transition: 650ms;
     background-color: rgba(0, 0, 0, 0);
@@ -91,7 +97,7 @@ export const UploadImageModal = ({imageModalStatus, setImageModalStatus}: Props)
       onClose={() => setImageModalStatus(false)}
       onOpen={() => setImageModalStatus(true)}
       open={imageModalStatus}
-      style={{width:600, minHeight: 300}}
+      style={{width:600, minHeight: 200}}
     >
       <FormContainer>
         <UploadBtn htmlFor='upload-artist-img'>

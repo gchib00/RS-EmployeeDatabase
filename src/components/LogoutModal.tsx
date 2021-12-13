@@ -19,6 +19,7 @@ const CancelBtn = styled.button`
   border: 1px solid green;
   font-family: 'Montserrat', sans-serif;
   margin-right: 3px;
+  cursor: pointer;
   &:hover {
     transition: 650ms;
     background-color: rgba(0, 0, 0, 0);
@@ -38,6 +39,7 @@ const LogoutBtn = styled.button`
   border: 1px solid grey;
   font-family: 'Montserrat', sans-serif;
   margin-left: 3px;
+  cursor: pointer;
   &:hover {
     transition: 650ms;
     background-color: rgba(0, 0, 0, 0);
