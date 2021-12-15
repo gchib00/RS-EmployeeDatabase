@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Icon, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
 
@@ -7,19 +7,21 @@ const FormContainer = styled.form`
   width: 80%;
   height: 80%;
   border: 1px solid black;
-  margin: 50px auto 30px auto;
+  margin: 50px auto 20px auto;
   display: flex;
   justify-content: space-between;
   background-color: rgba(34,36,38,.1);
 `
 const UploadBtn = styled.label`
   border: 1px solid grey;
-  background-color: green;
+  background-color: rgb(23,158,18);
   padding: 15px;
   font-size: 1.2rem;
+  transition: 500ms;
   cursor: pointer;
   &:hover {
-    filter: brightness(1.35);
+    color: grey;
+    background-color: #083f06
   }
 `
 const UploadedFile = styled.div`
@@ -29,12 +31,21 @@ const UploadedFile = styled.div`
   justify-content: center;
   align-items: center;
 `
+const ImageContainer = styled.div`
+  max-width: 80%;
+  max-height: 80%;
+  margin: 0px auto 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: contain;
+`
 const BtnContainer = styled.div`
   margin-top: 20px;
   width: 148px;
   display: flex;
   justify-content: space-between;
-  margin: auto;
+  margin: 0px auto 20px auto;
 `
 const SubmitBtn = styled.button`
   transition: 650ms;
@@ -82,22 +93,39 @@ interface Props {
 }
 
 export const UploadImageModal = ({imageModalStatus, setImageModalStatus}: Props) => {
-  const [uploadedFile, setUploadedFile] = useState<any>({})
+  const [uploadedFile, setUploadedFile] = useState<File|undefined>()
+  const [image, setImage] = useState<string|undefined>()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleFileUpload = (e: any) => {
-    setUploadedFile(e.target.files[0])
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => { 
+    setUploadedFile(e.target.files?.[0])
   }
   const handleFormSubmit = () => {
     console.log(uploadedFile)
+    if(!image){return alert('image not found')}
+    alert('image sent')
+    setImageModalStatus(false)
+    setImage(undefined)
+    setUploadedFile(undefined)
   }
+
+  useEffect(() => {
+    if(uploadedFile){
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setImage(reader.result)
+        }
+      }
+      reader.readAsDataURL(uploadedFile)
+    }
+  }, [uploadedFile])
 
   return (
     <Modal
-      onClose={() => setImageModalStatus(false)}
+      onClose={() => {setImageModalStatus(false); setImage(undefined); setUploadedFile(undefined)}}
       onOpen={() => setImageModalStatus(true)}
       open={imageModalStatus}
-      style={{width:600, minHeight: 200}}
+      style={{width:600, minHeight: 170}}
     >
       <FormContainer>
         <UploadBtn htmlFor='upload-artist-img'>
@@ -105,11 +133,16 @@ export const UploadImageModal = ({imageModalStatus, setImageModalStatus}: Props)
           <input type="file" id='upload-artist-img' accept="image/*" style={{display: 'none'}} onChange={(e) => handleFileUpload(e)} />
         </UploadBtn>
         <UploadedFile>
-          <p>{uploadedFile.name ? uploadedFile.name : null}</p>
+          <p>{uploadedFile?.name ? uploadedFile?.name : null}</p>
         </UploadedFile>
       </FormContainer>
+      <ImageContainer style={image ? {display: 'flex'} : {display: 'none'}}>
+        {image ? <img src={image} style={{height:'100%', width:'100%'}} /> : null}
+      </ImageContainer>
       <BtnContainer>
-          <CancelBtn type='button' onClick={() => {setImageModalStatus(false)}}>Cancel</CancelBtn>
+          <CancelBtn type='button' onClick={() => {
+            setImageModalStatus(false); setImage(undefined); setUploadedFile(undefined)}}>Cancel
+          </CancelBtn>
           <SubmitBtn type='submit' onClick={handleFormSubmit}>Send</SubmitBtn> 
         </BtnContainer>
     </Modal>
