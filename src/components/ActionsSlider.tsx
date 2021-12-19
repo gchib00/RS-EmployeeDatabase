@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Icon } from 'semantic-ui-react'
 import styled from 'styled-components'
 
@@ -40,19 +40,38 @@ const IconBtn = styled.a`
     filter: brightness(2.75);
     transition: 100ms;
   }
-
 `
 ////////
 
 interface Props {
   setEmailModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
   setImageModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
-}
+  setActiveOrder: React.Dispatch<React.SetStateAction<string | undefined>>;
+  order: string;
+  activeOrder: string|undefined;
+} 
 
-export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus}: Props) => {
+export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus, setActiveOrder, order, activeOrder}: Props) => {
   const [sliderStatus, setSliderStatus] = useState<boolean>(false)
 
+  //display proper icon if slider is on or off:
   const getChevron = sliderStatus ? 'close' : 'chevron right'
+  //set focused order to the state so that the emailing and uploading components to know about the relevant order: 
+  const focusedOrder = () => { 
+    if (sliderStatus===true && activeOrder===undefined) {
+      return setActiveOrder(order)
+    } 
+    return setActiveOrder(undefined)
+  }
+  useEffect(() => {
+    focusedOrder()
+  }, [sliderStatus])
+
+  if (sliderStatus && activeOrder && activeOrder!==order) {
+    console.log(`ENTERED LAST BLOCK! activeOrder ${activeOrder} is not equal to order ${order}`)
+    setSliderStatus(false)
+    setActiveOrder(order)
+  }
 
   return (
     <ActionsContainer>
@@ -65,7 +84,7 @@ export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus}: Props)
             <Icon circular name='photo' color='black' size='large'/>  
           </IconBtn>
         </ActionsDiv>
-      : //Other wise render 'off' version of ActionsDiv, so that transition properties can work conditionally
+      : //Otherwise render 'off' version of ActionsDiv, so that transition properties can work conditionally
         <ActionsDiv style={{width: 0, transition: '800ms'}}>
           <IconBtn style={{opacity:0, transition:'300ms', visibility: 'hidden'}}>
             <Icon circular name='envelope' color='black' size='large'/>
@@ -75,7 +94,9 @@ export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus}: Props)
           </IconBtn>
         </ActionsDiv>
       }
-      <ActionsBtn onClick={() => setSliderStatus(!sliderStatus)}><Icon name={getChevron}/></ActionsBtn>
+      <ActionsBtn onClick={() => {setSliderStatus(!sliderStatus)}}>
+        <Icon name={getChevron}/>
+      </ActionsBtn>
     </ActionsContainer>
   )
 }

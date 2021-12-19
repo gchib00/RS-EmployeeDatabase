@@ -51,11 +51,11 @@ const Navbar = () => {
       <Logo src={logo} />
       <Nav>
         <NavItem to="/">Main</NavItem>
+        <NavItem to="/artist">Artists</NavItem>
         <NavItem to="/faq">FAQ</NavItem>
         {!user ? <NavItem to="/login">Login</NavItem> : null}
       </Nav>
     </Header>
   )
 }
-
 export default Navbar

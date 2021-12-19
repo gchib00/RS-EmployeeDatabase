@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { UserContext } from '../context/UserContext'
 
 //styling:
 const SubmitBtn = styled.button`
@@ -61,16 +62,23 @@ const BtnContainer = styled.div`
 interface Props {
   emailModalStatus: boolean;
   setEmailModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  activeOrder: string|undefined;
 }
 interface FormData {
   emailContent: string;
 }
 
-export const EmailToSupplierModal = ({emailModalStatus, setEmailModalStatus}: Props) => {
+export const EmailToSupplierModal = ({emailModalStatus, setEmailModalStatus, activeOrder}: Props) => {
   const {register, handleSubmit, reset} = useForm()
+  const {user} = useContext(UserContext)
 
   const processFormData = (data: FormData) => {
-    console.log('form data =', data)
+    const dataObj = {
+      message: data.emailContent,
+      emailSender: user?.email,
+      orderID: activeOrder
+    }
+    console.log(dataObj)
   }
 
   return (

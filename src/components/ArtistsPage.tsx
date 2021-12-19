@@ -15,9 +15,12 @@ const MainContainer = styled.main`
 /////////
 
 export const ArtistsPage = () => {
-  const [activeTable, setActiveTable] = useState<TableStatus>('new')
-  const [emailModalStatus, setEmailModalStatus] = useState<boolean>(false)
-  const [imageModalStatus, setImageModalStatus] = useState<boolean>(false)
+  const [activeTable, setActiveTable] = useState<TableStatus>('new') //new, rejected or sleeping tables
+  const [activeOrder, setActiveOrder] = useState<string|undefined>() //order selected by user
+  const [emailModalStatus, setEmailModalStatus] = useState<boolean>(false) //show or hide email modal
+  const [imageModalStatus, setImageModalStatus] = useState<boolean>(false) //show or hide image modal
+
+  console.log('focused order:', activeOrder)
 
   return (
     <MainContainer>
@@ -26,9 +29,19 @@ export const ArtistsPage = () => {
         activeTable={activeTable} 
         setEmailModalStatus={setEmailModalStatus}
         setImageModalStatus={setImageModalStatus}
+        setActiveOrder={setActiveOrder}
+        activeOrder={activeOrder}
       />
-      <UploadImageModal imageModalStatus={imageModalStatus} setImageModalStatus={setImageModalStatus} />
-      <EmailToSupplierModal emailModalStatus={emailModalStatus} setEmailModalStatus={setEmailModalStatus} />
+      <UploadImageModal 
+        imageModalStatus={imageModalStatus} 
+        setImageModalStatus={setImageModalStatus} 
+        activeOrder={activeOrder}
+      />
+      <EmailToSupplierModal 
+        emailModalStatus={emailModalStatus} 
+        setEmailModalStatus={setEmailModalStatus} 
+        activeOrder={activeOrder}
+      />
     </MainContainer>
   )
 }

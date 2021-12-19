@@ -119,9 +119,11 @@ interface Props {
   activeTable: TableStatus;
   setEmailModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
   setImageModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  setActiveOrder: React.Dispatch<React.SetStateAction<string | undefined>>;
+  activeOrder: string|undefined;
 }
 
-export const ArtistsOrderTable = ({activeTable, setEmailModalStatus, setImageModalStatus}: Props) => {  
+export const ArtistsOrderTable = ({activeTable, setEmailModalStatus, setImageModalStatus, setActiveOrder, activeOrder}: Props) => {  
   const filteredArr = fakeData.filter(item => {
     switch(activeTable){
       case('new'): {
@@ -164,7 +166,13 @@ export const ArtistsOrderTable = ({activeTable, setEmailModalStatus, setImageMod
               <TDCell>{order.size}</TDCell>
               <TDCell>{(order.signature) ? <Icon name='checkmark'/> : null}</TDCell>
               <TDCell>
-                <ActionsSlider setEmailModalStatus={setEmailModalStatus} setImageModalStatus={setImageModalStatus} />
+                <ActionsSlider 
+                  setEmailModalStatus={setEmailModalStatus} 
+                  setImageModalStatus={setImageModalStatus}
+                  setActiveOrder={setActiveOrder}
+                  order={order.orderID}
+                  activeOrder={activeOrder}
+                />
               </TDCell>
             </TableRow>)
         })}

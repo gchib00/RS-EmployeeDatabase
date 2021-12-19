@@ -90,9 +90,10 @@ const CancelBtn = styled.button`
 interface Props {
   imageModalStatus: boolean;
   setImageModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  activeOrder: string|undefined;
 }
 
-export const UploadImageModal = ({imageModalStatus, setImageModalStatus}: Props) => {
+export const UploadImageModal = ({imageModalStatus, setImageModalStatus, activeOrder}: Props) => {
   const [uploadedFile, setUploadedFile] = useState<File|undefined>()
   const [image, setImage] = useState<string|undefined>()
 
@@ -102,7 +103,7 @@ export const UploadImageModal = ({imageModalStatus, setImageModalStatus}: Props)
   const handleFormSubmit = () => {
     console.log(uploadedFile)
     if(!image){return alert('image not found')}
-    alert('image sent')
+    alert('image sent for order #'+activeOrder)
     setImageModalStatus(false)
     setImage(undefined)
     setUploadedFile(undefined)
