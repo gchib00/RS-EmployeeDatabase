@@ -46,8 +46,8 @@ interface Props {
   setEmailModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
   setImageModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
   setActiveOrder: React.Dispatch<React.SetStateAction<string | undefined>>;
-  order: string;
-  activeOrder: string|undefined;
+  order: string; //ID of the order to which the slider is attached to
+  activeOrder: string|undefined; //ID of the order that the user is trying to interact with
 } 
 
 export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus, setActiveOrder, order, activeOrder}: Props) => {

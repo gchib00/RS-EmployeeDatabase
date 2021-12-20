@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
+import axios from 'axios'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Form, Modal } from 'semantic-ui-react'
+import { Form, Loader, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { UserContext } from '../context/UserContext'
 
@@ -71,16 +72,27 @@ interface FormData {
 export const EmailToSupplierModal = ({emailModalStatus, setEmailModalStatus, activeOrder}: Props) => {
   const {register, handleSubmit, reset} = useForm()
   const {user} = useContext(UserContext)
+  const [loader, setLoader] = useState<boolean>(false)
 
-  const processFormData = (data: FormData) => {
+  const processFormData = async (data: FormData) => {
     const dataObj = {
       message: data.emailContent,
       emailSender: user?.email,
       orderID: activeOrder
+    } 
+    try {
+      setLoader(true)
+      const response = await axios.post('/email/artistToSupplier', dataObj)
+      setLoader(false)
+      setEmailModalStatus(false)
+      alert(response.data)
+    } catch(err: any) {
+      setLoader(false)
+      alert(err)
     }
-    console.log(dataObj)
   }
-
+  //show loader animation while email is being sent:
+  if (loader) {return <Modal><Loader/></Modal>}
   return (
     <Modal
       onClose={() => setEmailModalStatus(false)}

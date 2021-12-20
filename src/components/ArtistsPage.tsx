@@ -20,8 +20,6 @@ export const ArtistsPage = () => {
   const [emailModalStatus, setEmailModalStatus] = useState<boolean>(false) //show or hide email modal
   const [imageModalStatus, setImageModalStatus] = useState<boolean>(false) //show or hide image modal
 
-  console.log('focused order:', activeOrder)
-
   return (
     <MainContainer>
       <ArtistTableButtons activeTable={activeTable} setActiveTable={setActiveTable} />
