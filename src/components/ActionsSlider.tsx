@@ -42,7 +42,6 @@ const IconBtn = styled.a`
   }
 `
 ////////
-
 interface Props {
   setEmailModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
   setImageModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
@@ -53,25 +52,29 @@ interface Props {
 
 export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus, setActiveOrder, order, activeOrder}: Props) => {
   const [sliderStatus, setSliderStatus] = useState<boolean>(false)
-
   //display proper icon if slider is on or off:
   const getChevron = sliderStatus ? 'close' : 'chevron right'
-  //set focused order to the state so that the emailing and uploading components to know about the relevant order: 
+  //set focused order to the state so that the emailing and uploading components know about the relevant order: 
   const focusedOrder = () => { 
     if (sliderStatus===true && activeOrder===undefined) {
       return setActiveOrder(order)
     } 
-    return setActiveOrder(undefined)
+    if (sliderStatus===true && activeOrder!==order) {
+      return setActiveOrder(order)
+    }
   }
   useEffect(() => {
     focusedOrder()
   }, [sliderStatus])
-
-  if (sliderStatus && activeOrder && activeOrder!==order) {
-    console.log(`ENTERED LAST BLOCK! activeOrder ${activeOrder} is not equal to order ${order}`)
-    setSliderStatus(false)
-    setActiveOrder(order)
-  }
+  //control which orders are/aren't being focused on by the user by switching the slider on/off accordingly:
+  useEffect(() => {
+    if (sliderStatus===false && activeOrder===order) {
+      setSliderStatus(true)
+    }
+    if (sliderStatus && activeOrder && activeOrder!==order) {
+      setSliderStatus(false)
+    }
+  })
 
   return (
     <ActionsContainer>
