@@ -78,7 +78,8 @@ export const EmailToSupplierModal = ({emailModalStatus, setEmailModalStatus, act
     const dataObj = {
       message: data.emailContent,
       emailSender: user?.email,
-      orderID: activeOrder
+      orderID: activeOrder,
+      type: 'message' 
     } 
     try {
       setLoader(true)
@@ -86,7 +87,7 @@ export const EmailToSupplierModal = ({emailModalStatus, setEmailModalStatus, act
       setLoader(false)
       setEmailModalStatus(false)
       alert(response.data)
-    } catch(err: any) {
+    } catch(err: unknown) {
       setLoader(false)
       alert(err)
     }

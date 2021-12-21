@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Icon, Modal } from 'semantic-ui-react'
+import axios from 'axios'
+import React, { useContext, useEffect, useState } from 'react'
+import { Icon, Modal, Loader } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { UserContext } from '../context/UserContext'
 
 //styling:
 const FormContainer = styled.form`
@@ -96,19 +98,38 @@ interface Props {
 export const UploadImageModal = ({imageModalStatus, setImageModalStatus, activeOrder}: Props) => {
   const [uploadedFile, setUploadedFile] = useState<File|undefined>()
   const [image, setImage] = useState<string|undefined>()
+  const [loader, setLoader] = useState<boolean>(false)
+  const {user} = useContext(UserContext)
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => { 
     setUploadedFile(e.target.files?.[0])
-  }
-  const handleFormSubmit = () => {
+  } 
+  const handleFormSubmit = async () => {
     console.log(uploadedFile)
     if(!image){return alert('image not found')}
-    alert('image sent for order #'+activeOrder)
+    const dataObj = {
+      message: 'Sending image',
+      emailSender: user?.email,
+      orderID: activeOrder,
+      type: 'image',
+      file: uploadedFile
+    } 
+    try {
+      setLoader(true)
+      const response = await axios.post('/email/artistToSupplier', dataObj)
+      alert('image sent for order #'+activeOrder)
+      setLoader(false)
+      setImageModalStatus(false)
+      alert(response.data)
+    } catch(err: unknown) {
+      setLoader(false)
+      alert(err)
+    }
+
     setImageModalStatus(false)
     setImage(undefined)
     setUploadedFile(undefined)
   }
-
   useEffect(() => {
     if(uploadedFile){
       const reader = new FileReader()
@@ -120,7 +141,8 @@ export const UploadImageModal = ({imageModalStatus, setImageModalStatus, activeO
       reader.readAsDataURL(uploadedFile)
     }
   }, [uploadedFile])
-
+  //show loader animation while email is being sent:
+  if (loader) {return <Modal><Loader/></Modal>}
   return (
     <Modal
       onClose={() => {setImageModalStatus(false); setImage(undefined); setUploadedFile(undefined)}}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import EmployeeList from './components/EmployeeList'
 import AuthPage from './components/AuthPage'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { LoggedUser, StandardEmployeeType } from './types'
 import { EmployeesContext } from './context/EmployeesContext'
 import { Loader } from 'semantic-ui-react'
@@ -34,9 +34,9 @@ const App = () => {
     try {
       const loggedUser = await axios.post('/auth/loggedUser', {token: token})
       setUser(loggedUser.data[0])
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      console.error(err.response.data)
+    } catch (error) {
+      const err = error as AxiosError
+      console.error(err?.response?.data) 
     }
   }
   useEffect(() => {
