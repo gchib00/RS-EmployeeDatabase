@@ -88,7 +88,6 @@ const CancelBtn = styled.button`
   }
 ` 
 /////////
-
 interface Props {
   imageModalStatus: boolean;
   setImageModalStatus: React.Dispatch<React.SetStateAction<boolean>>;
@@ -101,38 +100,31 @@ export const UploadImageModal = ({imageModalStatus, setImageModalStatus, activeO
   const [loader, setLoader] = useState<boolean>(false)
   const {user} = useContext(UserContext)
 
+  const formData = new FormData()
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => { 
     setUploadedFile(e.target.files?.[0])
   } 
   const handleFormSubmit = async () => {
-    console.log(uploadedFile)
-    if(!image){return alert('image not found')}
-    const dataObj = {
-      message: 'Sending image',
-      emailSender: user?.email,
-      orderID: activeOrder,
-      type: 'image',
-      file: uploadedFile
-    } 
+    if(!uploadedFile || !activeOrder) {return alert('image not found')}
+    if(!user) {return alert('You are not logged in!')}
+    formData.append('image', uploadedFile)
+    formData.append('orderID', activeOrder)
+    formData.append('emailSender', user.email)
+    if(!image){return alert('Please upload an image')}
     try {
-      setLoader(true)
-      const response = await axios.post('/email/artistToSupplier', dataObj)
-      alert('image sent for order #'+activeOrder)
-      setLoader(false)
-      setImageModalStatus(false)
+      setLoader(true) //starts loader animation while image is being processed
+      const response = await axios.post('/email/artistToSupplier/image', formData, { headers: {'Content-Type': 'multipart/form-data' }})
       alert(response.data)
     } catch(err: unknown) {
-      setLoader(false)
       alert(err)
     }
-
-    setImageModalStatus(false)
-    setImage(undefined)
-    setUploadedFile(undefined)
+    setImageModalStatus(false); setLoader(false); setImage(undefined); setUploadedFile(undefined);
   }
   useEffect(() => {
+    //display the image inside the modal when user uploads it
     if(uploadedFile){
-      const reader = new FileReader()
+      const reader = new FileReader() //FileReader is necessary to extract the path of the file for the img element (in order to display it)
       reader.onloadend = () => {
         if (typeof reader.result === 'string') {
           setImage(reader.result)
@@ -153,7 +145,7 @@ export const UploadImageModal = ({imageModalStatus, setImageModalStatus, activeO
       <FormContainer>
         <UploadBtn htmlFor='upload-artist-img'>
           <Icon name='cloud upload'/>Upload Image
-          <input type="file" id='upload-artist-img' accept="image/*" style={{display: 'none'}} onChange={(e) => handleFileUpload(e)} />
+          <input type="file" name='upload-artist-img' id='upload-artist-img' accept="image/*" style={{display: 'none'}} onChange={(e) => handleFileUpload(e)} />
         </UploadBtn>
         <UploadedFile>
           <p>{uploadedFile?.name ? uploadedFile?.name : null}</p>

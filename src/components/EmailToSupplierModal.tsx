@@ -83,7 +83,7 @@ export const EmailToSupplierModal = ({emailModalStatus, setEmailModalStatus, act
     } 
     try {
       setLoader(true)
-      const response = await axios.post('/email/artistToSupplier', dataObj)
+      const response = await axios.post('/email/artistToSupplier/message', dataObj)
       setLoader(false)
       setEmailModalStatus(false)
       alert(response.data)
