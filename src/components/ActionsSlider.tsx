@@ -63,6 +63,13 @@ export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus, setActi
       return setActiveOrder(order)
     }
   }
+  const handleSliderClick = () => {
+    if (sliderStatus===true && activeOrder===order) { //when slider is open and user clicks 'X' icon to close it (instead of opening it by closing another slider)
+      setActiveOrder(undefined)
+      return setSliderStatus(false)
+    }
+    setSliderStatus(!sliderStatus)
+    }
   useEffect(() => {
     focusedOrder()
   }, [sliderStatus])
@@ -97,7 +104,7 @@ export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus, setActi
           </IconBtn>
         </ActionsDiv>
       }
-      <ActionsBtn onClick={() => {setSliderStatus(!sliderStatus)}}>
+      <ActionsBtn onClick={handleSliderClick}>
         <Icon name={getChevron}/>
       </ActionsBtn>
     </ActionsContainer>
