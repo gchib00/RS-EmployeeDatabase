@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import logo from '../static/images/logo.png'
 import { Link } from "react-router-dom"
 import { UserContext } from '../context/UserContext'
+import { useNavigate } from 'react-router'
 
 //styling:
 const Header = styled.header`
@@ -19,11 +20,12 @@ const Logo = styled.img`
   margin-left: 24px;
   height: 46px;
   width: 84px;
+  cursor: pointer;
 `
 const Nav = styled.nav`
   margin-right: 14px;
   height: 100%;
-  width: 324px;
+  /* max-width: 400px; */
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -31,7 +33,7 @@ const Nav = styled.nav`
 const NavItem = styled(Link)`
   color: #cc1b1b;
   border-bottom: 3px solid white;
-  min-width: 80px;
+  min-width: 90px;
   font-size: 1.2rem;
   padding: 22px 0px 22px 0px;
   text-align: center;
@@ -42,13 +44,15 @@ const NavItem = styled(Link)`
   }
 `
 //////////
-
 const Navbar = () => { 
   const {user} = useContext(UserContext)
-
+  const navigate = useNavigate()
+  const handleLogoClick = () => {
+    navigate('/')
+  }
   return(
     <Header>
-      <Logo src={logo} />
+      <Logo src={logo} onClick={handleLogoClick}/>
       <Nav>
         <NavItem to="/">Main</NavItem>
         <NavItem to="/artist">Artists</NavItem>

@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Icon } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { UserContext } from '../context/UserContext'
+import { UnauthorizedUserWarning } from './misc/UnauthorizedUserWarning'
 
 //styling:
 const ActionsContainer = styled.div`
@@ -52,6 +54,8 @@ interface Props {
 
 export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus, setActiveOrder, order, activeOrder}: Props) => {
   const [sliderStatus, setSliderStatus] = useState<boolean>(false)
+  const [UUModalStatus, setUUModalStatus] = useState<boolean>(false)
+  const {user} = useContext(UserContext)
   //display proper icon if slider is on or off:
   const getChevron = sliderStatus ? 'close' : 'chevron right'
   //set focused order to the state so that the emailing and uploading components know about the relevant order: 
@@ -64,7 +68,9 @@ export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus, setActi
     }
   }
   const handleSliderClick = () => {
-    if (sliderStatus===true && activeOrder===order) { //when slider is open and user clicks 'X' icon to close it (instead of opening it by closing another slider)
+    if (!user || user.adminRights === false){ 
+      return setUUModalStatus(true) //shows UU modal if user is either not logged in or doesn't have admin rights
+    } else if (sliderStatus===true && activeOrder===order) { //when slider is open and user clicks 'X' icon to close it (instead of opening it by closing another slider)
       setActiveOrder(undefined)
       return setSliderStatus(false)
     }
@@ -107,6 +113,7 @@ export const ActionsSlider = ({setEmailModalStatus, setImageModalStatus, setActi
       <ActionsBtn onClick={handleSliderClick}>
         <Icon name={getChevron}/>
       </ActionsBtn>
+      <UnauthorizedUserWarning UUModalStatus={UUModalStatus} setUUModalStatus={setUUModalStatus} />
     </ActionsContainer>
   )
 }
